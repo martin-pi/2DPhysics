@@ -76,27 +76,26 @@ We also will have to learn how to use Maven to handle the compilation, testing a
 JUnit testing is another area we don’t yet feel comfortable with and will have to learn so we can begin automated testing of the various features in our library. Maven’s getting started page will help us understand how to run the tests automatically but we’ll have to learn how to write our tests so that they work with Maven as well as thoroughly test our features. I have found a tutorial that we will use that explains how to write JUnit tests that also contains information on proper naming conventions for use with Maven.
 
 Another risk we are taking involves the size of our project and the need to complete the majority of our features in order to have a complete project to showcase at the end of the semester. This will require that we complete the various components of our project as scheduled or at least be able to work around unfinished features while maintaining the usability of our project. To reduce the impact of this risk we will always make sure that we prioritize essential features of the project that allow us to have some cohesive and functional product by the end even while missing unfinished features. 
-
+## Preliminary UML
+[A giant, unfinished, and confusing UML diagram](http://patrickmart.in/media/capstone/preliminaryuml.png)
 ## Other Questions and Answers
-I'd like to hear where you got this idea. Why did you choose it?
+***I'd like to hear where you got this idea. Why did you choose it?***
+I have built a few small projects with half-implemented and wholly inaccurate physics features. I wanted to build something more accurate and valuable than those simpler projects.
+***Are you also a Physics major?***
+Neither of us are physics majors, which may make things much more difficult for us.
+***How did you hear about LWJGL?***
+I learned about LWJGL when attempting to port something I had made in javascript to a portable java app last year. I have wanted to work with the library since then, and i am happy to finally have the chance.
+***Why did you choose Java?***
+We chose Java due to our familiarity with it, and the many java-specific tools and libraries available to us when working on a project of this type. There are also some benefits to the language itself in our case, such as its object-orientedness.
+***Which tool did you use to create your UML Diagram?***
+[draw.io](http://draw.io)
+***Do you have prior experience building simulation systems like this?***
+I have built a few simulations, but nothing on this scale or complexity.
+***What do you want for the User Interface to look like? Could you make a crude sketch or mock-up for me?***
 
-Are you also a Physics major?
-
-How did you hear about LWJGL?
-
-
-Why did you choose Java?
-We chose Java due to its 
-
-Which tool did you use to create your UML Diagram?
-
-Do you have prior experience building simulation systems like this?
-
-What do you want for the User Interface to look like? Could you make a crude sketch or mock-up for me?
-
-How will you define a scenario without editing tools? Will they be text files? Or just hard-coded into your minimum viable product?
-
-If you're concerned about performance and acceleration of the computation, have you considered writing this in a multithreaded way?
-
-How do you plan to test this project (automated testing, not manual)?
-
+***How will you define a scenario without editing tools? Will they be text files? Or just hard-coded into your minimum viable product?***
+Ideally, we would like to be able to define scenarios as json files. We would then enable the program to accept those files as input or generate them as output.
+***If you're concerned about performance and acceleration of the computation, have you considered writing this in a multithreaded way?***
+I have considered multithreading, and there are a few small places in the project where I believe it would be very beneficial to multithread.
+***How do you plan to test this project (automated testing, not manual)?***
+JUnit testing will do the majority of the work. If we need to, we may also make some "test scenarios" for JUnit to run and determine the validity of.
