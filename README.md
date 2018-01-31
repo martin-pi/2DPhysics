@@ -77,7 +77,7 @@ JUnit testing is another area we don’t yet feel comfortable with and will have
 
 Another risk we are taking involves the size of our project and the need to complete the majority of our features in order to have a complete project to showcase at the end of the semester. This will require that we complete the various components of our project as scheduled or at least be able to work around unfinished features while maintaining the usability of our project. To reduce the impact of this risk we will always make sure that we prioritize essential features of the project that allow us to have some cohesive and functional product by the end even while missing unfinished features. 
 ## Preliminary UML
-[A giant, unfinished, and confusing UML diagram](http://patrickmart.in/media/capstone/preliminaryuml.png)
+![A giant, unfinished, and confusing UML diagram](http://patrickmart.in/media/capstone/preliminaryuml.png)
 ## Other Questions and Answers
 ***I'd like to hear where you got this idea. Why did you choose it?***
 I have built a few small projects with half-implemented and wholly inaccurate physics features. I wanted to build something more accurate and valuable than those simpler projects.
@@ -92,7 +92,7 @@ We chose Java due to our familiarity with it, and the many java-specific tools a
 ***Do you have prior experience building simulation systems like this?***
 I have built a few simulations, but nothing on this scale or complexity.
 ***What do you want for the User Interface to look like? Could you make a crude sketch or mock-up for me?***
-
+![An ima](http://patrickmart.in/media/capstone/preliminaryscreenshot.png)
 ***How will you define a scenario without editing tools? Will they be text files? Or just hard-coded into your minimum viable product?***
 Ideally, we would like to be able to define scenarios as json files. We would then enable the program to accept those files as input or generate them as output.
 ***If you're concerned about performance and acceleration of the computation, have you considered writing this in a multithreaded way?***
