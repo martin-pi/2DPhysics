@@ -96,3 +96,10 @@ Ideally, we would like to be able to define scenarios as json files. We would th
 I have considered multithreading, and there are a few small places in the project where I believe it would be very beneficial to multithread.
 * ***How do you plan to test this project (automated testing, not manual)?***
 JUnit testing will do the majority of the work. If we need to, we may also make some "test scenarios" for JUnit to run and determine the validity of.
+## Downloading, Compiling, and Running
+In order to clone and run this project, enter the following commands in a terminal.
+    $ git clone https://github.com/Pharaoh439/capstone.git
+    $ cd capstone/engine
+    $ mvn package
+    $ cd target
+    $ java -jar engine-VERSION.jar
