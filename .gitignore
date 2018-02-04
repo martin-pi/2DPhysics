@@ -1,6 +1,7 @@
 
 engine/.idea/
 engine/engine.iml
+engine/target/
 .idea/workspace.xml
 .idea/modules.xml
 .idea/capstone.iml
