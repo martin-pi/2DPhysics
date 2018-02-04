@@ -1,3 +1,4 @@
+
 package in.patrickmart.view;
 
 import in.patrickmart.model.*;
@@ -15,6 +16,10 @@ import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryStack.*;
 import static org.lwjgl.system.MemoryUtil.*;
+import org.lwjgl.opengl.GL;
+
+
+
 
 public class View {
     Model model;
@@ -60,8 +65,12 @@ public class View {
         glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
             if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
                 glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
+            //toggle the color with spacebar
             if ( key == GLFW_KEY_SPACE && action == GLFW_RELEASE ){
-                glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+                glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
+            }
+            if ( key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
+                glClearColor(0.0f, 0.0f, 1.0f, 0.0f);
             }
         });
 
@@ -98,11 +107,23 @@ public class View {
         glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 
         while ( !glfwWindowShouldClose(window) ) {
+            glfwPollEvents();
+
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+            glBegin(GL_QUADS);  //begin drawing
+                glColor4f(0,0,0, 0);
+                glVertex2f(-0.5f,0.5f);
+                glVertex2f(0.5f,0.5f);
+                glVertex2f(0.5f, -0.5f);
+                glVertex2f(-0.5f, -0.5f);
+            glEnd();            //stop drawing
+
+
 
             glfwSwapBuffers(window);
 
-            glfwPollEvents();
+
         }
     }
 }
