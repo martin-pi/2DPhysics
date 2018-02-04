@@ -13,5 +13,6 @@ public class App
         System.out.println( "Hello World!" );
         Controller c = new Controller();
         View v = new View(c.getModel(),c);
+        TestGraphics t = new TestGraphics();
     }
 }
