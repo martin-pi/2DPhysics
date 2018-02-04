@@ -1,6 +1,7 @@
 package in.patrickmart;
 
 import in.patrickmart.controller.*;
+import in.patrickmart.view.*;
 /**
  * Hello world!
  *
@@ -11,5 +12,6 @@ public class App
     {
         System.out.println( "Hello World!" );
         Controller c = new Controller();
+        View v = new View(c.getModel(),c);
     }
 }
