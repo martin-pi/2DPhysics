@@ -1,14 +1,15 @@
 package in.patrickmart.model;
 
 public class Model {
-    String msg;
+    private String msg;
+
+    private Scenario scenario;
 
     public Model(){
-        System.out.println("Model is loaded");
-        msg = "model to view";
+        this.scenario = new Scenario();
     }
 
     public String getMsg(){
-        return msg;
+        return "Ayy Lmodel";
     }
 }
