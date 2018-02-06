@@ -31,8 +31,7 @@ public class View implements ModelObserver{
         this.model = model;
         this.c = c;
         System.out.println(model.getMsg());
-        hasChanged = true;
-        this.model.addObserver(this);
+        model.addObserver(this);
     }
 
     public void runTest() {
@@ -110,7 +109,6 @@ public class View implements ModelObserver{
         glfwMakeContextCurrent(window);
         // Enable v-sync
         glfwSwapInterval(1);
-
         // Make the window visible
         glfwShowWindow(window);
     }
@@ -136,11 +134,7 @@ public class View implements ModelObserver{
                 glVertex2f(-0.5f, -0.5f);
             glEnd();            //stop drawing
 
-
-
             glfwSwapBuffers(window);
-
-
         }
     }
 }

@@ -12,17 +12,17 @@ public class Model {
         this.scenario = new Scenario();
         msg = "Model Here";
     }
-    public void addObserver(View view){
-        this.view = view;
-    }
     public String getMsg(){
         return msg;
     }
     public void changeMSG(String newMSG){
         msg = newMSG;
-        notifyView();
+        notifyObserver();
     }
-    public void notifyView(){
+    public void notifyObserver(){
         view.update();
+    }
+    public void addObserver(View view){
+        this.view = view;
     }
 }
