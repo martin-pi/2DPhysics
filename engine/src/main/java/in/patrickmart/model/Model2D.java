@@ -1,5 +1,6 @@
 package in.patrickmart.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,6 +18,53 @@ public class Model2D {
      */
     public Model2D(List<Vector2D> points) {
         this.points = points;
+
+        //Correct the center of gravity.
+        calculateCenterOfGravity();
+        //Construct this model from a set of vectors or x/y pairs.
+        calculateArea();
+    }
+
+    /**
+     * Constructor for objects of Class Model2D, constructs an n-sided polygon.
+     * @param n number of vertices to construct this model from.
+     * @param radius how far each vertex is from the center of gravity.
+     */
+    public Model2D(int n, double radius) {
+        this.points = new ArrayList<Vector2D>();
+
+        //Calculate the angle (in radians) between each vector and the next.
+        // The first vertex is directly above the center of gravity.
+        double rotation = Math.PI * 2 / n;
+
+
+        for (int i = 0; i < n; i++) {
+            this.points.add(new Vector2D(0, radius).rotate(rotation * i));
+        }
+
+        //Correct the center of gravity.
+        calculateCenterOfGravity();
+        //Construct this model from a set of vectors or x/y pairs.
+        calculateArea();
+    }
+
+    /**
+     * Default Constructor for objects of Class Model2D, constructs a triangle with a 1m "radius".
+     */
+    public Model2D() {
+        int n = 3;
+        int radius = 1;
+
+        //Calculate the angle (in radians) between each vector and the next.
+        // The first vertex is directly above the center of gravity.
+        this.points = new ArrayList<Vector2D>();
+
+        //Add each vertex and rotate it into position.
+        double rotation = Math.PI * 2 / n; // How much should each
+        for (int i = 0; i < n; i++) {
+            this.points.add(new Vector2D(0, radius).rotate(rotation * i));
+        }
+        
         //Correct the center of gravity.
         calculateCenterOfGravity();
         //Construct this model from a set of vectors or x/y pairs.
