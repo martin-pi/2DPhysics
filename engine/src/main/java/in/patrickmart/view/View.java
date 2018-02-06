@@ -21,14 +21,18 @@ import org.lwjgl.opengl.GL;
 
 
 
-public class View {
+public class View implements ModelObserver{
     Model model;
-    private long window;
+    Controller c;
+    long window;
+    boolean hasChanged;
 
-    public View(Model model, Controller controller){
+    public View(Controller c, Model model){
         this.model = model;
+        this.c = c;
         System.out.println(model.getMsg());
-
+        hasChanged = true;
+        this.model.addObserver(this);
     }
 
     public void runTest() {
@@ -42,6 +46,14 @@ public class View {
 
         glfwTerminate();
         glfwSetErrorCallback(null).free();
+    }
+
+    public void update(){
+        hasChanged = true;
+    }
+
+    public void request(){
+        System.out.println(model.getMsg());
     }
 
     private void init(){
@@ -71,6 +83,7 @@ public class View {
             }
             if ( key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
                 glClearColor(0.0f, 0.0f, 1.0f, 0.0f);
+                c.viewEvent();
             }
         });
 
@@ -107,6 +120,10 @@ public class View {
         glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 
         while ( !glfwWindowShouldClose(window) ) {
+            if (hasChanged) {
+                request();
+                hasChanged = false;
+            }
             glfwPollEvents();
 
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

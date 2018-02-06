@@ -2,6 +2,7 @@ package in.patrickmart;
 
 import in.patrickmart.controller.*;
 import in.patrickmart.view.*;
+import in.patrickmart.model.*;
 /**
  * Hello world!
  *
@@ -11,8 +12,7 @@ public class App
     public static void main( String[] args )
     {
         System.out.println( "Hello World!" );
-        Controller c = new Controller();
-        View v = new View(c.getModel(),c);
-        v.runTest();
+        Model m = new Model();
+        Controller c = new Controller(m);
     }
 }
