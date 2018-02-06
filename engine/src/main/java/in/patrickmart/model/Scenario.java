@@ -8,7 +8,11 @@ public class Scenario {
 
     public void step() {
         //TODO Move each object in the scenario along its velocity vector.
-
+        for (Entity e:entities) {
+            e.calculateAcceleration();
+            e.calculateVelocity();
+            e.calculatePosition();
+        }
         //Check if a collision has occurred.
         collisionCheck();
         //If a collision has happened, use the resulting collision data to adjust object locations, apply forces.
@@ -19,7 +23,11 @@ public class Scenario {
      * Look for entities that are close to each other, check if they are close enough to touch.
      */
     private void collisionCheck() {
-
+        for (Entity e: entities) {
+            for (Entity n: entities) {
+                e.collisionCheck(n);
+            }
+        }
     }
 
     /**
