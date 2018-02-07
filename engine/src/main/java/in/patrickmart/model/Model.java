@@ -1,15 +1,17 @@
 package in.patrickmart.model;
 
 import in.patrickmart.view.*;
+import java.util.ArrayList;
 
 public class Model {
     private String msg;
-    View view;
+    ArrayList<View> observers;
 
     private Scenario scenario;
 
     public Model(){
         this.scenario = new Scenario();
+        observers = new ArrayList<View>();
         msg = "Model Here";
     }
     public String getMsg(){
@@ -19,10 +21,15 @@ public class Model {
         msg = newMSG;
         notifyObserver();
     }
-    public void notifyObserver(){
-        view.update();
+    public void notifyObserver() {
+        for (View v: observers) {
+            v.update();
+        }
     }
     public void addObserver(View view){
-        this.view = view;
+        observers.add(view);
+    }
+    public void removeObserver(View view){
+        observers.remove(view);
     }
 }

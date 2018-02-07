@@ -14,5 +14,7 @@ public class App
         System.out.println( "Hello World!" );
         Model m = new Model();
         Controller c = new Controller(m);
+        View view = new View(c,m);
+        view.runTest();
     }
 }
