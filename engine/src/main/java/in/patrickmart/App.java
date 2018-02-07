@@ -14,7 +14,11 @@ public class App
         System.out.println( "Hello World!" );
         Model m = new Model();
         Controller c = new Controller(m);
-        View view = new View(c,m);
-        view.runTest();
+        if(args.length > 1 && args[1].equals("headless")) {
+            System.out.println("Headless Mode");
+        } else {
+            View view = new View(c, m);
+            view.runTest();
+        }
     }
 }

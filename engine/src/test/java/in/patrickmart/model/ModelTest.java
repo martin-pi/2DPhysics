@@ -17,11 +17,4 @@ public class ModelTest
         m.changeMSG("test");
         assertTrue(m.getMsg().equals("test"));
     }
-    public void testChangeMsgWithObserver() {
-        Model m = new Model();
-        Controller c = new Controller(m);
-        m.changeMSG("test");
-        assertTrue(m.getMsg().equals("test"));
-        assertTrue(m.view != null);
-    }
 }
