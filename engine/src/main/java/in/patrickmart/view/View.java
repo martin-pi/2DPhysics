@@ -126,12 +126,11 @@ public class View implements ModelObserver{
 
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-            glBegin(GL_QUADS);  //begin drawing
+            glBegin(GL_TRIANGLES);  //begin drawing
                 glColor4f(0,0,0, 0);
                 glVertex2f(-0.5f,0.5f);
                 glVertex2f(0.5f,0.5f);
                 glVertex2f(0.5f, -0.5f);
-                glVertex2f(-0.5f, -0.5f);
             glEnd();            //stop drawing
 
             glfwSwapBuffers(window);
