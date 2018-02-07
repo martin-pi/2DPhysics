@@ -51,7 +51,7 @@ public class View implements ModelObserver{
         hasChanged = true;
     }
 
-    public void request(){
+    public void pullFrame(){
         System.out.println(model.getMsg());
     }
 
@@ -119,7 +119,7 @@ public class View implements ModelObserver{
 
         while ( !glfwWindowShouldClose(window) ) {
             if (hasChanged) {
-                request();
+                pullFrame();
                 hasChanged = false;
             }
             glfwPollEvents();

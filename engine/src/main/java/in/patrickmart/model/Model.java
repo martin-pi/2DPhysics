@@ -21,6 +21,9 @@ public class Model {
         msg = newMSG;
         notifyObserver();
     }
+    public void getFrame(){
+        //TODO: return scenario.getObjects();
+    }
     public void notifyObserver() {
         for (View v: observers) {
             v.update();
