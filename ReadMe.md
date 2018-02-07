@@ -1,8 +1,20 @@
 # 2D Physics Engine
 Rick Martin and John Hewitt
 
+## Downloading, Compiling, and Running
+In order to clone and run this project, enter the following commands in a terminal.
+```
+$ git clone https://github.com/Pharaoh439/capstone.git
+$ cd capstone/engine
+$ mvn package
+$ cd target
+$ java -jar engine-VERSION.jar
+```
+If you are running an environment with no GUI, you may want to run the project headlessly. In this case, use the command line argument "headless" to run the project without opening a viewing window. Usage of this argument is displayed below.
+```
+$ java -jar engine-VERSION.jar headless
+```
 ## Project Overview
-
 This project seeks to create a 2 dimensional physics simulation consisting of n-dimensional rigid body polygons. This simulation could be useful to game developers as a way of representing their game’s objects in two dimensional space. The physics model should be able to run headlessly, without any visual representation of the events within. Because this isn’t immediately useful to most people, the project will also include a program to view and create simulations to see how our engine works. This can be used by people interested in using our library or anyone interested in learning how different objects will interact with each other and various forces that they will be able to control. The users that wish to learn from this program will need to be able to view and control the various aspects of the background physics such as information about the object as well as the forces acting upon it at any time. These users will probably also want to be able to control the simulation by having rewind, pause, and fast forward features as well as a detached camera capable of zooming in and out to change the user’s focus. 
 #### A-Level Features
 - [ ] The program should be able to perform basic vector math operations such as dot and cross products.
@@ -96,12 +108,3 @@ Ideally, we would like to be able to define scenarios as json files. We would th
 I have considered multithreading, and there are a few small places in the project where I believe it would be very beneficial to multithread.
 * ***How do you plan to test this project (automated testing, not manual)?***
 JUnit testing will do the majority of the work. If we need to, we may also make some "test scenarios" for JUnit to run and determine the validity of.
-## Downloading, Compiling, and Running
-In order to clone and run this project, enter the following commands in a terminal.
-```
-$ git clone https://github.com/Pharaoh439/capstone.git
-$ cd capstone/engine
-$ mvn package
-$ cd target
-$ java -jar engine-VERSION.jar
-```
