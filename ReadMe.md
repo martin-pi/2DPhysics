@@ -2,6 +2,7 @@
 Rick Martin and John Hewitt
 
 ## Downloading, Compiling, and Running
+This project is compiled and tested with Apache Maven 3.5.2 and Java 1.8.0_151.
 In order to clone and run this project, enter the following commands in a terminal.
 ```
 $ git clone https://github.com/Pharaoh439/capstone.git
