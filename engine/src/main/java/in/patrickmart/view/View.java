@@ -26,12 +26,14 @@ public class View implements ModelObserver{
     Controller c;
     long window;
     boolean hasChanged;
+    Scenario frame;
 
     public View(Controller c, Model model){
         this.model = model;
         this.c = c;
         System.out.println(model.getMsg());
         model.addObserver(this);
+        frame = model.getFrame();
     }
 
     public void runTest() {
@@ -52,7 +54,7 @@ public class View implements ModelObserver{
     }
 
     public void pullFrame(){
-        System.out.println(model.getMsg());
+        frame = model.getFrame();
     }
 
     private void init(){
@@ -126,12 +128,14 @@ public class View implements ModelObserver{
 
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-            glBegin(GL_TRIANGLES);  //begin drawing
-                glColor4f(0,0,0, 0);
-                glVertex2f(-0.5f,0.5f);
-                glVertex2f(0.5f,0.5f);
-                glVertex2f(0.5f, -0.5f);
-            glEnd();            //stop drawing
+            for (Entity e : frame.getEntities()){
+                glBegin(GL_TRIANGLES);
+                for (Vector2D v : e.getModel().getPoints()) {
+                    glVertex2d((v.getX() + e.getPosition().getX()), v.getY() + e.getPosition().getY());
+                }
+                glEnd();
+
+            }
 
             glfwSwapBuffers(window);
         }

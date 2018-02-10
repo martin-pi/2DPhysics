@@ -35,7 +35,21 @@ public class Entity {
 
     }
 
+    /**
+     * accessor for position
+     * @return position vector
+     */
+    public Vector2D getPosition() {
+        return position;
+    }
 
+    /**
+     * accessor for model
+     * @return entity model
+     */
+    public Model2D getModel() {
+        return model;
+    }
 
 
     /**
