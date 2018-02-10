@@ -119,9 +119,9 @@ public class Vector2DTest
         double x = 4;
         double y = 6;
         double s = 5;
-        Vector2D v1 = new Vector2D(x,y);
+        Vector2D v = new Vector2D(x,y);
         Vector2D result = new Vector2D(x * s, y * s);
-        assertEquals(result.toString(), v1.mult(s).toString());
+        assertEquals(result.toString(), v.mult(s).toString());
     }
 
     /**
@@ -132,9 +132,94 @@ public class Vector2DTest
         double x = 4;
         double y = 6;
         double s = 5;
-        Vector2D v1 = new Vector2D(x,y);
+        Vector2D v = new Vector2D(x,y);
         Vector2D result = new Vector2D(x / s, y / s);
-        assertEquals(result.toString(), v1.div(s).toString());
+        assertEquals(result.toString(), v.div(s).toString());
     }
 
+    /**
+     * tests vector magnitude.
+     */
+    public void testVectorMag()
+    {
+        double x = 0;
+        double y = 4;
+        Vector2D v = new Vector2D(x,y);
+        assertEquals(4.0,v.mag());
+    }
+
+    /**
+     * tests that vector magsqr returns the magnitude squared
+     */
+    public void testVectorMagSqr()
+    {
+        double x = 4;
+        double y = 4;
+        Vector2D v = new Vector2D(x,y);
+        assertEquals(32.0,v.magSq());
+    }
+
+    /**
+     * tests vector dot product.
+     */
+    public void testVectorDot()
+    {
+        Vector2D v1 = new Vector2D(2,7);
+        Vector2D v2 = new Vector2D(5,9);
+        double result = v1.getX() * v2.getX() + v1.getY() * v2.getY();
+        assertEquals(result, v1.dot(v2));
+    }
+
+    /**
+     * tests vector cross product.
+     */
+    public void testVectorCross()
+    {
+        Vector2D v1 = new Vector2D(2,7);
+        Vector2D v2 = new Vector2D(5,9);
+        double result = v1.getX() * v2.getY() - v1.getY() * v2.getX();
+        assertEquals(result, v1.cross(v2));
+    }
+
+    /**
+     * tests the distance calculation between vectors.
+     */
+    public void testVectorDist()
+    {
+        Vector2D v1 = new Vector2D(4,4);
+        Vector2D v2 = new Vector2D(4,6);
+        assertEquals(2.0, v1.dist(v2));
+        v2.set(6,4);
+        assertEquals(2.0, v2.dist(v1));
+    }
+
+    /**
+     * tests normalization of a vector.
+     */
+    public void testVectorNormalize()
+    {
+        Vector2D v = new Vector2D(2.0,2.0);
+        Vector2D result = v.copy();
+        assertEquals(result.setMag(1).toString(), v.normalize().toString());
+    }
+
+    /**
+     * tests vectors setMag.
+     */
+    public void testVectorSetMag()
+    {
+        Vector2D v = new Vector2D(4,6);
+        v.setMag(4);
+        assertEquals(4.0, v.mag());
+    }
+
+    /**
+     * tests vector limit.
+     */
+    public void testVectorLimit()
+    {
+        Vector2D v = new Vector2D(4,6);
+        Vector2D result = v.setMag(1);
+        assertEquals(result.toString(), v.normalize().toString());
+    }
 }
