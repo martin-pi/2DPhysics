@@ -22,7 +22,6 @@ public class Model {
      * @return current scenario
      */
     public Scenario getFrame(){
-        //TODO: return scenario.getObjects();
         return scenario;
     }
 

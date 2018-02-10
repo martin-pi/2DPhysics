@@ -137,7 +137,7 @@ public class View implements ModelObserver{
                 pullFrame();
                 hasChanged = false;
             }
-            glfwPollEvents();
+            glfwPollEvents(); //checks for keyboard events
 
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
