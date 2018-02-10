@@ -2,6 +2,8 @@ package in.patrickmart.model;
 
 import in.patrickmart.view.*;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
 
 public class Model {
     private String msg;
@@ -14,24 +16,45 @@ public class Model {
         observers = new ArrayList<View>();
         msg = "Model Here";
     }
-    public String getMsg(){
-        return msg;
+
+    /**
+     * accessor for the current frame/scenario.
+     * @return current scenario
+     */
+    public Scenario getFrame(){
+        //TODO: return scenario.getObjects();
+        return scenario;
     }
-    public void changeMSG(String newMSG){
-        msg = newMSG;
+
+    /**
+     * creates a triangle.
+     */
+    public void createTriangle(double x, double y, double[] color) {
+        scenario.addEntity(new Entity(new Vector2D(x,y), new Model2D(3,.5), color));
         notifyObserver();
     }
-    public void getFrame(){
-        //TODO: return scenario.getObjects();
-    }
+
+    /**
+     * notifies Observers of changes.
+     */
     public void notifyObserver() {
         for (View v: observers) {
             v.update();
         }
     }
+
+    /**
+     * adds a new view to list of observers.
+     * @param view
+     */
     public void addObserver(View view){
         observers.add(view);
     }
+
+    /**
+     * removes specified view from observer list.
+     * @param view
+     */
     public void removeObserver(View view){
         observers.remove(view);
     }

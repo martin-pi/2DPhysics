@@ -59,4 +59,12 @@ public class Scenario {
     private void collisionResponse() {
         //TODO implement collision response.
     }
+
+    /**
+     * accessor for entities
+     * @return list of entities
+     */
+    public ArrayList<Entity> getEntities() {
+        return entities;
+    }
 }
