@@ -22,5 +22,6 @@ public class Controller {
      * a view event that gets handled by the controller.
      */
     public void viewEvent(){
+        model.createTriangle();
     }
 }

@@ -2,6 +2,8 @@ package in.patrickmart.model;
 
 import in.patrickmart.view.*;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
 
 public class Model {
     private String msg;
@@ -22,6 +24,14 @@ public class Model {
     public Scenario getFrame(){
         //TODO: return scenario.getObjects();
         return scenario;
+    }
+
+    /**
+     * creates a triangle.
+     */
+    public void createTriangle() {
+        scenario.addEntity(new Entity(new Vector2D(0,0), new Model2D(3,.5)));
+        notifyObserver();
     }
 
     /**

@@ -151,7 +151,7 @@ public class View implements ModelObserver{
                 glEnd();
 
             }
-
+            
             glfwSwapBuffers(window);
         }
     }
