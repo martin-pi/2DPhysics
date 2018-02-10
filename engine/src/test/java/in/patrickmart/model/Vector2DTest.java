@@ -41,6 +41,22 @@ public class Vector2DTest
         assertTrue(u.getX() == 2 && v.getY() == 3);
 
         u = new Vector2D().random(); //Random vector
-        assertTrue(v.getX() >= -1 && v.getX() <= 1 && v.getY() >= -1 && v.getY() <= 1);
+        assertTrue(u.getX() >= -1 && u.getX() <= 1 && u.getY() >= -1 && u.getY() <= 1);
+    }
+
+    public void testGettersAndSetters()
+    {
+        Vector2D v = new Vector2D();
+        double x = 5;
+        double y = 5;
+        v.setX(x);
+        v.setY(y);
+        assertEquals(x,v.getX());
+        assertEquals(y,v.getY());
+        x = 7;
+        y = 9;
+        v.set(x,y);
+        assertEquals(x,v.getX());
+        assertEquals(y,v.getY());
     }
 }
