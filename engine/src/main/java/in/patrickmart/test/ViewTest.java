@@ -5,7 +5,7 @@ public class ViewTest implements Runnable, Observer {
     private boolean updated;
     private int updates;
 
-    public ViewTest() {
+    public ViewTest(ControllerTest c, ModelTest m) {
         this.updated = false;
         this.print = "View: ";
         System.out.println("Creating view.");
