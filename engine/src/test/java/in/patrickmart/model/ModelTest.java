@@ -4,6 +4,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import in.patrickmart.controller.*;
+import in.patrickmart.view.View;
 
 public class ModelTest
         extends TestCase{
@@ -12,8 +13,10 @@ public class ModelTest
     protected void setUp(){
 
     }
-    public void testChangeMsgNoObserver() {
+    public void testObservable() {
         Model m = new Model();
+        Controller c = new Controller(m);
+        View v = new View(c, m);
         assertTrue(true);
     }
 }

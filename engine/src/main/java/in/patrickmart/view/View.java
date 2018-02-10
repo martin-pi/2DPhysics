@@ -30,7 +30,7 @@ public class View implements ModelObserver{
         this.model = model;
         this.c = c;
         model.addObserver(this);
-        frame = model.getFrame();
+        pullFrame();
     }
 
     /**

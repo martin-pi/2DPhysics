@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Vector;
 
 public class Model {
-    private String msg;
     ArrayList<View> observers;
 
     private Scenario scenario;
@@ -14,7 +13,6 @@ public class Model {
     public Model(){
         this.scenario = new Scenario();
         observers = new ArrayList<View>();
-        msg = "Model Here";
     }
 
     /**

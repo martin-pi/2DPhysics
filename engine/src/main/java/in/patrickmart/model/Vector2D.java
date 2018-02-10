@@ -290,10 +290,7 @@ public class Vector2D {
      *	@return True if the provided vector has the same components as this one.
      */
     public boolean equals(Vector2D vector) {
-        if (this.x == vector.x && this.y == vector.y) {
-            return true;
-        }
-        return false;
+        return this.x == vector.x && this.y == vector.y;
     }
 
     /**
