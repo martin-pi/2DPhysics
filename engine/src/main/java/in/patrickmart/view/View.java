@@ -143,7 +143,7 @@ public class View implements ModelObserver{
 
             for (Entity e : frame.getEntities()){
                 glBegin(GL_TRIANGLES);
-                glColor4i(e.getColor()[0],e.getColor()[1],e.getColor()[2],e.getColor()[3]);
+                glColor4d(e.getColor()[0],e.getColor()[1],e.getColor()[2],e.getColor()[3]);
                 for (Vector2D v : e.getModel().getPoints()) {
                     glVertex2d((v.getX() + e.getPosition().getX()), v.getY() + e.getPosition().getY());
                 }

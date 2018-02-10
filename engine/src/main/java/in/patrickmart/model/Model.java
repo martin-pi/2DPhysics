@@ -29,8 +29,8 @@ public class Model {
     /**
      * creates a triangle.
      */
-    public void createTriangle() {
-        scenario.addEntity(new Entity(new Vector2D(0,0), new Model2D(3,.5)));
+    public void createTriangle(double x, double y, double[] color) {
+        scenario.addEntity(new Entity(new Vector2D(x,y), new Model2D(3,.5), color));
         notifyObserver();
     }
 

@@ -4,13 +4,20 @@ public class Entity {
     private Vector2D position;
     private Vector2D velocity;
     private Model2D model;
-    private int[] color;
+    private double[] color;
 
     public Entity(Vector2D position, Model2D model) {
         this.position = position;
         this.model = model;
         this.velocity = new Vector2D();
-        this.color = new int[] {1,1,1,1};
+        color = new double[] {1,1,1,1};
+    }
+
+    public Entity(Vector2D position, Model2D model, double[] color) {
+        this.position = position;
+        this.model = model;
+        this.velocity = new Vector2D();
+        this.color = color;
     }
 
     public void calculateAcceleration() {
@@ -57,7 +64,7 @@ public class Entity {
      * accessor for color.
      * @return color array
      */
-    public int[] getColor() {
+    public double[] getColor() {
         return color;
     }
 
