@@ -18,7 +18,7 @@ public class App
             System.out.println("Headless Mode");
         } else {
             View view = new View(c, m);
-            view.runTest();
+            view.runView();
         }
     }
 }

@@ -31,12 +31,14 @@ public class View implements ModelObserver{
     public View(Controller c, Model model){
         this.model = model;
         this.c = c;
-        System.out.println(model.getMsg());
         model.addObserver(this);
         frame = model.getFrame();
     }
 
-    public void runTest() {
+    /**
+     * method to run the view initialization and loop.
+     */
+    public void runView() {
         System.out.println("Hello LWJGL " + Version.getVersion() + "!");
 
         init();
@@ -49,14 +51,23 @@ public class View implements ModelObserver{
         glfwSetErrorCallback(null).free();
     }
 
+    /**
+     * called by model to notify view of changes.
+     */
     public void update(){
         hasChanged = true;
     }
 
+    /**
+     * pulls the updated frame from the model.
+     */
     public void pullFrame(){
         frame = model.getFrame();
     }
 
+    /**
+     * initializes the view components and sets up events.
+     */
     private void init(){
         GLFWErrorCallback.createPrint(System.err).set();
 
@@ -114,6 +125,10 @@ public class View implements ModelObserver{
         // Make the window visible
         glfwShowWindow(window);
     }
+
+    /**
+     * main drawing loop for the view
+     */
     private void loop() {
         //
         GL.createCapabilities();

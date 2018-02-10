@@ -5,19 +5,22 @@ import in.patrickmart.view.*;
 
 public class Controller {
     Model model;
-    int track; //this is just to track the updates from the view key event
 
     public Controller(Model model) {
         this.model = model;
-        track = 0;
     }
 
+    /**
+     * accessor for model
+     * @return model
+     */
     public Model getModel(){
         return model;
     }
 
+    /**
+     * a view event that gets handled by the controller.
+     */
     public void viewEvent(){
-        track++;
-        model.changeMSG("button pressed " + track + " times");
     }
 }
