@@ -281,4 +281,24 @@ public class Vector2DTest
         result = test / 360;
         assertEquals(result, Vector2D.degreesToRevolutions(test));
     }
+
+    /**
+     * tests vector rotation.
+     */
+    public void testVectorRotate()
+    {
+        Vector2D v = new Vector2D(4,6);
+        double angle = Vector2D.degreesToRadians(90);
+        double rot = v.heading() + angle;
+        double mag = v.mag();
+        Vector2D result = new Vector2D(Math.cos(rot) * mag,Math.sin(rot) * mag);
+        assertEquals(result.toString(), v.rotate(angle).toString());
+        System.out.println(result.toString());
+
+        v = new Vector2D(4,6);
+        angle = Vector2D.radiansToDegrees(angle);
+        v.setAngleMode(Vector2D.AngleMode.DEGREES);
+        assertEquals(result.toString(), v.rotate(angle).toString());
+    }
+
 }
