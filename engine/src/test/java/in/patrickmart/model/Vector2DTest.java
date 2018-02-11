@@ -4,6 +4,8 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import java.util.Vector;
+
 /**
  * Unit test for simple App.
  */
@@ -234,5 +236,49 @@ public class Vector2DTest
         v.setAngleMode(Vector2D.AngleMode.RADIANS);
         assertTrue(v.getAngleMode() == Vector2D.AngleMode.RADIANS);
 
+    }
+
+    /**
+     * test vector heading.
+     */
+    public void testVectorHeading()
+    {
+        Vector2D v = new Vector2D(4,6);
+        v.setAngleMode(Vector2D.AngleMode.RADIANS);
+        double result = Math.atan2(v.getY(), v.getX());
+        assertEquals(result,v.heading());
+        result = Math.atan2(v.getY(), v.getX());
+        result = Vector2D.radiansToDegrees(result);
+        v.setAngleMode(Vector2D.AngleMode.DEGREES);
+        assertEquals(result,v.heading());
+        v.setAngleMode(Vector2D.AngleMode.REVOLUTIONS);
+        result = Math.atan2(v.getY(), v.getX());
+        result = Vector2D.radiansToRevolutions(result);
+        assertEquals(result, v.heading());
+    }
+
+    /**
+     * test vector angle conversions
+     */
+    public void testVectorAngleConversions()
+    {
+        double test = 4.0;
+        double result = test * 57.2957795131;
+        assertEquals(result, Vector2D.radiansToDegrees(test));
+
+        result = test / 6.28318530718;
+        assertEquals(result, Vector2D.radiansToRevolutions(test));
+
+        result = test * 360;
+        assertEquals(result, Vector2D.revolutionsToDegrees(test));
+
+        result = test * 6.28318530718;
+        assertEquals(result, Vector2D.revolutionsToRadians(test));
+
+        result = test * 0.01745329251;
+        assertEquals(result, Vector2D.degreesToRadians(test));
+
+        result = test / 360;
+        assertEquals(result, Vector2D.degreesToRevolutions(test));
     }
 }
