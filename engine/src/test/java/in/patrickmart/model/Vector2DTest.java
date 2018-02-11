@@ -222,4 +222,17 @@ public class Vector2DTest
         Vector2D result = v.setMag(1);
         assertEquals(result.toString(), v.normalize().toString());
     }
+
+    /**
+     * test set and get for AngleMode
+     */
+    public void testVectorSetandGetAngleMode()
+    {
+        Vector2D v = new Vector2D(4,6);
+        v.setAngleMode(Vector2D.AngleMode.DEGREES);
+        assertTrue(v.getAngleMode() == Vector2D.AngleMode.DEGREES);
+        v.setAngleMode(Vector2D.AngleMode.RADIANS);
+        assertTrue(v.getAngleMode() == Vector2D.AngleMode.RADIANS);
+
+    }
 }

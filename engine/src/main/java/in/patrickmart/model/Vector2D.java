@@ -472,7 +472,7 @@ public class Vector2D {
     /**
      *	Enum of all possible anglemodes.
      */
-    private static enum AngleMode {
+    public static enum AngleMode {
         RADIANS,
         DEGREES,
         REVOLUTIONS
