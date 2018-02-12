@@ -4,12 +4,8 @@ package in.patrickmart.model;
  *	@author Patrick Martin
  *	@version 0.1
  *	Vector2D implements 2 dimensional vectors, and many of the mathematical functions using these vectors.
- *	Also implements anglemodes: Radians, Degrees, and Revolutions. Change between these on a global scale at any time.
  */
 public class Vector2D {
-    //Current global Angle Mode
-    private static AngleMode currentAngleMode = AngleMode.RADIANS;
-
     private double x;
     private double y;
 
@@ -242,11 +238,6 @@ public class Vector2D {
      */
     public double heading() {
         double angle = Math.atan2(this.y, this.x);
-        if (currentAngleMode == AngleMode.DEGREES) {
-            angle = Vector2D.radiansToDegrees(angle);
-        } else if (currentAngleMode == AngleMode.REVOLUTIONS) {
-            angle = Vector2D.radiansToRevolutions(angle);
-        }
         return angle;
     }
 
@@ -256,11 +247,6 @@ public class Vector2D {
      *	@return			This newly modified vector.
      */
     public Vector2D rotate(double angle) {
-        if (currentAngleMode == AngleMode.DEGREES) {
-            angle = Vector2D.degreesToRadians(angle);
-        } else if (currentAngleMode == AngleMode.REVOLUTIONS) {
-            angle = Vector2D.revolutionsToRadians(angle);
-        }
         double rot = this.heading() + angle;
         double mag = this.mag();
         this.x = Math.cos(rot) * mag;
@@ -299,11 +285,6 @@ public class Vector2D {
      *	@return 		This newly modified vector.
      */
     public Vector2D fromAngle(double angle) {
-        if (currentAngleMode == AngleMode.DEGREES) {
-            angle = Vector2D.degreesToRadians(angle);
-        } else if (currentAngleMode == AngleMode.REVOLUTIONS) {
-            angle = Vector2D.revolutionsToRadians(angle);
-        }
         this.x = Math.cos(angle);
         this.y = Math.sin(angle);
         return this;
@@ -318,23 +299,6 @@ public class Vector2D {
         this.y = (Math.random() * 2) - 1;
         return this;
     }
-
-    /**
-     *	Changes the current AngleMode returned and accepted by all Vector methods.
-     *	@param mode		The new AngleMode to use; must be a member of AngleMode Enum.
-     */
-    public static void setAngleMode(AngleMode mode) {
-        currentAngleMode = mode;
-    }
-
-    /**
-     *	Returns the current global AngleMode.
-     *	@return	The current AngleMode.
-     */
-    public static AngleMode getAngleMode() {
-        return currentAngleMode;
-    }
-
 
     /**
      *	Converts an angle represented by radians to degrees.
@@ -397,18 +361,10 @@ public class Vector2D {
     }
 
     /**
-         *	Tests the functionality of this class.
-         */
+     *	Tests the functionality of this class.
+     */
     public static void test() {
         System.out.println("Testing Vectors...");
-        // Angle Modes --------------------------------------------------------------------------------
-        System.out.println("Angle Modes --------------------------------------------------------------------------------");
-        System.out.println("Vector2D.getAngleMode() => " + Vector2D.getAngleMode() + " //Default Value");
-        Vector2D.setAngleMode(Vector2D.AngleMode.DEGREES);
-        System.out.println("angleMode(Vector2D.AngleMode.DEGREES) => void");
-        System.out.println("Vector2D.getAngleMode() => " + Vector2D.getAngleMode());
-        Vector2D.setAngleMode(Vector2D.AngleMode.RADIANS);
-        System.out.println("Vector2D.setAngleMode(Vector2D.AngleMode.RADIANS) => void");
         // Vector Creation ----------------------------------------------------------------------------
         System.out.println("Vector Creation ----------------------------------------------------------------------------");
         Vector2D v = new Vector2D(1, 3);
@@ -468,14 +424,4 @@ public class Vector2D {
         System.out.println("Vector2D.subVectors(q, r) => " + Vector2D.subVectors(q, r).toString());
         System.out.println("\nDone Testing Vectors.");
     }
-
-    /**
-     *	Enum of all possible anglemodes.
-     */
-    public static enum AngleMode {
-        RADIANS,
-        DEGREES,
-        REVOLUTIONS
-    }
-
 }

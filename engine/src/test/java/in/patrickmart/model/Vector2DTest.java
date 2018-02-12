@@ -225,18 +225,6 @@ public class Vector2DTest
         assertEquals(result.toString(), v.normalize().toString());
     }
 
-    /**
-     * test set and get for AngleMode
-     */
-    public void testVectorSetandGetAngleMode()
-    {
-        Vector2D v = new Vector2D(4,6);
-        v.setAngleMode(Vector2D.AngleMode.DEGREES);
-        assertTrue(v.getAngleMode() == Vector2D.AngleMode.DEGREES);
-        v.setAngleMode(Vector2D.AngleMode.RADIANS);
-        assertTrue(v.getAngleMode() == Vector2D.AngleMode.RADIANS);
-
-    }
 
     /**
      * test vector heading.
@@ -244,17 +232,8 @@ public class Vector2DTest
     public void testVectorHeading()
     {
         Vector2D v = new Vector2D(4,6);
-        v.setAngleMode(Vector2D.AngleMode.RADIANS);
         double result = Math.atan2(v.getY(), v.getX());
         assertEquals(result,v.heading());
-        result = Math.atan2(v.getY(), v.getX());
-        result = Vector2D.radiansToDegrees(result);
-        v.setAngleMode(Vector2D.AngleMode.DEGREES);
-        assertEquals(result,v.heading());
-        v.setAngleMode(Vector2D.AngleMode.REVOLUTIONS);
-        result = Math.atan2(v.getY(), v.getX());
-        result = Vector2D.radiansToRevolutions(result);
-        assertEquals(result, v.heading());
     }
 
     /**
@@ -283,8 +262,8 @@ public class Vector2DTest
     }
 
     /**
-     * tests vector rotation.
-     */
+ * tests vector rotation.
+ */
     public void testVectorRotate()
     {
         Vector2D v = new Vector2D(4,6);
@@ -294,11 +273,6 @@ public class Vector2DTest
         Vector2D result = new Vector2D(Math.cos(rot) * mag,Math.sin(rot) * mag);
         assertEquals(result.toString(), v.rotate(angle).toString());
         System.out.println(result.toString());
-
-        v = new Vector2D(4,6);
-        angle = Vector2D.radiansToDegrees(angle);
-        v.setAngleMode(Vector2D.AngleMode.DEGREES);
-        assertEquals(result.toString(), v.rotate(angle).toString());
     }
 
 }
