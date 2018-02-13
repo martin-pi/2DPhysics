@@ -1,8 +1,7 @@
-package in.patrickmart.model;
+package in.patrickmart.view;
 
-import in.patrickmart.AppTest;
 import in.patrickmart.controller.Controller;
-import in.patrickmart.view.View;
+import in.patrickmart.model.Model;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;

@@ -1,5 +1,6 @@
-package in.patrickmart.model;
+package in.patrickmart.view;
 
+import in.patrickmart.model.*;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -29,7 +30,7 @@ public class RenderShapeTest extends TestCase
      */
     public void testApp()
     {
-        double acceptableError = 0.0000000001;
+        double acceptableError = 0.0000000001; // Vector calculations will always result in some rounding/error.
 
         Model m = new Model();
         m.addEntity(new Entity(new Vector2D(1, 2), new Model2D(4, 0.5)));

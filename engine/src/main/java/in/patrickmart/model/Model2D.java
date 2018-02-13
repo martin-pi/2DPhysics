@@ -83,19 +83,17 @@ public class Model2D {
      * @return the area of this Model.
      */
     private void calculateArea() {
-        double area = 0;
+        this.area = 0;
         //If there are less than 3 points, you have a line or dot instead of a shape.
         if (points.size() < 3) {
-            this.area = area;
+            return;
         }
         //Calculate the area of each triangle making up this shape.
-        for(int i = 0; i < points.size() - 1; i++) {
+        for(int i = 0; i < points.size(); i++) {
             Vector2D first = points.get(i);
-            Vector2D second = points.get(i + 1);
-            area += Math.abs(first.getX() * second.getY() - first.getY() * second.getX()) / 2;
+            Vector2D second = points.get((i + 1) % points.size());
+            this.area += Math.abs(first.getX() * second.getY() - first.getY() * second.getX()) / 2;
         }
-
-        this.area = area;
     }
 
 
