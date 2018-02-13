@@ -1,6 +1,8 @@
 package in.patrickmart.model;
 
 import in.patrickmart.AppTest;
+import in.patrickmart.controller.Controller;
+import in.patrickmart.view.View;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -28,10 +30,15 @@ public class OpenGLFWTest   extends TestCase
     }
 
     /**
-     * Rigourous Test :-)
+     * Testing graphical interfaces like this is almost impossible without devoting dozens of hours to it.
+     * As most of our graphical errors will be immediately evident when the program is run, we will most likely
+     * need to rely on our eyes for that.
      */
     public void testOpenGLFW()
     {
-        assertTrue( true );
+        Model m = new Model();
+        Controller c = new Controller(m);
+        View v = new View(c, m);
+        assertTrue(true );
     }
 }
