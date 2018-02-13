@@ -13,7 +13,7 @@ public class ControllerTest {
         // Similar to code found at https://stackoverflow.com/questions/18283199/java-main-game-loop
         long initialTime = System.nanoTime();
         long timer = System.currentTimeMillis();
-        final int updatesPerSecond = 1;
+        final int updatesPerSecond = 60;
         final double updateTime = 1000000000 / updatesPerSecond; // 1000000000 nanoseconds in a second.
         double delta = 0;
         int ticks = 0;
@@ -21,7 +21,7 @@ public class ControllerTest {
         while (running) {
             long currentTime = System.nanoTime();
             delta += (currentTime - initialTime) / updateTime;
-            System.out.println(" " + delta);
+            System.out.println(" " + delta + " = delta + " + ((currentTime - initialTime) / updateTime) );
 
             if (delta >= 1) {
                 step();
@@ -35,7 +35,9 @@ public class ControllerTest {
         }
 
         double timeElapsed = System.currentTimeMillis() - timer * 0.001;
-        System.out.println("Completed 100 cycles in " + timeElapsed + "Seconds.");
+        System.out.println("Completed 100 cycles in " + timeElapsed + " seconds.");
+        System.out.println("Each update should have taken " + updateTime * 0.000000001 + " seconds.");
+        System.out.println("100 cycles should have taken " + updateTime * 0.000000001 * 100 + " seconds.");
     }
 
     public void step() {
