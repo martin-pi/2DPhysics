@@ -27,6 +27,7 @@ public class Controller {
         Random r = new Random();
         double x = (r.nextDouble() * 2) - 1;
         double y = (r.nextDouble() * 2) - 1;
-        model.addEntity(new Entity(new Vector2D(x,y), new Model2D(6 ,.5)));
+        int sides = r.nextInt((10 - 3) + 1) + 3;
+        model.addEntity(new Entity(new Vector2D(x,y), new Model2D(sides ,.5)));
     }
 }

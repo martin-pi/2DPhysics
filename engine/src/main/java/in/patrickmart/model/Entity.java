@@ -1,5 +1,7 @@
 package in.patrickmart.model;
 
+import java.util.Random;
+
 public class Entity {
     private Vector2D position;
     private Vector2D velocity;
@@ -10,7 +12,8 @@ public class Entity {
         this.position = position;
         this.model = model;
         this.velocity = new Vector2D();
-        color = new double[] {1,1,1,1};
+        Random r = new Random();
+        color = new double[] {r.nextDouble(),0.65,0.80,0.75};
     }
 
     public Entity(Vector2D position, Model2D model, double[] color) {

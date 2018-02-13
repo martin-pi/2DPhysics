@@ -89,7 +89,7 @@ public class View implements ModelObserver{
                 glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
             //toggle the color with spacebar
             if ( key == GLFW_KEY_SPACE && action == GLFW_RELEASE ){
-                glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
+                glClearColor(0.5f, 0.59f, 0.66f, 0.0f);
             }
             if ( key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
                 glClearColor(0.0f, 0.0f, 1.0f, 0.0f);
@@ -130,7 +130,7 @@ public class View implements ModelObserver{
     private void loop() {
         //
         GL.createCapabilities();
-        glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
+        glClearColor(0.5f, 0.59f, 0.66f, 0.0f);
 
         while ( !glfwWindowShouldClose(window) ) {
             if (hasChanged) {
@@ -142,12 +142,18 @@ public class View implements ModelObserver{
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
             for (Entity e : frame.getEntities()){
-                glBegin(GL_TRIANGLES);
-                glColor4d(e.getColor()[0],e.getColor()[1],e.getColor()[2],e.getColor()[3]);
-                for (Vector2D v : e.getModel().getPoints()) {
-                    glVertex2d((v.getX() + e.getPosition().getX()), v.getY() + e.getPosition().getY());
+
+                for (int i = 0; i < e.getModel().getPoints().size(); i++) {
+                    Vector2D v = e.getModel().getPoints().get(i);
+                    Vector2D w = e.getModel().getPoints().get((i + 1) % e.getModel().getPoints().size());
+                    glBegin(GL_TRIANGLES);
+                    glColor4d(e.getColor()[0],e.getColor()[1],e.getColor()[2],e.getColor()[3]);
+                    glVertex2d(e.getPosition().getX(), e.getPosition().getY());
+                    glVertex2d(v.getX() + e.getPosition().getX(), v.getY() + e.getPosition().getY());
+                    glVertex2d(w.getX() + e.getPosition().getX(), w.getY() + e.getPosition().getY());
+                    glEnd();
                 }
-                glEnd();
+
 
             }
 
