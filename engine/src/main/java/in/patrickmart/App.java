@@ -19,5 +19,7 @@ public class App
             ViewTest view = new ViewTest(c, m);
             view.run();
         }
+
+        c.loop();
     }
 }
