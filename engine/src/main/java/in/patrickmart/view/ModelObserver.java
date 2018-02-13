@@ -1,7 +1,7 @@
 package in.patrickmart.view;
 
-public interface ModelObserver {
-   void update();
+import in.patrickmart.model.Scenario;
 
-   void pullFrame();
+public interface ModelObserver {
+   void update(Scenario s);
 }

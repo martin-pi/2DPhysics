@@ -4,14 +4,13 @@ import in.patrickmart.controller.*;
 import in.patrickmart.view.*;
 import in.patrickmart.model.*;
 /**
- * Hello world!
- *
+ * Sets up the MVC Structure of the application, gets things running.
  */
 public class App
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+        System.out.println( "Starting Simulation..." );
         Model m = new Model();
         Controller c = new Controller(m);
         if(args.length >= 1 && args[0].equals("headless")) {

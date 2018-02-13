@@ -19,26 +19,23 @@ import static org.lwjgl.system.MemoryUtil.*;
 import org.lwjgl.opengl.GL;
 
 
-public class View implements ModelObserver{
-    Model model;
-    Controller c;
-    long window;
-    boolean hasChanged;
-    Scenario frame;
+public class View implements ModelObserver {
+    private Model model;
+    private Controller c;
+    private long window;
+    private boolean hasChanged;
+    private Scenario scenario;
 
     public View(Controller c, Model model){
         this.model = model;
         this.c = c;
         model.addObserver(this);
-        pullFrame();
     }
 
     /**
      * method to run the view initialization and loop.
      */
     public void runView() {
-        System.out.println("Hello LWJGL " + Version.getVersion() + "!");
-
         init();
         loop();
 
@@ -52,15 +49,8 @@ public class View implements ModelObserver{
     /**
      * called by model to notify view of changes.
      */
-    public void update(){
-        hasChanged = true;
-    }
-
-    /**
-     * pulls the updated frame from the model.
-     */
-    public void pullFrame(){
-        frame = model.getScenario();
+    public void update(Scenario s){
+        this.scenario = s;
     }
 
     /**
@@ -89,10 +79,10 @@ public class View implements ModelObserver{
                 glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
             //toggle the color with spacebar
             if ( key == GLFW_KEY_SPACE && action == GLFW_RELEASE ){
-                glClearColor(0.5f, 0.59f, 0.66f, 0.0f);
+                glClearColor(0.8f, 1.0f, 0.8f, 0.0f);
             }
             if ( key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
-                glClearColor(0.0f, 0.0f, 1.0f, 0.0f);
+                glClearColor(1.0f, 0.8f, 0.8f, 0.0f);
                 c.viewEvent();
             }
         });
@@ -128,22 +118,18 @@ public class View implements ModelObserver{
      * main drawing loop for the view
      */
     private void loop() {
-        //
         GL.createCapabilities();
-        glClearColor(0.5f, 0.59f, 0.66f, 0.0f);
+        glClearColor(0.8f, 1.0f, 0.8f, 0.0f);
 
         while ( !glfwWindowShouldClose(window) ) {
-            if (hasChanged) {
-                pullFrame();
-                hasChanged = false;
-            }
             glfwPollEvents(); //checks for keyboard events
 
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-            for (Entity e : frame.getEntities()){
-
+            for (Entity e : scenario.getEntities()){
+                //Draw this entity.
                 for (int i = 0; i < e.getModel().getPoints().size(); i++) {
+                    // Draw triangles between the center of mass and the points making up the model.
                     Vector2D v = e.getModel().getPoints().get(i);
                     Vector2D w = e.getModel().getPoints().get((i + 1) % e.getModel().getPoints().size());
                     glBegin(GL_TRIANGLES);
@@ -153,7 +139,6 @@ public class View implements ModelObserver{
                     glVertex2d(w.getX() + e.getPosition().getX(), w.getY() + e.getPosition().getY());
                     glEnd();
                 }
-
 
             }
 

@@ -25,6 +25,7 @@ public class Model {
 
     public void addEntity(Entity e) {
         scenario.addEntity(e);
+        notifyObservers();
     }
 
     public void removeEntity(Entity e) {
@@ -36,7 +37,7 @@ public class Model {
      * TODO Remove this.
      *
     public void createTriangle(double x, double y,) {
-        notifyObservers();
+
     }*/
 
 
@@ -46,6 +47,7 @@ public class Model {
      */
     public void addObserver(View view){
         observers.add(view);
+        notifyObservers();
     }
 
     /**
@@ -61,7 +63,7 @@ public class Model {
      */
     public void notifyObservers() {
         for (View v: observers) {
-            v.update();
+            v.update(scenario);
         }
     }
 }
