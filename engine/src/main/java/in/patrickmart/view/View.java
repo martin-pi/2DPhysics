@@ -60,7 +60,7 @@ public class View implements ModelObserver{
      * pulls the updated frame from the model.
      */
     public void pullFrame(){
-        frame = model.getFrame();
+        frame = model.getScenario();
     }
 
     /**

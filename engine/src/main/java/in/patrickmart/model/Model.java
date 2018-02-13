@@ -19,26 +19,26 @@ public class Model {
      * accessor for the current frame/scenario.
      * @return current scenario
      */
-    public Scenario getFrame(){
+    public Scenario getScenario(){
         return scenario;
+    }
+
+    public void addEntity(Entity e) {
+        scenario.addEntity(e);
+    }
+
+    public void removeEntity(Entity e) {
+        scenario.removeEntity(e);
     }
 
     /**
      * creates a triangle.
-     */
-    public void createTriangle(double x, double y, double[] color) {
-        scenario.addEntity(new Entity(new Vector2D(x,y), new Model2D(3,.5), color));
-        notifyObserver();
-    }
+     * TODO Remove this.
+     *
+    public void createTriangle(double x, double y,) {
+        notifyObservers();
+    }*/
 
-    /**
-     * notifies Observers of changes.
-     */
-    public void notifyObserver() {
-        for (View v: observers) {
-            v.update();
-        }
-    }
 
     /**
      * adds a new view to list of observers.
@@ -54,5 +54,14 @@ public class Model {
      */
     public void removeObserver(View view){
         observers.remove(view);
+    }
+
+    /**
+     * notifies Observers of changes.
+     */
+    public void notifyObservers() {
+        for (View v: observers) {
+            v.update();
+        }
     }
 }
