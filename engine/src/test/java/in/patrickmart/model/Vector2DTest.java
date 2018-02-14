@@ -270,8 +270,8 @@ public class Vector2DTest
     }
 
     /**
- * tests vector rotation.
- */
+    * tests vector rotation.
+    */
     public void testVectorRotate()
     {
         Vector2D v = new Vector2D(4,6);
@@ -281,5 +281,19 @@ public class Vector2DTest
         Vector2D result = new Vector2D(Math.cos(rot) * mag,Math.sin(rot) * mag);
         assertEquals(result.toString(), v.rotate(angle).toString());
         System.out.println(result.toString());
+    }
+
+    /**
+     * test vector comparisons.
+     */
+    public void testVectorComparisons()
+    {
+        Vector2D v = new Vector2D(4,6);
+        double[] result = {4,6};
+        assertEquals(result[0], v.array()[0]);
+        assertEquals(result[1], v.array()[1]);
+
+        Vector2D v2 = v.copy();
+        assertTrue(v.equals(v2));
     }
 }
