@@ -227,13 +227,21 @@ public class Vector2DTest
 
 
     /**
-     * test vector heading.
+     * test vector angle calculations.
      */
-    public void testVectorHeading()
+    public void testVectorAngleMath()
     {
         Vector2D v = new Vector2D(4,6);
         double result = Math.atan2(v.getY(), v.getX());
         assertEquals(result,v.heading());
+
+        Vector2D v2 = new Vector2D(5,6);
+        result = v.heading() - v2.heading();
+        assertEquals(result, v2.angleBetween(v));
+
+        v2.setX(Math.cos(90));
+        v2.setY(Math.sin(90));
+        assertEquals(v2.toString(),v.fromAngle(90).toString());
     }
 
     /**
@@ -274,5 +282,4 @@ public class Vector2DTest
         assertEquals(result.toString(), v.rotate(angle).toString());
         System.out.println(result.toString());
     }
-
 }
