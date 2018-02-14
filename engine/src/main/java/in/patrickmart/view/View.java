@@ -19,7 +19,7 @@ import static org.lwjgl.system.MemoryUtil.*;
 import org.lwjgl.opengl.GL;
 
 
-public class View implements ModelObserver {
+public class View implements Observer {
     private Model model;
     private Controller c;
     private long window;
@@ -29,16 +29,15 @@ public class View implements ModelObserver {
     public View(Controller c, Model model){
         this.model = model;
         this.c = c;
+        init();
         model.addObserver(this);
     }
 
     /**
      * method to run the view initialization and loop.
      */
-    public void runView() {
-        init();
-        loop();
-
+    public void closeView()
+    {
         glfwFreeCallbacks(window);
         glfwDestroyWindow(window);
 
@@ -51,6 +50,33 @@ public class View implements ModelObserver {
      */
     public void update(Scenario s){
         this.scenario = s;
+        init();                   
+        GL.createCapabilities();
+        glClearColor(0.8f, 1.0f, 0.8f, 0.0f);
+
+        while ( !glfwWindowShouldClose(window) ) {
+            glfwPollEvents(); //checks for keyboard events
+
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+            for (Entity e : scenario.getEntities()){
+                //Draw this entity.
+                for (int i = 0; i < e.getModel().getPoints().size(); i++) {
+                    // Draw triangles between the center of mass and the points making up the model.
+                    Vector2D v = e.getModel().getPoints().get(i);
+                    Vector2D w = e.getModel().getPoints().get((i + 1) % e.getModel().getPoints().size());
+                    glBegin(GL_TRIANGLES);
+                    glColor4d(e.getColor()[0],e.getColor()[1],e.getColor()[2],e.getColor()[3]);
+                    glVertex2d(e.getPosition().getX(), e.getPosition().getY());
+                    glVertex2d(v.getX() + e.getPosition().getX(), v.getY() + e.getPosition().getY());
+                    glVertex2d(w.getX() + e.getPosition().getX(), w.getY() + e.getPosition().getY());
+                    glEnd();
+                }
+
+            }
+
+            glfwSwapBuffers(window);
+        }
     }
 
     /**
@@ -77,6 +103,8 @@ public class View implements ModelObserver {
         glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
             if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
                 glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
+                c.stop();
+                closeView();
             //toggle the color with spacebar
             if ( key == GLFW_KEY_SPACE && action == GLFW_RELEASE ){
                 glClearColor(0.8f, 1.0f, 0.8f, 0.0f);
@@ -112,37 +140,5 @@ public class View implements ModelObserver {
         glfwSwapInterval(1);
         // Make the window visible
         glfwShowWindow(window);
-    }
-
-    /**
-     * main drawing loop for the view
-     */
-    private void loop() {
-        GL.createCapabilities();
-        glClearColor(0.8f, 1.0f, 0.8f, 0.0f);
-
-        while ( !glfwWindowShouldClose(window) ) {
-            glfwPollEvents(); //checks for keyboard events
-
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-            for (Entity e : scenario.getEntities()){
-                //Draw this entity.
-                for (int i = 0; i < e.getModel().getPoints().size(); i++) {
-                    // Draw triangles between the center of mass and the points making up the model.
-                    Vector2D v = e.getModel().getPoints().get(i);
-                    Vector2D w = e.getModel().getPoints().get((i + 1) % e.getModel().getPoints().size());
-                    glBegin(GL_TRIANGLES);
-                    glColor4d(e.getColor()[0],e.getColor()[1],e.getColor()[2],e.getColor()[3]);
-                    glVertex2d(e.getPosition().getX(), e.getPosition().getY());
-                    glVertex2d(v.getX() + e.getPosition().getX(), v.getY() + e.getPosition().getY());
-                    glVertex2d(w.getX() + e.getPosition().getX(), w.getY() + e.getPosition().getY());
-                    glEnd();
-                }
-
-            }
-
-            glfwSwapBuffers(window);
-        }
     }
 }

@@ -6,6 +6,7 @@ import java.util.Random;
 
 public class Controller {
     Model model;
+    boolean running;
 
     public Controller(Model model) {
         this.model = model;
@@ -19,6 +20,36 @@ public class Controller {
         return model;
     }
 
+    public void stop()
+    {
+        running = false;
+    }
+
+    public void loop() {
+        // Similar to code found at https://stackoverflow.com/questions/18283199/java-main-game-loop
+        long initialTime = System.nanoTime();
+        long timer = System.currentTimeMillis();
+        final int updatesPerSecond = 30;
+        final long updateTime = 1000000000 / (updatesPerSecond); // 1000000000 nanoseconds in a second.
+        long nextUpdateTime = initialTime + updateTime;
+        int ticks = 0;
+
+        while (running) {
+            long currentTime = System.nanoTime();
+
+            if (currentTime >= nextUpdateTime) {
+                step();
+                ticks++;
+                nextUpdateTime += updateTime + ((nextUpdateTime - currentTime) * 2);
+            }
+            System.out.println("zoom");
+        }
+    }
+
+    public void step()
+    {
+        model.step();
+    }
     /**
      * a view event that gets handled by the controller.
      */

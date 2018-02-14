@@ -5,14 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
-public class Model {
-    ArrayList<View> observers;
+public class Model extends Subject{
+    ArrayList<Observer> observers;
 
     private Scenario scenario;
 
     public Model(){
         this.scenario = new Scenario();
-        observers = new ArrayList<View>();
+        observers = new ArrayList<Observer>();
     }
 
     /**
@@ -25,20 +25,12 @@ public class Model {
 
     public void addEntity(Entity e) {
         scenario.addEntity(e);
-        notifyObservers();
+        updateObservers();
     }
 
     public void removeEntity(Entity e) {
         scenario.removeEntity(e);
     }
-
-    /**
-     * creates a triangle.
-     * TODO Remove this.
-     *
-    public void createTriangle(double x, double y,) {
-
-    }*/
 
 
     /**
@@ -47,7 +39,7 @@ public class Model {
      */
     public void addObserver(View view){
         observers.add(view);
-        notifyObservers();
+        updateObservers();
     }
 
     /**
@@ -58,12 +50,17 @@ public class Model {
         observers.remove(view);
     }
 
+    public void step() {
+        //System.out.println("Model: Stepped.");
+        updateObservers();
+    }
+
     /**
      * notifies Observers of changes.
      */
-    public void notifyObservers() {
-        for (View v: observers) {
-            v.update(scenario);
+    public void updateObservers() {
+        for (Observer o: observers) {
+            o.update(scenario);
         }
     }
 }
