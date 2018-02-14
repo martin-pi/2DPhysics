@@ -15,39 +15,26 @@ public class ControllerTest {
         long timer = System.currentTimeMillis();
         final int updatesPerSecond = 30;
         final long updateTime = 1000000000 / (updatesPerSecond); // 1000000000 nanoseconds in a second.
-        //double delta = 0; // Amount of time passed since last loop as a percentage of the amount of time needed.
 		long nextUpdateTime = initialTime + updateTime;
         int ticks = 0;
-		
-		int attempts = 0;
 
         while (running) {
             long currentTime = System.nanoTime();
-			
-			//System.out.println(" " + (nextUpdateTime - currentTime));
-            //delta += (currentTime - initialTime) / updateTime;
-            //System.out.println(" " + delta + " = delta + " + ((currentTime - initialTime) / updateTime) );
 
             if (currentTime >= nextUpdateTime) {
                 step();
                 ticks++;
-                //delta = 0;
-				nextUpdateTime += updateTime;
-				System.out.println(" " + attempts + " attempts taken.");
-				attempts = 0;
+				nextUpdateTime += updateTime + ((nextUpdateTime - currentTime) * 2);
             } else {
 				attempts++;
 			}
-
-            if (ticks > 100) {
-                running = false;
-            }
         }
 
-        double timeElapsed = (System.currentTimeMillis() - timer) * 0.001;
-        System.out.println("Completed 100 cycles in " + timeElapsed + " seconds.");
+        /*double timeElapsed = (System.currentTimeMillis() - timer) * 0.001;
+        System.out.println("Completed 1000 cycles in " + timeElapsed + " seconds.");
         System.out.println("Each update should have taken " + updateTime * 0.000000001 + " seconds.");
-        System.out.println("100 cycles should have taken " + updateTime * 0.000000001 * 100 + " seconds.");
+        System.out.println("1000 cycles should have taken " + updateTime * 0.000000001 * 1000 + " seconds.");
+		*/
     }
 
     public void step() {
