@@ -10,6 +10,7 @@ public class Controller {
 
     public Controller(Model model) {
         this.model = model;
+        this.running = false ;
     }
 
     /**
@@ -26,6 +27,7 @@ public class Controller {
     }
 
     public void loop() {
+        this.running = true;
         // Similar to code found at https://stackoverflow.com/questions/18283199/java-main-game-loop
         long initialTime = System.nanoTime();
         long timer = System.currentTimeMillis();
@@ -42,7 +44,6 @@ public class Controller {
                 ticks++;
                 nextUpdateTime += updateTime + ((nextUpdateTime - currentTime) * 2);
             }
-            System.out.println("zoom");
         }
     }
 

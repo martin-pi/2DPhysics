@@ -16,7 +16,7 @@ public class App
         if(args.length >= 1 && args[0].equals("headless")) {
             System.out.println("Headless Mode");
         } else {
-            View view = new View(c, m);
+            Viewer v = new Viewer(c, m);
         }
         c.loop();
     }

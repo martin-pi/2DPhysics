@@ -35,10 +35,10 @@ public class Model extends Subject{
 
     /**
      * adds a new view to list of observers.
-     * @param view
+     * @param o
      */
-    public void addObserver(View view){
-        observers.add(view);
+    public void addObserver(Observer o){
+        observers.add(o);
         updateObservers();
     }
 
@@ -51,7 +51,7 @@ public class Model extends Subject{
     }
 
     public void step() {
-        //System.out.println("Model: Stepped.");
+        System.out.println("Model: Stepped.");
         updateObservers();
     }
 
@@ -61,6 +61,7 @@ public class Model extends Subject{
     public void updateObservers() {
         for (Observer o: observers) {
             o.update(scenario);
+            System.out.println("Model: Updated an observer.");
         }
     }
 }

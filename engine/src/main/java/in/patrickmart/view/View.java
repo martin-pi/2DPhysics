@@ -50,7 +50,7 @@ public class View implements Observer {
      */
     public void update(Scenario s){
         this.scenario = s;
-        init();                   
+        init();
         GL.createCapabilities();
         glClearColor(0.8f, 1.0f, 0.8f, 0.0f);
 
