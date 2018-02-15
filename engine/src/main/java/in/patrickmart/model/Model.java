@@ -12,44 +12,12 @@ public class Model extends Subject{
 
     public Model(){
         this.scenario = new Scenario();
-        observers = new ArrayList<Observer>();
+        observers = new ArrayList<>();
     }
 
     /**
-     * accessor for the current frame/scenario.
-     * @return current scenario
+     * Step the model forward. TODO implement delta time to allow the model to step by variable amounts.
      */
-    public Scenario getScenario(){
-        return scenario;
-    }
-
-    public void addEntity(Entity e) {
-        scenario.addEntity(e);
-        updateObservers();
-    }
-
-    public void removeEntity(Entity e) {
-        scenario.removeEntity(e);
-    }
-
-
-    /**
-     * adds a new view to list of observers.
-     * @param o
-     */
-    public void addObserver(Observer o){
-        observers.add(o);
-        updateObservers();
-    }
-
-    /**
-     * removes specified view from observer list.
-     * @param view
-     */
-    public void removeObserver(View view){
-        observers.remove(view);
-    }
-
     public void step() {
         System.out.println("Model: Stepped.");
         updateObservers();
@@ -63,5 +31,29 @@ public class Model extends Subject{
             o.update(scenario);
             System.out.println("Model: Updated an observer.");
         }
+    }
+
+    /**
+     * Add a new entity to the model.
+     * @param e the entity to add to the model
+     */
+    public void addEntity(Entity e) {
+        scenario.addEntity(e);
+    }
+
+    /**
+     * Remove a specific entity from the model. TODO remove entities by id
+     * @param e The entity to remove from the model
+     */
+    public void removeEntity(Entity e) {
+        scenario.removeEntity(e);
+    }
+
+    /**
+     * accessor for the current frame/scenario.
+     * @return current scenario
+     */
+    public Scenario getScenario(){
+        return scenario;
     }
 }

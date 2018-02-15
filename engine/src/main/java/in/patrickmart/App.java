@@ -13,7 +13,7 @@ public class App
         System.out.println( "Starting Simulation..." );
         Model m = new Model();
         Controller c = new Controller(m);
-        if(args.length >= 1 && args[0].equals("headless")) {
+        if(args.length >= 1 && args[0].equals("h")) {
             System.out.println("Headless Mode");
         } else {
             Viewer v = new Viewer(c, m);

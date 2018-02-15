@@ -37,7 +37,7 @@ public class OpenGLFWTest   extends TestCase
     {
         Model m = new Model();
         Controller c = new Controller(m);
-        View v = new View(c, m);
+        Viewer v = new Viewer(c, m);
         assertTrue(true );
     }
 }

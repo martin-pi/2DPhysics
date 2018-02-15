@@ -13,18 +13,25 @@ import org.lwjgl.system.*;
 
 import java.nio.*;
 
-import static java.lang.Thread.sleep;
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryStack.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
+/**
+ * Acts as an OpenGL viewer for scenarios. Implements the Observer interface and can act as an MVC's 'View'.
+ */
 public class Viewer implements Observer {
     private Model model;
     private Controller controller;
     private long window; // Handle for GLFW window
 
+    /**
+     * Constructor for Viewer objects.
+     * @param c The MVC's controller object
+     * @param m The MVC's model object
+     */
     public Viewer(Controller c, Model m) {
         this.controller = c;
         this.model = m;
@@ -34,50 +41,66 @@ public class Viewer implements Observer {
         m.addObserver(this);
     }
 
+    /**
+     * Follows the LWJGL procedures to open and set up a window to render in.
+     */
     public void openWindow() {
-        System.out.println(Version.getVersion()); //TODO remove.
-
+        // Point GLFW to System.err to log its errors, if there are any.
         GLFWErrorCallback.createPrint(System.err).set();
 
+        // Attempt to initialize GLFW.
         if ( !glfwInit() ) {
             throw new IllegalStateException("Unable to initialize GLFW");
         }
 
+        // Set windowhints to modify behavior of future GLFW windows.
         glfwDefaultWindowHints();
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
         glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+        glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
 
-        window = glfwCreateWindow(300, 300, "Window Title", NULL, NULL);
+        // Create a new window.
+        window = glfwCreateWindow(1280, 800, "Simulation Viewer", NULL, NULL);
         if (window == NULL) {
             throw new RuntimeException("Failed to create the GLFW window");
         }
 
-        glfwSetKeyCallback(window, (window, key, scancode, action, modes) -> {
-            if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE ) {
-                closeWindow();
-                controller.stop();
-                System.out.println("Stopped the model, closed the Viewing window.");
-            }
-            if ( key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
-                glClearColor(1.0f, 0.8f, 0.8f, 0.0f);
-                controller.viewEvent();
-                System.out.println("Added an entity to the model.");
-            }
-        });
+        // Create callbacks to handle key presses from the user.
+        createCallbacks();
 
-        glfwMakeContextCurrent(window);
+        // Move the window around on the screen. https://stackoverflow.com/questions/45555227
+        // GLFW's origins in C show through here, as pWidth and pHeight are "pointers".
+        try ( MemoryStack stack = stackPush() ) { // Get the thread stack and push a new frame
+            IntBuffer pWidth = stack.mallocInt(1); // int*
+            IntBuffer pHeight = stack.mallocInt(1); // int*
 
-        glfwSwapInterval(1);
+            // Get the window size passed to glfwCreateWindow
+            glfwGetWindowSize(window, pWidth, pHeight);
 
-        glfwShowWindow(window);
+            // Get the resolution of the primary monitor
+            GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+
+            // Center the window
+            glfwSetWindowPos(
+                    window,
+                    (vidmode.width() - pWidth.get(0)) / 2,
+                    (vidmode.height() - pHeight.get(0)) / 2
+            );
+        } // the stack frame is popped automatically
+
+        glfwMakeContextCurrent(window); // Point OpenGL to our new window?
+        glfwSwapInterval(1); // Enable VSync.
+        glfwShowWindow(window); // Now that the window is fully built, show it to the user.
     }
 
+    /**
+     * Updates the content of the window with information from the model.
+     * @param s The model's currently loaded scenario
+     */
     public void update(Scenario s) {
-        System.out.println("View:  Updated.");
-
         GL.createCapabilities();
 
-        // Set the clear color
+        // Set the clear or "background" color.
         glClearColor(0.8f, 1.0f, 0.8f, 0.0f);
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -98,13 +121,14 @@ public class Viewer implements Observer {
             }
         }
 
-        glfwSwapBuffers(window);
+        glfwSwapBuffers(window); // Place the frame that we just rendered onto the window.
 
-        // Poll for window events. The key callback above will only be
-        // invoked during this call.
-        glfwPollEvents();
+        glfwPollEvents(); // Poll for window events. This utilizes the callbacks created in createCallbacks()
     }
 
+    /**
+     * Packs up the GLFW window and closes it out elegantly.
+     */
     public void closeWindow() {
         // Free the window callbacks and destroy the window
         glfwFreeCallbacks(window);
@@ -113,5 +137,23 @@ public class Viewer implements Observer {
         // Terminate GLFW and free the error callback
         glfwTerminate();
         glfwSetErrorCallback(null).free();
+    }
+
+    /**
+     * Creates callbacks that define the program's response to user input.
+     */
+    private void createCallbacks() {
+        glfwSetKeyCallback(window, (window, key, scancode, action, modes) -> {
+            if ((key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) || glfwWindowShouldClose(window)) {
+                closeWindow();
+                controller.stop();
+                System.out.println("Stopped the model, closed the Viewing window.");
+            }
+            if ( key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
+                glClearColor(1.0f, 0.8f, 0.8f, 0.0f);
+                controller.viewEvent();
+                System.out.println("Added an entity to the model.");
+            }
+        });
     }
 }
