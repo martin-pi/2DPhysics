@@ -18,8 +18,8 @@ $ java -jar engine-VERSION.jar headless
 ## Project Overview
 This project seeks to create a 2 dimensional physics simulation consisting of n-dimensional rigid body polygons. This simulation could be useful to game developers as a way of representing their game’s objects in two dimensional space. The physics model should be able to run headlessly, without any visual representation of the events within. Because this isn’t immediately useful to most people, the project will also include a program to view and create simulations to see how our engine works. This can be used by people interested in using our library or anyone interested in learning how different objects will interact with each other and various forces that they will be able to control. The users that wish to learn from this program will need to be able to view and control the various aspects of the background physics such as information about the object as well as the forces acting upon it at any time. These users will probably also want to be able to control the simulation by having rewind, pause, and fast forward features as well as a detached camera capable of zooming in and out to change the user’s focus. 
 #### A-Level Features
-- [ ] The program should be able to perform basic vector math operations such as dot and cross products.
-- [ ] The program should be able to represent shapes as collections of vectors.
+- [x] The program should be able to perform basic vector math operations such as dot and cross products.
+- [x] The program should be able to represent shapes as collections of vectors.
 - [ ] The program should maintain an enum list of object materials such as concrete, iron, or ice.
 - [ ] The program should contain physics objects, which reference shapes and materials to give themselves a physical representation in their environment.
 - [ ] The program should have environments or scenarios, which hold collections of physics objects. These environments should be easily searchable in 2 dimensional space. This might be made easier with quadtrees.
