@@ -57,7 +57,6 @@ public class Viewer implements Observer {
         glfwDefaultWindowHints();
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
         glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-        glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
 
         // Create a new window.
         window = glfwCreateWindow(1280, 800, "Simulation Viewer", NULL, NULL);
@@ -150,9 +149,8 @@ public class Viewer implements Observer {
                 System.out.println("Stopped the model, closed the Viewing window.");
             }
             if ( key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
-                glClearColor(1.0f, 0.8f, 0.8f, 0.0f);
-                controller.viewEvent();
                 System.out.println("Added an entity to the model.");
+                controller.viewEvent();
             }
         });
     }

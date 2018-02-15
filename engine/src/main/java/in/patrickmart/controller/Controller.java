@@ -42,7 +42,7 @@ public class Controller {
             if (currentTime >= nextUpdateTime) {
                 step();
                 ticks++;
-                nextUpdateTime += updateTime + ((nextUpdateTime - currentTime) * 2);
+                nextUpdateTime += updateTime;  //+ ((nextUpdateTime - currentTime) * 2); increased accuracy but caused hang.
             }
         }
     }

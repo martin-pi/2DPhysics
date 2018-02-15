@@ -6,20 +6,18 @@ import java.util.List;
 import java.util.Vector;
 
 public class Model extends Subject{
-    ArrayList<Observer> observers;
 
     private Scenario scenario;
 
     public Model(){
         this.scenario = new Scenario();
-        observers = new ArrayList<>();
     }
 
     /**
      * Step the model forward. TODO implement delta time to allow the model to step by variable amounts.
      */
     public void step() {
-        System.out.println("Model: Stepped.");
+
         updateObservers();
     }
 
@@ -29,7 +27,6 @@ public class Model extends Subject{
     public void updateObservers() {
         for (Observer o: observers) {
             o.update(scenario);
-            System.out.println("Model: Updated an observer.");
         }
     }
 

@@ -13,7 +13,7 @@ import in.patrickmart.view.Observer;
  * class uses concurrent sets.
  */
 abstract class Subject {
-    private final Set<Observer> observers = Collections.newSetFromMap(new ConcurrentHashMap<Observer, Boolean>(0));
+    protected final Set<Observer> observers = Collections.newSetFromMap(new ConcurrentHashMap<Observer, Boolean>(0));
 
     /**
      * Subscribes an observer to this subject.
