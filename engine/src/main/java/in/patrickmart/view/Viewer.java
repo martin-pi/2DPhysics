@@ -154,11 +154,8 @@ public class Viewer implements Observer {
             }
         });
 
-        glfwSetWindowCloseCallback(window,(window) -> {
-            if(glfwWindowShouldClose(window))
-            {
-                closeWindow();
-            }
-        });
+        glfwSetWindowCloseCallback(window,(window) ->
+            closeWindow()
+        );
     }
 }
