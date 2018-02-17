@@ -7,10 +7,12 @@ import java.util.Random;
 public class Controller {
     Model model;
     boolean running;
+    int ticks;
 
     public Controller(Model model) {
         this.model = model;
         this.running = false ;
+        ticks = 0;
     }
 
     /**
@@ -34,7 +36,6 @@ public class Controller {
         final int updatesPerSecond = 30;
         final long updateTime = 1000000000 / (updatesPerSecond); // 1000000000 nanoseconds in a second.
         long nextUpdateTime = initialTime + updateTime;
-        int ticks = 0;
 
         while (running) {
             long currentTime = System.nanoTime();
