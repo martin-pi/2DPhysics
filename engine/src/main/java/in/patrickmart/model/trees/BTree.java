@@ -21,7 +21,7 @@ public class BTree {
     /**
      * add a node at the same height if possible.
     */
-    public addNode(Entity e)
+    public void addNode(Entity e)
     {
     }
 
@@ -46,6 +46,7 @@ public class BTree {
     public String toString()
     {
         //todo
+        return "todo";
     }
 
 
