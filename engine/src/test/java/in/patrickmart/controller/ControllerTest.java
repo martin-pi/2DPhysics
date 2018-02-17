@@ -31,18 +31,16 @@ public class ControllerTest
     }
 
     /**
-     * Rigourous Test :-)
+     * Test whether the controller loop runs, and whether it steps with reasonable consistency.
      */
     public void testControllerLoop()
     {
         Model m = new Model();
         Controller c = new Controller(m);
-        long initialTime = System.nanoTime();
-        c.loop(); //need to figure out how to run this in a separate thread
-        c.viewEvent();
-        c.stop();
-        long testTime = (System.nanoTime() - initialTime) / c.ticks;
-        long expectedTime = 3; //need to figure out how much time this should take
-        assertTrue(testTime <= expectedTime);
+        c.loop(300); //need to figure out how to run this in a separate thread
+
+        double acceptableVariance = 5;
+        assertTrue(c.getActualTicksPerSecond() > c.getTicksPerSecond() - acceptableVariance
+            && c.getTicksPerSecond() < c.getTicksPerSecond() + acceptableVariance);
     }
 }

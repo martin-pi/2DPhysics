@@ -18,6 +18,6 @@ public class App
         } else {
             Viewer v = new Viewer(c, m);
         }
-        c.loop();
+        c.loop(-1);
     }
 }
