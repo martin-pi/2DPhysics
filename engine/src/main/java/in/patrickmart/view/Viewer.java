@@ -97,32 +97,36 @@ public class Viewer implements Observer {
      * @param s The model's currently loaded scenario
      */
     public void update(Scenario s) {
-        GL.createCapabilities();
+        if (!glfwWindowShouldClose(window))
+        {
+            GL.createCapabilities();
 
-        // Set the clear or "background" color.
-        glClearColor(0.8f, 1.0f, 0.8f, 0.0f);
+            // Set the clear or "background" color.
+            glClearColor(0.8f, 1.0f, 0.8f, 0.0f);
 
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        // Draw all entities in the model.
-        for (Entity e : s.getEntities()){
-            // Draw this entity.
-            for (int i = 0; i < e.getModel().getPoints().size(); i++) {
-                // Draw triangles between the center of mass and the points making up the model.
-                Vector2D v = e.getModel().getPoints().get(i);
-                Vector2D w = e.getModel().getPoints().get((i + 1) % e.getModel().getPoints().size());
-                glBegin(GL_TRIANGLES);
-                glColor4d(e.getColor()[0],e.getColor()[1],e.getColor()[2],e.getColor()[3]);
-                glVertex2d(e.getPosition().getX(), e.getPosition().getY());
-                glVertex2d(v.getX() + e.getPosition().getX(), v.getY() + e.getPosition().getY());
-                glVertex2d(w.getX() + e.getPosition().getX(), w.getY() + e.getPosition().getY());
-                glEnd();
+            // Draw all entities in the model.
+            for (Entity e : s.getEntities()) {
+                // Draw this entity.
+                for (int i = 0; i < e.getModel().getPoints().size(); i++) {
+                    // Draw triangles between the center of mass and the points making up the model.
+                    Vector2D v = e.getModel().getPoints().get(i);
+                    Vector2D w = e.getModel().getPoints().get((i + 1) % e.getModel().getPoints().size());
+                    glBegin(GL_TRIANGLES);
+                    glColor4d(e.getColor()[0], e.getColor()[1], e.getColor()[2], e.getColor()[3]);
+                    glVertex2d(e.getPosition().getX(), e.getPosition().getY());
+                    glVertex2d(v.getX() + e.getPosition().getX(), v.getY() + e.getPosition().getY());
+                    glVertex2d(w.getX() + e.getPosition().getX(), w.getY() + e.getPosition().getY());
+                    glEnd();
+                }
             }
+
+            glfwSwapBuffers(window); // Place the frame that we just rendered onto the window.
+
+            glfwPollEvents(); // Poll for window events. This utilizes the callbacks created in createCallbacks()
         }
-
-        glfwSwapBuffers(window); // Place the frame that we just rendered onto the window.
-
-        glfwPollEvents(); // Poll for window events. This utilizes the callbacks created in createCallbacks()
+        else closeWindow();
     }
 
     /**
@@ -130,12 +134,15 @@ public class Viewer implements Observer {
      */
     public void closeWindow() {
         // Free the window callbacks and destroy the window
+        controller.stop();
+        System.out.println("Stopped the model, closed the Viewing window.");
         glfwFreeCallbacks(window);
         glfwDestroyWindow(window);
 
         // Terminate GLFW and free the error callback
         glfwTerminate();
         glfwSetErrorCallback(null).free();
+        System.out.println("closing");
     }
 
     /**
@@ -145,8 +152,6 @@ public class Viewer implements Observer {
         glfwSetKeyCallback(window, (window, key, scancode, action, modes) -> {
             if ((key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) || glfwWindowShouldClose(window)) {
                 closeWindow();
-                controller.stop();
-                System.out.println("Stopped the model, closed the Viewing window.");
             }
             if ( key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
                 System.out.println("Added an entity to the model.");
