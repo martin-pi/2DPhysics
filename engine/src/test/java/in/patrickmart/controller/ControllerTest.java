@@ -37,7 +37,7 @@ public class ControllerTest
     {
         Model m = new Model();
         Controller c = new Controller(m);
-        c.loop(300); //need to figure out how to run this in a separate thread
+        c.loop(300); //Run the controller for 300 ticks. Should take about 5 seconds.
 
         double acceptableVariance = 5;
         assertTrue(c.getActualTicksPerSecond() > c.getTicksPerSecond() - acceptableVariance
