@@ -3,6 +3,7 @@ package in.patrickmart.model.trees;
 import in.patrickmart.model.Entity;
 
 public class BTree {
+    private final static int M = 4; //must be greater than 2 and even
     private BTreeNode root; //root of B-tree
     private int height;
     private int n; //items in tree
@@ -13,41 +14,57 @@ public class BTree {
      */
     public BTree(Entity first)
     {
-        root = new BTreeNode(0,first,false);
+        root = new BTreeNode(0,first,true); //create root node with no children
         n = 1;
-        height = 1;
+        height = 0;
     }
 
     /**
      * add a node at the same height if possible.
+     * @param id new node's id
+     * @param e entity to be stored
     */
-    public void addNode(Entity e)
+    public void addNode(int id, Entity e)
     {
+
     }
 
     /**
-     * search by the entity to find id
-     * todo
+     * search by the entity to find id.
+     *
+     * @param b node to search from.
+     * @param id id to search for.
+     * @param h current node height.
+     * @return found node or null.
      */
-     public int search(Entity e)
+     public BTreeNode search(BTreeNode b, int id, int h)
      {
-     return root.id;
+         if (h == 0) //external node (children are leaves)
+         {
+             for (int i = 0; i < b.n; i++)
+             {
+                 if(b.children[i].id == id){
+                     return b.children[i];
+                 }
+             }
+         }
+         else{ //internal node
+             for (int i = 0; i < b.n; i++)
+             {
+                 if (b.children[i].id == id){
+                     return b.children[i];
+                 }
+                 if (b.children[i].id > id) {
+                     return search(b.children[i], id, h - 1);
+                 }
+             }
+         }
+         return null;
      }
 
-     /**
-      * search by id
-     * todo
-    */
-    public Entity search(int id)
-    {
-        return root.e;
-    }
-
-    public String toString()
-    {
+     public String toString()
+     {
         //todo
         return "todo";
-    }
-
-
+     }
 }
