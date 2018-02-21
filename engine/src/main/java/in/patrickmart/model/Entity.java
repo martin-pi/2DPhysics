@@ -92,7 +92,7 @@ public class Entity {
      * Use the CollisionData generated from the collision check to move out of the collision and apply Normal force.
      * @param data Collision data for this collision.
      */
-    public void collisionResponse(CollisionData data) {
+    public void collisionResponse() {
 
     }
 		
@@ -128,8 +128,8 @@ public class Entity {
         return position.toString() + ", " + model.toString() +", " + velocity.toString() + ", " + color.toString();
     }
 	
-	public equals(Entity e) {
-		return this.id == e,id;
+	public boolean equals(Entity e) {
+		return this.id == e.id;
 	}
 	
 	public static int getNewId() {

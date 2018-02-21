@@ -29,9 +29,9 @@ public class Scenario {
             e.calculatePosition();
         }
         // Check if any collisions have occurred.
-        //collisionCheck();
+        collisionCheck();
         // For each collision that has happened, use the resulting collision data to adjust object locations, apply forces.
-        //collisionResponse();
+        collisionResponse();
     }
 
     /**
@@ -40,20 +40,22 @@ public class Scenario {
     private void collisionCheck() {
         for (Entity e: entities) {
             for (Entity n: entities) {
-				CollisionData c = e.collisionCheck(n);
-				if (c != null) {
-					// There is a collision. Check to make sure we haven't already detected this collision.
-					boolean duplicate = false;
-					for (CollisionData d : collisions) {
-						if (c.equals(d)) {
-							duplicate = true;
-						}
-					}
-					if (!duplicate) {
-						// This is not a duplicate collsion.
-						collisions.add(c);
-					}
-					
+                if (!e.equals(n))
+                {
+                    CollisionData c = e.collisionCheck(n);
+                    if (c != null) {
+                        // There is a collision. Check to make sure we haven't already detected this collision.
+                        boolean duplicate = false;
+                        for (CollisionData d : collisions) {
+                            if (c.equals(d)) {
+                                duplicate = true;
+                            }
+                        }
+                        if (!duplicate) {
+                            // This is not a duplicate collsion.
+                            collisions.add(c);
+                        }
+                    }
 				}
             }
         }
