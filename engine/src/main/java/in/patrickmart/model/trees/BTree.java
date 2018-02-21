@@ -14,7 +14,7 @@ public class BTree {
      */
     public BTree(Entity first)
     {
-        root = new BTreeNode(0,first,true); //create root node with no children
+        root = new BTreeNode(0,first); //create root node with no children
         n = 1;
         height = 0;
     }
@@ -36,10 +36,21 @@ public class BTree {
      * insert node and rebalance tree.
      *
      */
-    public void insert(BTreeNode t)
+    public void insert(BTreeNode c, BTreeNode t)
     {
-        if(root.id > t.id)
+        if(c.id > t.id)
         {
+            for (int i = 0; i < c.children.length; i++)
+            {
+                if(c.children[i].id > t.id)
+                {
+                    //add to that childs children if possible.
+                }
+                else if(c.children[i+1] == null)
+                {
+                    c.children[i + 1] = t;
+                }
+            }
         }
     }
 
