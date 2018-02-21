@@ -78,15 +78,15 @@ public class Entity {
         // TODO divide checkCollision into a rough and a precise check. Also implement AABB to do rough.
         // TODO Implement raycasting so we can predict collision.
 		AABB otherBounds = other.getModel().getBounds();
-		double oTop = otherBounds.getCenter().getY() + otherBounds.getHalfHeight();
-		double oBottom = otherBounds.getCenter().getY() - otherBounds.getHalfHeight();
-		double oLeft = otherBounds.getCenter().getX() - otherBounds.getHalfWidth();
-		double oRight = otherBounds.getCenter().getX() + otherBounds.getHalfWidth();
+		double oTop = other.getPosition().getY() + otherBounds.getHalfHeight();
+		double oBottom = other.getPosition().getY() - otherBounds.getHalfHeight();
+		double oLeft = other.getPosition().getX() - otherBounds.getHalfWidth();
+		double oRight = other.getPosition().getX() + otherBounds.getHalfWidth();
 		
-		double top = model.getBounds().getCenter().getY() + model.getBounds().getHalfHeight();
-		double bottom = model.getBounds().getCenter().getY() - model.getBounds().getHalfHeight();
-		double left = model.getBounds().getCenter().getX() - model.getBounds().getHalfWidth();
-		double right = model.getBounds().getCenter().getX() + model.getBounds().getHalfWidth();
+		double top = position.getY() + model.getBounds().getHalfHeight();
+		double bottom = position.getY() - model.getBounds().getHalfHeight();
+		double left = position.getX() - model.getBounds().getHalfWidth();
+		double right = position.getX() + model.getBounds().getHalfWidth();
 		
 		if (left < oRight && right > oLeft && bottom < oTop && top > oBottom) {
 			return new CollisionData(this, other);

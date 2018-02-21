@@ -66,6 +66,9 @@ public class Scenario {
      */
     private void collisionResponse() {
         //TODO iterate through collisions and call resolve on the collisiondata objects to get collisionResponses.
+        for (CollisionData c : collisions){
+            c.resolve();
+        }
     }
 
     /**
