@@ -18,4 +18,9 @@ public class BTreeNode {
         this.next = null;
         n = 0;
     }
+
+    public String toString()
+    {
+        return "id: " + id + "" + e.toString();
+    }
 }

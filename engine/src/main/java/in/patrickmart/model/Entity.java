@@ -90,4 +90,13 @@ public class Entity {
     public void collisionResponse(CollisionData data) {
 
     }
+
+    /**
+     * @return String of the entity's components for debugging i guess
+     */
+    public String toString()
+    {
+        return position.toString() + ", " + model.toString() +", " + velocity.toString() + ", " + color.toString();
+    }
+
 }

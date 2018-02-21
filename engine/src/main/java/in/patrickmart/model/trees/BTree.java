@@ -28,13 +28,14 @@ public class BTree {
     {
         BTreeNode t = new BTreeNode(n,e);
         n++;
-        insert(t);
+        insert(root, t);
 
     }
 
     /**
      * insert node and rebalance tree.
-     *
+     * @param c node check for insert
+     * @param t node to be inserted
      */
     public void insert(BTreeNode c, BTreeNode t)
     {
@@ -42,13 +43,17 @@ public class BTree {
         {
             for (int i = 0; i < c.children.length; i++)
             {
-                if(c.children[i].id > t.id)
+                if(c.children[i].id >= t.id)
                 {
                     //add to that childs children if possible.
                 }
-                else if(c.children[i+1] == null)
+                else if(c.children[i+1] == null) //if next child is empty
                 {
                     c.children[i + 1] = t;
+                }
+                else if(c.children.length == i + 1) //if all children are smaller
+                {
+                    //need to re-balance the tree at this point.
                 }
             }
         }
@@ -87,9 +92,13 @@ public class BTree {
          return null;
      }
 
+    /**
+     * converts tree and nodes to strings.
+     * @return string representation of the tree.
+     */
      public String toString()
      {
-        //todo
+        //travers every node calling their to string method
         return "todo";
      }
 }
