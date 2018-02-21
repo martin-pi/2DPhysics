@@ -26,7 +26,21 @@ public class BTree {
     */
     public void addNode(int id, Entity e)
     {
+        BTreeNode t = new BTreeNode(n,e);
+        n++;
+        insert(t);
 
+    }
+
+    /**
+     * insert node and rebalance tree.
+     *
+     */
+    public void insert(BTreeNode t)
+    {
+        if(root.id > t.id)
+        {
+        }
     }
 
     /**

@@ -11,7 +11,7 @@ public class BTreeNode {
     BTreeNode[] children = new BTreeNode[M]; //array of children id's
     BTreeNode next; //to traverse nodes.
 
-    public BTreeNode(int id,Entity e, boolean leaf)
+    public BTreeNode(int id,Entity e)
     {
         this.id = id;
         this.e = e;
