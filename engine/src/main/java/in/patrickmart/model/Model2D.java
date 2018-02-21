@@ -10,7 +10,8 @@ import java.util.List;
  */
 public class Model2D {
     private List<Vector2D> points;  //A collection of vectors representing offsets from the model's center of gravity.
-    private double area; //The area of this model, used for calculations of mass.
+    private AABB bounds;
+	private double area; //The area of this model, used for calculations of mass.
 
     /**
      * Constructor for objects of Class Model2D
@@ -95,12 +96,33 @@ public class Model2D {
             this.area += Math.abs(first.getX() * second.getY() - first.getY() * second.getX()) / 2;
         }
     }
-
+	
+	/**
+	 * Calculate the bounding box of this model at its current rotation.
+	 */
+	private void calculateBounds() {
+		double furthestX = 0;
+		double furthestY = 0;
+		
+		for (Vector2D p : points) {
+			if (abs(p.getX()) > furthestX) {
+				furthestX = abs(p.getX();
+			}
+			if (abs(p.getY()) > furthestY) {
+				furthestY = abs(p.getY();
+			}
+		}
+		
+		this.bounds = new AABB(new Vector2D(), furthestX, furthestY);
+	}
 
 
     public List<Vector2D> getPoints() {
         return this.points;
     }
+	public AABB getBounds() {
+		return this.bounds();
+	}
     public double getArea() {
         return this.area;
     }
