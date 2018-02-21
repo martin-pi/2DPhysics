@@ -18,12 +18,19 @@ public class Model2D {
      * @param points an already-constructed list of Vector2D objects defining the points that make up this shape.
      */
     public Model2D(List<Vector2D> points) {
+		//Construct this model from a set of vectors or x/y pairs.
         this.points = points;
-
+		
         //Correct the center of gravity.
         calculateCenterOfGravity();
-        //Construct this model from a set of vectors or x/y pairs.
+        
+		//Calculate a bounding box to go around the shape for rough collision checks.
+		calculateBounds();
+		
+		//Calculate the area of this planar shape.
         calculateArea();
+
+		
     }
 
     /**
@@ -32,23 +39,23 @@ public class Model2D {
      * @param radius how far each vertex is from the center of gravity.
      */
     public Model2D(int n, double radius) {
-        this.points = new ArrayList<Vector2D>();
-
         //Calculate the angle (in radians) between each vector and the next.
         // The first vertex is directly above the center of gravity.
         double rotation = Math.PI * 2 / n;
-
-
+		//Construct this model from a set of calculated vectors.
+		this.points = new ArrayList<Vector2D>();
         for (int i = 0; i < n; i++) {
             this.points.add(new Vector2D(0, radius).rotate(rotation * i));
         }
 
         //Correct the center of gravity.
         calculateCenterOfGravity();
-        //Construct this model from a set of vectors or x/y pairs.
+        
+		//Calculate a bounding box to go around the shape for rough collision checks.
+		calculateBounds();
+		
+		//Calculate the area of this planar shape.
         calculateArea();
-
-        calculateBounds();
     }
 
     /**
