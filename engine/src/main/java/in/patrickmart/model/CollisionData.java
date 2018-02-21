@@ -6,7 +6,6 @@ public class CollisionData {
     //TODO What do we need to know about this collision in order to resolve it?
 	
 	public CollisionData(Entity first, Entity second) {
-	    System.out.println("Collision detected between id: " + first.id + " and id: " + second.id);
 		this.first = first;
 		this.second = second;
 	}

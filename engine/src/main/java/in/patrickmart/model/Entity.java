@@ -21,6 +21,7 @@ public class Entity {
         this.velocity = new Vector2D();
         Random r = new Random();
         originalColor = new double[] {r.nextDouble(),0.65,0.80,0.75};
+        this.color = originalColor;
         collisionColor = new double[] {0.9,0.4,0.4,0.75}; // Red
     }
 
@@ -30,6 +31,7 @@ public class Entity {
         this.model = model;
         this.velocity = new Vector2D();
         originalColor = color;
+        this.color = originalColor;
 		collisionColor = new double[] {0.9,0.4,0.4,0.75}; // Red
     }
 	
