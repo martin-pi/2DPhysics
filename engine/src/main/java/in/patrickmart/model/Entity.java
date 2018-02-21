@@ -9,7 +9,10 @@ public class Entity {
     private Vector2D position;
     private Vector2D velocity;
     private Model2D model;
-    private double[] color;
+	
+	private double[] color;
+    private double[] originalColor;
+	private double[] collisionColor;
 
     public Entity(Vector2D position, Model2D model) {
 		this.id = getNewId();
@@ -17,7 +20,8 @@ public class Entity {
         this.model = model;
         this.velocity = new Vector2D();
         Random r = new Random();
-        color = new double[] {r.nextDouble(),0.65,0.80,0.75};
+        originalColor = new double[] {r.nextDouble(),0.65,0.80,0.75};
+        collisionColor = new double[] {0.9,0.4,0.4,0.75}; // Red
     }
 
     public Entity(Vector2D position, Model2D model, double[] color) {
@@ -25,7 +29,8 @@ public class Entity {
         this.position = position;
         this.model = model;
         this.velocity = new Vector2D();
-        this.color = color;
+        originalColor = color;
+		collisionColor = new double[] {0.9,0.4,0.4,0.75}; // Red
     }
 	
 	public Vector2D applyForce(Vector2D acceleration, Force force) {
@@ -37,7 +42,7 @@ public class Entity {
 	 * Give this entity a chance to react to its surroundings and act on its own.
 	 */
 	public void step() {
-		
+		color = originalColor;
 	}
 	
 	/**
@@ -93,7 +98,7 @@ public class Entity {
      * @param data Collision data for this collision.
      */
     public void collisionResponse() {
-
+		color = collisionColor;
     }
 		
     /**
