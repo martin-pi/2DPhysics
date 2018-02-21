@@ -104,8 +104,8 @@ public class QuadTree<T extends Boundable> {
 
 	double top = objectBounds.getCenter().getY() + objectBounds.getHalfHeight();
 	double bottom = objectBounds.getCenter().getY() - objectBounds.getHalfHeight();
-	double left = objectBounds.getCenter.getX() - objectBounds.getHalfWidth();
-	double right = objectBounds.getCenter.getX() + objectBounds.getHalfWidth();
+	double left = objectBounds.getCenter().getX() - objectBounds.getHalfWidth();
+	double right = objectBounds.getCenter().getX() + objectBounds.getHalfWidth();
 
 	if (left > midX && right <= midX + halfWidth) {
 		if (bottom > midY && top <= midY + halfHeight) {

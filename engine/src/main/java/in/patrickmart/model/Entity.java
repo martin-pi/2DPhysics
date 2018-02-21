@@ -62,7 +62,7 @@ public class Entity {
 	 * Check this Entity against all entities in its surroundings for potential collision.
 	 */ 
 	public boolean collisionCheck() {
-		
+		return false;
 	}
 	
 	/**

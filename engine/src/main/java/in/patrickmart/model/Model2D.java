@@ -47,6 +47,8 @@ public class Model2D {
         calculateCenterOfGravity();
         //Construct this model from a set of vectors or x/y pairs.
         calculateArea();
+
+        calculateBounds();
     }
 
     /**
@@ -105,11 +107,11 @@ public class Model2D {
 		double furthestY = 0;
 		
 		for (Vector2D p : points) {
-			if (abs(p.getX()) > furthestX) {
-				furthestX = abs(p.getX();
+			if (Math.abs(p.getX()) > furthestX) {
+				furthestX = Math.abs(p.getX());
 			}
-			if (abs(p.getY()) > furthestY) {
-				furthestY = abs(p.getY();
+			if (Math.abs(p.getY()) > furthestY) {
+				furthestY = Math.abs(p.getY());
 			}
 		}
 		
@@ -121,7 +123,7 @@ public class Model2D {
         return this.points;
     }
 	public AABB getBounds() {
-		return this.bounds();
+		return this.bounds;
 	}
     public double getArea() {
         return this.area;
