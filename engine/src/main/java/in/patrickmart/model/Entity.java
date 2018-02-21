@@ -3,6 +3,7 @@ package in.patrickmart.model;
 import java.util.Random;
 
 public class Entity {
+	public int id;
     private Vector2D position;
     private Vector2D velocity;
     private Model2D model;
@@ -22,19 +23,29 @@ public class Entity {
         this.velocity = new Vector2D();
         this.color = color;
     }
-
+	
+	public Vector2D applyForce(Vector2D acceleration, Force force) {
+        return acceleration;
+        //TODO applying a force should apply acceleration to this entity. Should acceleration also be a field?
+    }
+	
+	/**
+	 * Give this entity a chance to react to its surroundings and act on its own.
+	 */
+	public void step() {
+		
+	}
+	
+	/**
+	 * Calculate the angular and linear acceleration of this entity.
+	 */
     public void calculateAcceleration() {
         //this.acceleration = new Vector2D();
         //applyForce(gravity); //Something like this?
     }
 
-    public Vector2D applyForce(Vector2D acceleration, Force force) {
-        return acceleration;
-        //TODO applying a force should apply acceleration to this entity. Should acceleration also be a field?
-    }
-
     /**
-     * Apply acceleration to this entity's velocity.
+     * Apply acceleration to this entity's linear and rotational velocity.
      */
     public void calculateVelocity() {
 
@@ -46,6 +57,20 @@ public class Entity {
     public void calculatePosition() {
 
     }
+	
+	/**
+	 * Check this Entity against all entities in its surroundings for potential collision.
+	 */ 
+	public boolean collisionCheck() {
+		
+	}
+	
+	/**
+	 * Resolve all collisions involving this entity.
+	 */
+	public void collisionResponse() {
+		
+	}
 
     /**
      * accessor for position
