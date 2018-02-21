@@ -20,16 +20,18 @@ public class Scenario {
     }
 
     public void step() {
-        //TODO Move each object in the scenario along its velocity vector.
+		// Reset the list of collisions for this new step.
+		collisions = new ArrayList<CollisionData>();
+        // Move each object in the scenario along its velocity vector.
         for (Entity e:entities) {
             e.calculateAcceleration();
             e.calculateVelocity();
             e.calculatePosition();
         }
-        //Check if a collision has occurred.
-        collisionCheck();
-        //If a collision has happened, use the resulting collision data to adjust object locations, apply forces.
-        collisionResponse();
+        // Check if any collisions have occurred.
+        //collisionCheck();
+        // For each collision that has happened, use the resulting collision data to adjust object locations, apply forces.
+        //collisionResponse();
     }
 
     /**
@@ -38,7 +40,21 @@ public class Scenario {
     private void collisionCheck() {
         for (Entity e: entities) {
             for (Entity n: entities) {
-                collisions.add(e.collisionCheck(n));
+				CollisionData c = e.collisionCheck(n);
+				if (c != null) {
+					// There is a collision. Check to make sure we haven't already detected this collision.
+					boolean duplicate = false;
+					for (CollisionData d : collisions) {
+						if (c.equals(d)) {
+							duplicate = true;
+						}
+					}
+					if (!duplicate) {
+						// This is not a duplicate collsion.
+						collisions.add(c);
+					}
+					
+				}
             }
         }
     }
@@ -47,7 +63,7 @@ public class Scenario {
      * For each collision pair resulting from the collision check, make necessary adjustments.
      */
     private void collisionResponse() {
-        //TODO implement collision response.
+        //TODO iterate through collisions and call resolve on the collisiondata objects to get collisionResponses.
     }
 
     /**

@@ -17,7 +17,7 @@ public class Model extends Subject{
      * Step the model forward. TODO implement delta time to allow the model to step by variable amounts.
      */
     public void step() {
-
+		scenario.step();
         updateObservers();
     }
 

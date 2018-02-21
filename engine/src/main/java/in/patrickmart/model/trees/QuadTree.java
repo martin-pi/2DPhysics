@@ -98,28 +98,28 @@ public class QuadTree<T extends Boundable> {
         AABB objectBounds = object.getBounds();
         boolean success = false;
        	double midX = bounds.getCenter().getX();
-	double midY = bounds.getCenter().getY();
-	double halfWidth = bounds.getHalfWidth();
-	double halfHeight = bounds.getHalfHeight();
+		double midY = bounds.getCenter().getY();
+		double halfWidth = bounds.getHalfWidth();
+		double halfHeight = bounds.getHalfHeight();
 
-	double top = objectBounds.getCenter().getY() + objectBounds.getHalfHeight();
-	double bottom = objectBounds.getCenter().getY() - objectBounds.getHalfHeight();
-	double left = objectBounds.getCenter().getX() - objectBounds.getHalfWidth();
-	double right = objectBounds.getCenter().getX() + objectBounds.getHalfWidth();
+		double top = objectBounds.getCenter().getY() + objectBounds.getHalfHeight();
+		double bottom = objectBounds.getCenter().getY() - objectBounds.getHalfHeight();
+		double left = objectBounds.getCenter().getX() - objectBounds.getHalfWidth();
+		double right = objectBounds.getCenter().getX() + objectBounds.getHalfWidth();
 
-	if (left > midX && right <= midX + halfWidth) {
-		if (bottom > midY && top <= midY + halfHeight) {
-			success = children[0].insert(object);
-		} else if (bottom > midY - halfHeight && top <= midY) {
-			success = children[3].insert(object);
+		if (left > midX && right <= midX + halfWidth) {
+			if (bottom > midY && top <= midY + halfHeight) {
+				success = children[0].insert(object);
+			} else if (bottom > midY - halfHeight && top <= midY) {
+				success = children[3].insert(object);
+			}
+		} else if (left > midX - halfWidth && right <= midX) {
+			if ( bottom > midY && top <= midY + halfHeight) {
+				success = children[1].insert(object);
+			} else if (bottom > midY - halfHeight && top <= midY) {
+				success = children[2].insert(object);
+			}
 		}
-	} else if (left > midX - halfWidth && right <= midX) {
-		if ( bottom > midY && top <= midY + halfHeight) {
-			success = children[1].insert(object);
-		} else if (bottom > midY - halfHeight && top <= midY) {
-			success = children[2].insert(object);
-		}
-	}
         return success;
     }
 

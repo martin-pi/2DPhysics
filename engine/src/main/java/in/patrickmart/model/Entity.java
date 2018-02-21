@@ -4,12 +4,15 @@ import java.util.Random;
 
 public class Entity {
 	public int id;
+	private static int maxId = 0;
+	
     private Vector2D position;
     private Vector2D velocity;
     private Model2D model;
     private double[] color;
 
     public Entity(Vector2D position, Model2D model) {
+		this.id = getNewId();
         this.position = position;
         this.model = model;
         this.velocity = new Vector2D();
@@ -18,6 +21,7 @@ public class Entity {
     }
 
     public Entity(Vector2D position, Model2D model, double[] color) {
+		this.id = getNewId();
         this.position = position;
         this.model = model;
         this.velocity = new Vector2D();
@@ -59,19 +63,39 @@ public class Entity {
     }
 	
 	/**
-	 * Check this Entity against all entities in its surroundings for potential collision.
-	 */ 
-	public boolean collisionCheck() {
-		return false;
-	}
-	
-	/**
-	 * Resolve all collisions involving this entity.
-	 */
-	public void collisionResponse() {
+     * Check collision between this and another entity.
+     * @param other another Entity to check collision against.
+     * @return null if there is no collision, otherwise a CollisionData object to aid in collisionResponse.
+     */
+    public CollisionData collisionCheck(Entity other) {
+        // TODO divide checkCollision into a rough and a precise check. Also implement AABB to do rough.
+        // TODO Implement raycasting so we can predict collision.
+		AABB otherBounds = other.getModel().getBounds();
+		double oTop = otherBounds.getCenter().getY() + otherBounds.getHalfHeight();
+		double oBottom = otherBounds.getCenter().getY() - otherBounds.getHalfHeight();
+		double oLeft = otherBounds.getCenter().getX() - otherBounds.getHalfWidth();
+		double oRight = otherBounds.getCenter().getX() + otherBounds.getHalfWidth();
 		
-	}
+		double top = model.getBounds().getCenter().getY() + model.getBounds().getHalfHeight();
+		double bottom = model.getBounds().getCenter().getY() - model.getBounds().getHalfHeight();
+		double left = model.getBounds().getCenter().getX() - model.getBounds().getHalfWidth();
+		double right = model.getBounds().getCenter().getX() + model.getBounds().getHalfWidth();
+		
+		if (left < oRight && right > oLeft && bottom < oTop && top > oBottom) {
+			return new CollisionData(this, other);
+		}
+		
+        return null;
+    }
 
+    /**
+     * Use the CollisionData generated from the collision check to move out of the collision and apply Normal force.
+     * @param data Collision data for this collision.
+     */
+    public void collisionResponse(CollisionData data) {
+
+    }
+		
     /**
      * accessor for position
      * @return position vector
@@ -96,26 +120,6 @@ public class Entity {
         return color;
     }
 
-
-    /**
-     * Check collision between this and another entity.
-     * @param other another Entity to check collision against.
-     * @return null if there is no collision, otherwise a CollisionData object to aid in collisionResponse.
-     */
-    public CollisionData collisionCheck(Entity other) {
-        // TODO divide checkCollision into a rough and a precise check. Also implement AABB to do rough.
-        // TODO Implement raycasting so we can predict collision.
-        return null;
-    }
-
-    /**
-     * Use the CollisionData generated from the collision check to move out of the collision and apply Normal force.
-     * @param data Collision data for this collision.
-     */
-    public void collisionResponse(CollisionData data) {
-
-    }
-
     /**
      * @return String of the entity's components for debugging i guess
      */
@@ -123,5 +127,14 @@ public class Entity {
     {
         return position.toString() + ", " + model.toString() +", " + velocity.toString() + ", " + color.toString();
     }
+	
+	public equals(Entity e) {
+		return this.id == e,id;
+	}
+	
+	public static int getNewId() {
+		maxId++;
+		return maxId;
+	}
 
 }
