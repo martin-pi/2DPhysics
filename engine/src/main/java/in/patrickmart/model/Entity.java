@@ -66,7 +66,7 @@ public class Entity {
      * Move this entity along its velocity vector.
      */
     public void calculatePosition() {
-		this.model.setPosition(this.position);
+		//this.model.setPosition(this.position);
     }
 	
 	/**

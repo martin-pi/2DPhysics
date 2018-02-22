@@ -42,7 +42,7 @@ public class AABB {
         return this.center;
     }
 	
-	public double setCenter(Vector2D newCenter) {
+	public void setCenter(Vector2D newCenter) {
 		this.center = newCenter.copy();
 	}
 
