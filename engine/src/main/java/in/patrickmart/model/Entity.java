@@ -75,30 +75,16 @@ public class Entity {
      * @return null if there is no collision, otherwise a CollisionData object to aid in collisionResponse.
      */
     public CollisionData collisionCheck(Entity other) {
-        // TODO divide checkCollision into a rough and a precise check.
         // TODO Implement raycasting so we can predict collision.
-		// TODO give entity positions to their AABBs so we can use AABB.intersects(AABB) to check rough collision.
-		AABB otherBounds = other.getModel().getBounds();
-		double oTop = otherBounds.getCenter().getY() + otherBounds.getHalfHeight();
-		double oBottom = otherBounds.getCenter().getY() - otherBounds.getHalfHeight();
-		double oLeft = otherBounds.getCenter().getX() - otherBounds.getHalfWidth();
-		double oRight = otherBounds.getCenter().getX() + otherBounds.getHalfWidth();
-		
-		double top = model.getBounds().getCenter().getY() + model.getBounds().getHalfHeight();
-		double bottom = model.getBounds().getCenter().getY() - model.getBounds().getHalfHeight();
-		double left = model.getBounds().getCenter().getX() - model.getBounds().getHalfWidth();
-		double right = model.getBounds().getCenter().getX() + model.getBounds().getHalfWidth();
-		
-		if (left < oRight && right > oLeft && bottom < oTop && top > oBottom) {
-			return new CollisionData(this, other);
-		}
-		
+        if (this.getBounds().intersectsAABB(other.getBounds())) {
+            //TODO implement precise collision check right about here.
+            return new CollisionData(this, other);
+        }
         return null;
     }
 
     /**
      * Use the CollisionData generated from the collision check to move out of the collision and apply Normal force.
-     * @param data Collision data for this collision.
      */
     public void collisionResponse() {
 		color = collisionColor;
@@ -117,7 +103,16 @@ public class Entity {
      * @return entity model
      */
     public Model2D getModel() {
+        model.setPosition(position); //Update the model's position to be current before it gets used.
         return model;
+    }
+
+    /**
+     * accessor for this entity's model's bounding box.
+     */
+    public AABB getBounds() {
+        model.getBounds().setCenter(position); // Update the bounding box's position to be current before it gets used.
+        return model.getBounds();
     }
 
     /**

@@ -11,6 +11,7 @@ import java.util.List;
 public class Model2D {
     private List<Vector2D> points;  //A collection of vectors representing offsets from the model's center of gravity.
     private AABB bounds;
+    private Vector2D position;
 	private double area; //The area of this model, used for calculations of mass.
 
     /**
@@ -18,6 +19,7 @@ public class Model2D {
      * @param points an already-constructed list of Vector2D objects defining the points that make up this shape.
      */
     public Model2D(List<Vector2D> points) {
+        this.position = new Vector2D();
 		//Construct this model from a set of vectors or x/y pairs.
         this.points = points;
 		
@@ -39,6 +41,7 @@ public class Model2D {
      * @param radius how far each vertex is from the center of gravity.
      */
     public Model2D(int n, double radius) {
+        this.position = new Vector2D();
         //Calculate the angle (in radians) between each vector and the next.
         // The first vertex is directly above the center of gravity.
         double rotation = Math.PI * 2 / n;
@@ -62,6 +65,7 @@ public class Model2D {
      * Default Constructor for objects of Class Model2D, constructs a triangle with a 1m "radius".
      */
     public Model2D() {
+        this.position = new Vector2D();
         int n = 3;
         int radius = 1;
 
@@ -125,7 +129,13 @@ public class Model2D {
 		this.bounds = new AABB(new Vector2D(), furthestX, furthestY);
 	}
 
+	public void setPosition(Vector2D position) {
+	    this.position = position;
+    }
 
+    public Vector2D getPosition() {
+	    return this.position;
+    }
     public List<Vector2D> getPoints() {
         return this.points;
     }
