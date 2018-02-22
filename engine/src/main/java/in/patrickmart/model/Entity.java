@@ -4,21 +4,32 @@ import java.util.Random;
 
 public class Entity {
 	public int id;
-	private static int maxId = 0;
+	private static int nextId = 0;
 	
     private Vector2D position;
+    private double rotation;
     private Vector2D velocity;
+    private double rotationalVelocity;
     private Model2D model;
-	
+    private AABB bounds;
+
+    // Colors here are being stored for debug purposes. TODO Implement materials and move colors there.
 	private double[] color;
     private double[] originalColor;
-	private double[] collisionColor;
+	private double[] collisionColor ;
 
     public Entity(Vector2D position, Model2D model) {
 		this.id = getNewId();
-        this.position = position;
+
         this.model = model;
+        this.bounds = model.calculateBounds(this.rotation);
+
+        setPosition(position);
+        this.rotation = 0;
         this.velocity = new Vector2D();
+        this.rotationalVelocity = 0;
+
+        // Calculate some random colors to make things look good. TODO remove these when materials are in.
         Random r = new Random();
         originalColor = new double[] {r.nextDouble(),0.65,0.80,0.75};
 		this.color = originalColor;
@@ -27,9 +38,16 @@ public class Entity {
 
     public Entity(Vector2D position, Model2D model, double[] color) {
 		this.id = getNewId();
-        this.position = position;
+
         this.model = model;
+        this.bounds = model.calculateBounds(this.rotation);
+
+        setPosition(position);
+        this.rotation = 0;
         this.velocity = new Vector2D();
+        this.rotationalVelocity = 0;
+
+        // Add some color to make things look good. TODO remove these when materials are in.
         originalColor = color;
 		this.color = originalColor;
 		collisionColor = new double[] {0.9,0.4,0.4,0.75}; // Red
@@ -63,10 +81,13 @@ public class Entity {
     }
 
     /**
-     * Move this entity along its velocity vector.
+     * Move this entity along its velocity vector, update its rotation.
      */
     public void calculatePosition() {
-		//this.model.setPosition(this.position);
+        if (rotationalVelocity != 0) { // If we have rotated, we need a new bounding box.
+            bounds = model.calculateBounds(this.rotation);
+        }
+        setPosition(this.position); // TODO As soon as forces are being implemented, change this.
     }
 	
 	/**
@@ -77,7 +98,9 @@ public class Entity {
     public CollisionData collisionCheck(Entity other) {
         // TODO Implement raycasting so we can predict collision.
         if (this.getBounds().intersectsAABB(other.getBounds())) {
-            //TODO implement precise collision check right about here.
+            if (this.getModel().intersectsModel2D(other.getModel())) {
+                //TODO implement precise collision check right about here.
+            }
             return new CollisionData(this, other);
         }
         return null;
@@ -91,7 +114,7 @@ public class Entity {
     }
 		
     /**
-     * accessor for position
+     * Accessor for position
      * @return position vector
      */
     public Vector2D getPosition() {
@@ -99,11 +122,20 @@ public class Entity {
     }
 
     /**
-     * accessor for model
+     * Mutator for position
+     * @return position vector
+     */
+    public void setPosition(Vector2D position) {
+        this.position = position.copy();
+        this.bounds.setCenter(position.copy());
+        this.model.setPosition(position.copy());
+    }
+
+    /**
+     * Accessor for model
      * @return entity model
      */
     public Model2D getModel() {
-        model.setPosition(position); //Update the model's position to be current before it gets used.
         return model;
     }
 
@@ -111,8 +143,7 @@ public class Entity {
      * accessor for this entity's model's bounding box.
      */
     public AABB getBounds() {
-        model.getBounds().setCenter(position); // Update the bounding box's position to be current before it gets used.
-        return model.getBounds();
+        return bounds;
     }
 
     /**
@@ -130,14 +161,24 @@ public class Entity {
     {
         return position.toString() + ", " + model.toString() +", " + velocity.toString() + ", " + color.toString();
     }
-	
+
+    /**
+     * Determine whether this entity is the same as some other entity.
+     * @param e The entity to compare to this one
+     * @return Whether or not the entities are actually the same entity
+     */
 	public boolean equals(Entity e) {
 		return this.id == e.id;
 	}
-	
-	public static int getNewId() {
-		maxId++;
-		return maxId;
+
+    /**
+     * Creates a new unique ID for an entity. Prevents duplicate IDs.
+     * @return a unique Entity ID
+     */
+	private static int getNewId() {
+	    int r = nextId;
+		nextId++;
+		return r;
 	}
 
 }

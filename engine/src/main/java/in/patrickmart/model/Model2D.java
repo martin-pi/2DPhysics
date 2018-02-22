@@ -10,7 +10,6 @@ import java.util.List;
  */
 public class Model2D {
     private List<Vector2D> points;  //A collection of vectors representing offsets from the model's center of gravity.
-    private AABB bounds;
     private Vector2D position;
 	private double area; //The area of this model, used for calculations of mass.
 
@@ -19,15 +18,11 @@ public class Model2D {
      * @param points an already-constructed list of Vector2D objects defining the points that make up this shape.
      */
     public Model2D(List<Vector2D> points) {
-        this.position = new Vector2D();
 		//Construct this model from a set of vectors or x/y pairs.
         this.points = points;
 		
         //Correct the center of gravity.
         calculateCenterOfGravity();
-        
-		//Calculate a bounding box to go around the shape for rough collision checks.
-		calculateBounds();
 		
 		//Calculate the area of this planar shape.
         calculateArea();
@@ -41,7 +36,6 @@ public class Model2D {
      * @param radius how far each vertex is from the center of gravity.
      */
     public Model2D(int n, double radius) {
-        this.position = new Vector2D();
         //Calculate the angle (in radians) between each vector and the next.
         // The first vertex is directly above the center of gravity.
         double rotation = Math.PI * 2 / n;
@@ -53,9 +47,6 @@ public class Model2D {
 
         //Correct the center of gravity.
         calculateCenterOfGravity();
-        
-		//Calculate a bounding box to go around the shape for rough collision checks.
-		calculateBounds();
 		
 		//Calculate the area of this planar shape.
         calculateArea();
@@ -65,7 +56,6 @@ public class Model2D {
      * Default Constructor for objects of Class Model2D, constructs a triangle with a 1m "radius".
      */
     public Model2D() {
-        this.position = new Vector2D();
         int n = 3;
         int radius = 1;
 
@@ -113,20 +103,21 @@ public class Model2D {
 	/**
 	 * Calculate the bounding box of this model at its current rotation.
 	 */
-	private void calculateBounds() {
+	public AABB calculateBounds(double rotation) {
 		double furthestX = 0;
 		double furthestY = 0;
 		
 		for (Vector2D p : points) {
-			if (Math.abs(p.getX()) > furthestX) {
-				furthestX = Math.abs(p.getX());
+		    Vector2D q = p.copy().rotate(rotation);
+			if (Math.abs(q.getX()) > furthestX) {
+				furthestX = Math.abs(q.getX());
 			}
-			if (Math.abs(p.getY()) > furthestY) {
-				furthestY = Math.abs(p.getY());
+			if (Math.abs(q.getY()) > furthestY) {
+				furthestY = Math.abs(q.getY());
 			}
 		}
 		
-		this.bounds = new AABB(new Vector2D(), furthestX, furthestY);
+		return new AABB(new Vector2D(), furthestX, furthestY);
 	}
 
 	public void setPosition(Vector2D position) {
@@ -134,14 +125,23 @@ public class Model2D {
     }
 
     public Vector2D getPosition() {
-	    return this.position;
+        if (position != null) {
+            return position;
+        }
+	    return new Vector2D();
     }
+
+    public boolean containsPoint(Vector2D point) {
+        return false;
+    }
+
+    public boolean intersectsModel2D(Model2D other) {
+	    return false;
+    }
+
     public List<Vector2D> getPoints() {
         return this.points;
     }
-	public AABB getBounds() {
-		return this.bounds;
-	}
     public double getArea() {
         return this.area;
     }
