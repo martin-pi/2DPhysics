@@ -3,17 +3,19 @@ Rick Martin and John Hewitt
 
 ## Downloading, Compiling, and Running
 This project is compiled and tested with Apache Maven 3.5.2 and Java 1.8.0_151.
-In order to clone and run this project, enter the following commands in a terminal.
+In order to clone, compile and run this project, enter the following commands in a terminal.
 ```
 $ git clone https://github.com/Pharaoh439/capstone.git
-$ cd capstone/engine
-$ mvn package
-$ cd target
-$ java -jar engine-VERSION.jar
+$ cd engine
+$ mvn compile exec:java -Dexec.mainClass=in.patrickmart.App
 ```
-If you are running an environment with no GUI, you may want to run the project headlessly. In this case, use the command line argument "headless" to run the project without opening a viewing window. Usage of this argument is displayed below.
+You may want to run our JUnit tests in order to confirm the functionality of our source code. The one liner to run all of the JUnit tests we have included is below.
 ```
-$ java -jar engine-VERSION.jar headless
+$ mvn -Dtest=in.patrickmart.**.*Test test
+```
+If you are running an environment with no GUI, you may want to run the project headlessly. In this case, use the command line argument "headless" or just "h" to run the project without opening a viewing window. Usage of this argument is displayed below.
+```
+$ mvn compile exec:java -Dexec.mainClass=in.patrickmart.App -Dexec.args="h"
 ```
 ## Project Overview
 This project seeks to create a 2 dimensional physics simulation consisting of n-dimensional rigid body polygons. This simulation could be useful to game developers as a way of representing their game’s objects in two dimensional space. The physics model should be able to run headlessly, without any visual representation of the events within. Because this isn’t immediately useful to most people, the project will also include a program to view and create simulations to see how our engine works. This can be used by people interested in using our library or anyone interested in learning how different objects will interact with each other and various forces that they will be able to control. The users that wish to learn from this program will need to be able to view and control the various aspects of the background physics such as information about the object as well as the forces acting upon it at any time. These users will probably also want to be able to control the simulation by having rewind, pause, and fast forward features as well as a detached camera capable of zooming in and out to change the user’s focus. 
