@@ -26,8 +26,6 @@ public class Model2D {
 		
 		//Calculate the area of this planar shape.
         calculateArea();
-
-		
     }
 
     /**
@@ -79,7 +77,20 @@ public class Model2D {
      *  Adjust all vectors in this model so that their origin is the model's center of gravity.
      */
     private void calculateCenterOfGravity() {
-        //TODO scan the shape to determine the actual center of gravity, offset the points by the difference.
+        // Calculate the offset vector from the origin to the centroid (centroid = (x1 + x2 + ... + xk) / k)
+        double x = 0;
+        double y = 0;
+        for (Vector2D p : points) {
+            x += p.getX();
+            y += p.getY();
+        }
+        x /= points.size();
+        y /= points.size();
+        Vector2D offset = new Vector2D(x, y);
+        // Subtract the offset vector from every point, effectively moving the origin to the center of gravity.
+        for (Vector2D p : points) {
+            p.sub(offset);
+        }
     }
 
     /**
