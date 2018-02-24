@@ -45,6 +45,8 @@ public class Viewer implements Observer {
      * Follows the LWJGL procedures to open and set up a window to render in.
      */
     public void openWindow() {
+        System.out.println("Opening the Viewing Window.");
+
         // Point GLFW to System.err to log its errors, if there are any.
         GLFWErrorCallback.createPrint(System.err).set();
 
@@ -140,13 +142,14 @@ public class Viewer implements Observer {
     public void closeWindow() {
         // Free the window callbacks and destroy the window
         controller.stop();
-        System.out.println("Stopped the model, closed the Viewing window.");
         glfwFreeCallbacks(window);
         glfwDestroyWindow(window);
 
         // Terminate GLFW and free the error callback
         glfwTerminate();
         glfwSetErrorCallback(null).free();
+
+        System.out.println("Closed the Viewing Window.");
     }
 
     /**
@@ -158,8 +161,7 @@ public class Viewer implements Observer {
                 closeWindow();
             }
             if ( key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
-                System.out.println("Added an entity to the model.");
-                controller.viewEvent();
+                controller.viewEvent(); //TODO expand this "Command pattern?"
             }
         });
 

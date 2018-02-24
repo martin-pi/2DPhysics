@@ -20,10 +20,10 @@ public class Controller {
     }
 
     /**
-     * The main program loop. Containst the code to start and run the loop.
+     * The main program loop. Contains the code to both start and run the loop.
      */
     public void loop(Integer loops) {
-        loops = loops != null ? loops : -1;
+        System.out.println("Starting the Controller Loop.");
 
         int ticks = 0;
         int totalTicks = 0;
@@ -45,7 +45,6 @@ public class Controller {
 
             if (currentTime >= timer) {
                 actualTicksPerSecond = Math.floor((actualTicksPerSecond + ticks) / 2 * 100) / 100;
-                System.out.println("TPS: " + actualTicksPerSecond + " (Attempting " + ticksPerSecond + "TPS)");
 
                 totalTicks += ticks;
                 ticks = 0;
@@ -64,6 +63,7 @@ public class Controller {
     public void stop()
     {
         running = false;
+        System.out.println("Stopping the Controller Loop.");
     }
 
     /**
@@ -83,7 +83,9 @@ public class Controller {
         double x = (r.nextDouble() * 2) - 1;
         double y = (r.nextDouble() * 2) - 1;
         int sides = r.nextInt((10 - 3) + 1) + 3;
-        model.addEntity(new Entity(new Vector2D(x,y), new Model2D(sides ,.5)));
+        Entity e = new Entity(new Vector2D(x,y), new Model2D(sides ,.5));
+        model.addEntity(e);
+        System.out.println("Added random entity #" + e.id + " to the model.");
     }
 
     /**
