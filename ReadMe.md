@@ -15,7 +15,7 @@ $ mvn -Dtest=in.patrickmart.**.*Test test
 ```
 If you are running an environment with no GUI, you may want to run the project headlessly. In this case, use the command line argument "headless" or just "h" to run the project without opening a viewing window. Usage of this argument is displayed below.
 ```
-$ mvn compile exec:java -Dexec.mainClass=in.patrickmart.App -Dexec.args="h"
+$ mvn compile exec:java -Dexec.mainClass=in.patrickmart.App -Dexec.args="-e"
 ```
 ## Project Overview
 This project seeks to create a 2 dimensional physics simulation consisting of n-dimensional rigid body polygons. This simulation could be useful to game developers as a way of representing their game’s objects in two dimensional space. The physics model should be able to run headlessly, without any visual representation of the events within. Because this isn’t immediately useful to most people, the project will also include a program to view and create simulations to see how our engine works. This can be used by people interested in using our library or anyone interested in learning how different objects will interact with each other and various forces that they will be able to control. The users that wish to learn from this program will need to be able to view and control the various aspects of the background physics such as information about the object as well as the forces acting upon it at any time. These users will probably also want to be able to control the simulation by having rewind, pause, and fast forward features as well as a detached camera capable of zooming in and out to change the user’s focus. 
