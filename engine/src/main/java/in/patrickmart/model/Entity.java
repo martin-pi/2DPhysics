@@ -97,13 +97,21 @@ public class Entity {
      */
     public CollisionData collisionCheck(Entity other) {
         // TODO Implement raycasting so we can predict collision.
-        if (this.getBounds().intersectsAABB(other.getBounds())) {
-            if (this.getModel().intersectsModel2D(other.getModel())) {
+        if (roughCollision(other)) {
+            if (fineCollision(other)) {
                 //TODO implement precise collision check right about here.
             }
             return new CollisionData(this, other);
         }
         return null;
+    }
+
+    public boolean roughCollision(Entity other) {
+        return this.getBounds().intersectsAABB(other.getBounds());
+    }
+
+    public boolean fineCollision(Entity other) {
+        return this.getModel().intersectsModel2D(other.getModel());
     }
 
     /**

@@ -7,7 +7,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 /**
- * Tests wether the program is capable of opening a GLFW Window via the view.
+ * Tests whether the program is capable of opening a GLFW Window via the view.
  */
 public class OpenGLFWTest   extends TestCase
 {

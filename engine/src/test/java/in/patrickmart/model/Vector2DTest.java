@@ -280,7 +280,6 @@ public class Vector2DTest
         double mag = v.mag();
         Vector2D result = new Vector2D(Math.cos(rot) * mag,Math.sin(rot) * mag);
         assertEquals(result.toString(), v.rotate(angle).toString());
-        System.out.println(result.toString());
     }
 
     /**

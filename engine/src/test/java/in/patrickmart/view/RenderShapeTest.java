@@ -36,12 +36,11 @@ public class RenderShapeTest extends TestCase
         m.addEntity(new Entity(new Vector2D(1, 2), new Model2D(4, 0.5)));
         Scenario s = m.getScenario(); // A scenario can be retrieved.
         Entity e = s.getEntities().get(0); // A specific entity can be retrieved from a scenario.
+
+        // Test that Entity locations can be retrieved properly.
         assertTrue(e.getPosition().getX() == 1);
         assertTrue(e.getPosition().getY() == 2);
 
-        // Test that Entity locations can be retrieved properly.
-        System.out.println(e.getPosition().getX() + " " + e.getModel().getPoints().get(0).getX());
-        System.out.println(e.getPosition().getY() + " " + e.getModel().getPoints().get(0).getY());
 
         // Test that point vectors can be retrieved properly.
         assertTrue(-acceptableError <= e.getModel().getPoints().get(0).getX() &&

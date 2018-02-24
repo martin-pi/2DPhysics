@@ -27,7 +27,11 @@ public class App
         c.loop(-1);
     }
 
-    public static ArrayList<String> parseArgs(String[] args) {
+    /**
+     * Parses command line arguments sent to the program in order to set flags and determine how the program will run.
+     * @param args all of the command line arguments sent to the program.
+     */
+    private static void parseArgs(String[] args) {
         ArrayList<String> processed = new ArrayList<>();
 
         for (String a : args) {
@@ -50,10 +54,11 @@ public class App
                 }
             }
         }
-
-        return processed;
     }
 
+    /**
+     * Prints a short overview of the command line flags that can be provided to the program, then closes the program.
+     */
     static void printUsage() {
         System.out.println("Usage:\n" +
                 "-h -help\t\tPrints command usage instead of running.\n" +
