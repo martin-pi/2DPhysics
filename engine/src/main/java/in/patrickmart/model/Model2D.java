@@ -178,11 +178,11 @@ public class Model2D {
      * @return The minimum and maximum dot product of the points in this model.
      */
     public double[] project(Vector2D axis) {
-        double min = points.get(0).dot(axis); // Start the min and max on a calculated value. 0 might not be in range.
-        double max = points.get(0).dot(axis);
+        double min = points.get(0).copy().add(position).dot(axis); // Start the min and max on a calculated value. 0 might not be in range.
+        double max = points.get(0).copy().add(position).dot(axis);
 
         for (int i = 1; i < points.size(); i++) { // Find the projection of this model on this axis
-            double dot = axis.dot(points.get(i).copy().add(position));
+            double dot = points.get(i).copy().add(position).dot(axis);
 
             if (dot < min) {
                 min = dot;

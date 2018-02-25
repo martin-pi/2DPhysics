@@ -114,23 +114,20 @@ public class EntityCollisionTest extends TestCase
      * Test whether model projection onto an arbitrary normal is working as expected.
      */
     public static void testModelProjection() {
+        System.out.println("This is the test you want. ----------------------------");
         ArrayList<Vector2D> firstPoints = new ArrayList<>();
         firstPoints.add(new Vector2D(1, -1));
         firstPoints.add(new Vector2D(-1, -1));
         firstPoints.add(new Vector2D(-1, 1));
         firstPoints.add(new Vector2D(1, 1));
-        Entity first = new Entity(new Vector2D(2, 2), new Model2D(firstPoints));
+        Entity first = new Entity(new Vector2D(0, 2), new Model2D(firstPoints));
         Model2D model = first.getModel();
 
         ArrayList<Vector2D> axes = model.getNormals();
-        ArrayList<Vector2D> edges = model.getEdges();
-        System.out.println(edges.get(0).toString());
         for (Vector2D axis : axes) {
-            System.out.println(axis.toString());
             double[] interval = model.project(axis);
-            System.out.println("\t" + interval[0] + " " + interval[1]);
         }
 
-
+        assertTrue(true);
     }
 }
