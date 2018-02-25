@@ -146,24 +146,46 @@ public class Model2D {
      * @return true if this model and the other model are intersecting
      */
     public boolean intersectsModel2D(Model2D other) {
-	    // Build a list of normal vectors from both shapes. Each normal is one of our axes.
+	    // Build a list of normal vectors from both shapes. Each normal is one of our axes
         ArrayList<Vector2D> axes = getNormals();
         axes.addAll(other.getNormals());
 
         // For each axis, find the min and max dot product of that axis with each point in this shape and the other
         for (Vector2D axis : axes) {
+            double min = points.get(0).dot(axis);
+            double max = points.get(0).dot(axis);
+            double oMin = other.getPoints().get(0).dot(axis);
+            double oMax = other.getPoints().get(0).dot(axis);
 
-            double thisMin = 0;
-            double thisMax = 0;
-            double otherMin = 0;
-            double otherMax = 0;
+            for (int i = 1; i < points.size(); i++) { // Find the projection of this model on this axis
+                double dot = points.get(i).dot(axis);
+                if (dot < min) {
+                    min = dot;
+                }
+                if (dot > max) {
+                    max = dot;
+                }
+            }
 
-            // Determine if there is any overlap between the min/max of this and the other shape. if not, return false.
+            for (int i = 1; i < other.getPoints().size(); i++) { // Find the projection of the other model on this axis
+                double dot = other.getPoints().get(i).dot(axis);
+                if (dot < oMin) {
+                    oMin = dot;
+                }
+                if (dot > oMax) {
+                    oMax = dot;
+                }
+            }
+
+            // Determine if there is any overlap between the min/max of this and the other shape. if not, return false
+            if (!(min <= oMax && oMin <= max)) {
+                return false;
+            }
         }
 
-
-        // If we have gotten to the end, there is a collision.
-	    return false;
+        // TODO Change this to true. If we have gotten to the end, there is a collision.
+        // TODO Calculate the minimum translation vector and return it if there is a collision.
+	    return true;
     }
 
     /**

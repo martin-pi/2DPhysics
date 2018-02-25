@@ -97,10 +97,13 @@ public class Entity {
      */
     public CollisionData collisionCheck(Entity other) {
         // TODO Implement raycasting so we can predict collision.
-        if (roughCollision(other)) {
+        /*if (roughCollision(other)) {
             if (fineCollision(other)) {
-                //TODO implement precise collision check right about here.
+                return new CollisionData(this, other);
             }
+        }*/
+        //TODO restore rough collision check.
+        if (fineCollision(other)) {
             return new CollisionData(this, other);
         }
         return null;
