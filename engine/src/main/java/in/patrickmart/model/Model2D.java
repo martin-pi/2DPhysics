@@ -178,10 +178,15 @@ public class Model2D {
             }
 
             // Determine if there is any overlap between the min/max of this and the other shape. if not, return false
-            if (!(min <= oMax && oMin <= max)) {
-                return false;
-            } else {
-                System.out.println(min + " " + max + " | " + oMin + " " + oMax);
+            // seems to say there is no collision only when the objects have space between them on the x axis.
+            if (! (min <= oMax)){
+                System.out.println("1");
+                if (!(oMin <= max)) {
+                    System.out.println("2");
+                    return false;
+                }
+            }else {
+                //System.out.println(min + " " + max + " | " + oMin + " " + oMax);
             }
         }
 
