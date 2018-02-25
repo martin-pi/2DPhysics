@@ -158,7 +158,7 @@ public class Model2D {
             double oMax = other.getPoints().get(0).dot(axis);
 
             for (int i = 1; i < points.size(); i++) { // Find the projection of this model on this axis
-                double dot = points.get(i).dot(axis);
+                double dot = points.get(i).copy().add(position).dot(axis);
                 if (dot < min) {
                     min = dot;
                 }
@@ -168,7 +168,7 @@ public class Model2D {
             }
 
             for (int i = 1; i < other.getPoints().size(); i++) { // Find the projection of the other model on this axis
-                double dot = other.getPoints().get(i).dot(axis);
+                double dot = other.getPoints().get(i).copy().add(other.getPosition()).dot(axis);
                 if (dot < oMin) {
                     oMin = dot;
                 }
@@ -180,6 +180,8 @@ public class Model2D {
             // Determine if there is any overlap between the min/max of this and the other shape. if not, return false
             if (!(min <= oMax && oMin <= max)) {
                 return false;
+            } else {
+                System.out.println(min + " " + max + " | " + oMin + " " + oMax);
             }
         }
 
