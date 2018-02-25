@@ -146,11 +146,54 @@ public class Model2D {
      * @return true if this model and the other model are intersecting
      */
     public boolean intersectsModel2D(Model2D other) {
-	    //Build a list of edge vectors.
+	    // Build a list of normal vectors from both shapes. Each normal is one of our axes.
+        ArrayList<Vector2D> axes = getNormals();
+        axes.addAll(other.getNormals());
 
-        //Get the normal vector of each edge vector by swapping x and y, then negating one of them.
+        // For each axis, find the min and max dot product of that axis with each point in this shape and the other
+        for (Vector2D axis : axes) {
+
+            double thisMin = 0;
+            double thisMax = 0;
+            double otherMin = 0;
+            double otherMax = 0;
+
+            // Determine if there is any overlap between the min/max of this and the other shape. if not, return false.
+        }
+
+
+        // If we have gotten to the end, there is a collision.
 	    return false;
     }
+
+    /**
+     * Calculates the edge vectors that define this shape. An edge is a line between two points from the points list.
+     * @return An ArrayList of every edge vector in this model.
+     */
+    public ArrayList<Vector2D> getEdges() {
+        ArrayList<Vector2D> edges = new ArrayList<>();
+        for (int i = 0; i < points.size(); i++) {
+            // edge[n] = points[n + 1] - points[n];
+            edges.add(points.get((i + 1) % points.size()).copy().sub(points.get(i)));
+        }
+        return edges;
+    }
+
+    /**
+     * Calculates the normal vectors that define this shape. A normal vector is perpendicular to an edge vector.
+     * @return An ArrayList of every normal vector in this model.
+     */
+    public ArrayList<Vector2D> getNormals() {
+        ArrayList<Vector2D> normals = new ArrayList<>();
+        for (int i = 0; i < points.size(); i++) {
+            // edge[n] = points[n + 1] - points[n];
+            // Get the normal vector of each edge vector by swapping x and y, then negating one of them.
+            normals.add(points.get((i + 1) % points.size()).copy().sub(points.get(i)).getPerpendicular());
+        }
+        return normals;
+    }
+
+
 
     public void setPosition(Vector2D position) {
         this.position = position;
