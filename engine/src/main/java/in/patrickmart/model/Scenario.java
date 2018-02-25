@@ -27,6 +27,7 @@ public class Scenario {
             e.calculateAcceleration();
             e.calculateVelocity();
             e.calculatePosition();
+            e.step();
         }
         // Check if any collisions have occurred.
         collisionCheck();

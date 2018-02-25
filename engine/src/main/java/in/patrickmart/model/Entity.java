@@ -62,6 +62,7 @@ public class Entity {
 	 * Give this entity a chance to react to its surroundings and act on its own.
 	 */
 	public void step() {
+	    position = position.add(velocity);
 		color = originalColor;
 	}
 	
@@ -119,6 +120,12 @@ public class Entity {
      */
     public void collisionResponse() {
 		color = collisionColor;
+    }
+
+    //TODO delete this
+    public void setVelocity(Vector2D velocity)
+    {
+        this.velocity = velocity;
     }
 		
     /**

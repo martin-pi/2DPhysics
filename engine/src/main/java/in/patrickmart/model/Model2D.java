@@ -131,10 +131,11 @@ public class Model2D {
 		return new AABB(new Vector2D(), furthestX, furthestY);
 	}
 
-
-
-
-
+    /**
+     * determines if a point is within the model
+     * @param point
+     * @return true if point is within model.
+     */
     public boolean containsPoint(Vector2D point) {
         //Not really needed as of yet.
         // TODO: use this to determine which object is clicked on for displaying information window
