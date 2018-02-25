@@ -109,7 +109,7 @@ public class Viewer implements Observer {
 
         // Draw all entities in the model.
         for (Entity e : s.getEntities()) {
-            //draw the bounding box
+            /*draw the bounding box
             AABB b = e.getBounds();
             glBegin(GL_LINE_LOOP );
             glColor4d(0,0,1,.0003);
@@ -118,6 +118,7 @@ public class Viewer implements Observer {
             glVertex2d(e.getPosition().getX() - b.getHalfWidth(), e.getPosition().getY() - b.getHalfHeight());
             glVertex2d(e.getPosition().getX() - b.getHalfWidth(), e.getPosition().getY() + b.getHalfHeight());
             glEnd();
+            */
             // Draw this entity.
             for (int i = 0; i < e.getModel().getPoints().size(); i++) {
                 // Draw triangles between the center of mass and the points making up the model.
