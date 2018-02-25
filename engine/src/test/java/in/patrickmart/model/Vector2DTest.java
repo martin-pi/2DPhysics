@@ -283,6 +283,33 @@ public class Vector2DTest
     }
 
     /**
+     * Tests whether perpendicular vectors are good.
+     */
+    public void testVectorPerpendiculars() {
+        Vector2D v = new Vector2D(2, -1);
+        Vector2D normal = v.getPerpendicular();
+
+        assertTrue(normal.getX() == -1);
+        assertTrue(normal.getY() == -2);
+    }
+
+    /**
+     * Tests whether normal vectors are good.
+     */
+    public void testVectorNormals() {
+        Vector2D v = new Vector2D(2, -1);
+        Vector2D normal = v.getNormal();
+        System.out.println(normal.toString() +  " " + normal.mag());
+        double acceptableError = 0.0000000000001;
+        assertTrue(normal.mag() >= 1 - acceptableError
+                && normal.mag() <= 1 + acceptableError);
+        assertTrue(normal.getX() >= -0.4472135954999579 - acceptableError
+                && normal.getX() <= -0.4472135954999579 + acceptableError);
+        assertTrue(normal.getY() >= -0.8944271909999159 - acceptableError
+                && normal.getY() <= -0.8944271909999159 + acceptableError);
+    }
+
+    /**
      * test vector comparisons.
      */
     public void testVectorComparisons()

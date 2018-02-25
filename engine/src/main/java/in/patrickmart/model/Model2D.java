@@ -159,7 +159,7 @@ public class Model2D {
             double oMax = other.getPoints().get(0).dot(axis);
 
             for (int i = 1; i < points.size(); i++) { // Find the projection of this model on this axis
-                double dot = points.get(i).copy().add(position).dot(axis);
+                double dot = axis.dot(points.get(i).copy().add(position));
                 if (dot < min) {
                     min = dot;
                 }
@@ -169,7 +169,7 @@ public class Model2D {
             }
 
             for (int i = 1; i < other.getPoints().size(); i++) { // Find the projection of the other model on this axis
-                double dot = other.getPoints().get(i).copy().add(other.getPosition()).dot(axis);
+                double dot = axis.dot(other.getPoints().get(i).copy().add(other.getPosition()));
                 if (dot < oMin) {
                     oMin = dot;
                 }
@@ -181,13 +181,13 @@ public class Model2D {
             // Determine if there is any overlap between the min/max of this and the other shape. if not, return false
             // seems to say there is no collision only when the objects have space between them on the x axis.
             if (! (min <= oMax) && (oMin <= max)) {
+                    System.out.println("Found non-overlapping projection!");
                     return false;
             }else {
                 //System.out.println(min + " " + max + " | " + oMin + " " + oMax);
             }
         }
 
-        // TODO Change this to true. If we have gotten to the end, there is a collision.
         // TODO Calculate the minimum translation vector and return it if there is a collision.
 	    return true;
     }
@@ -214,7 +214,7 @@ public class Model2D {
         for (int i = 0; i < points.size(); i++) {
             // edge[n] = points[n + 1] - points[n];
             // Get the normal vector of each edge vector by swapping x and y, then negating one of them.
-            normals.add(points.get((i + 1) % points.size()).copy().sub(points.get(i)).getPerpendicular());
+            normals.add(points.get((i + 1) % points.size()).copy().sub(points.get(i)).getNormal());
         }
         return normals;
     }

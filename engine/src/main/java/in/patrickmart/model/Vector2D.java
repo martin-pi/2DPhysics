@@ -255,12 +255,21 @@ public class Vector2D {
     }
 
     /**
-     * Returns a vector which is perpendicular or 'normal' to this one.
-     * @return a Vector2D object which is perpendicular to this one
+     * Returns a vector which is perpendicular to this one.
+     * @return a Vector2D object which is perpendicular to this one.
      */
     public Vector2D getPerpendicular() {
-        // Get the normal vector by swapping x and y, then negating either one of them.
+        // Get the perpendicular vector by swapping x and y, then negating either one of them.
         return new Vector2D(this.y, -this.x);
+    }
+
+    /**
+     * Returns a unit vector which is perpendicular or 'normal' to this one.
+     * @return a Vector2D object which is normal to this one and has a length of one.
+     */
+    public Vector2D getNormal() {
+        // Get the normal vector by swapping x and y, then negating either one of them, then normalizing.
+        return new Vector2D(this.y, -this.x).normalize();
     }
 
     /**
