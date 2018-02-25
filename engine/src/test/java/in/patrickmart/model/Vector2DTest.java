@@ -299,7 +299,6 @@ public class Vector2DTest
     public void testVectorNormals() {
         Vector2D v = new Vector2D(2, -1);
         Vector2D normal = v.getNormal();
-        System.out.println(normal.toString() +  " " + normal.mag());
         double acceptableError = 0.0000000000001;
         assertTrue(normal.mag() >= 1 - acceptableError
                 && normal.mag() <= 1 + acceptableError);

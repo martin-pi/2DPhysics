@@ -153,43 +153,46 @@ public class Model2D {
 
         // For each axis, find the min and max dot product of that axis with each point in this shape and the other
         for (Vector2D axis : axes) {
-            double min = points.get(0).dot(axis);
-            double max = points.get(0).dot(axis);
-            double oMin = other.getPoints().get(0).dot(axis);
-            double oMax = other.getPoints().get(0).dot(axis);
+            double[] projection = project(axis);
+            double min = projection[0];
+            double max = projection[1];
 
-            for (int i = 1; i < points.size(); i++) { // Find the projection of this model on this axis
-                double dot = axis.dot(points.get(i).copy().add(position));
-                if (dot < min) {
-                    min = dot;
-                }
-                if (dot > max) {
-                    max = dot;
-                }
-            }
-
-            for (int i = 1; i < other.getPoints().size(); i++) { // Find the projection of the other model on this axis
-                double dot = axis.dot(other.getPoints().get(i).copy().add(other.getPosition()));
-                if (dot < oMin) {
-                    oMin = dot;
-                }
-                if (dot > oMax) {
-                    oMax = dot;
-                }
-            }
+            double[] otherProjection = other.project(axis);
+            double oMin = otherProjection[0];
+            double oMax = otherProjection[1];
 
             // Determine if there is any overlap between the min/max of this and the other shape. if not, return false
             // seems to say there is no collision only when the objects have space between them on the x axis.
-            if (! (min <= oMax) && (oMin <= max)) {
-                    System.out.println("Found non-overlapping projection!");
+            if (!(min <= oMax && oMin <= max)) {
                     return false;
-            }else {
-                //System.out.println(min + " " + max + " | " + oMin + " " + oMax);
             }
         }
 
         // TODO Calculate the minimum translation vector and return it if there is a collision.
 	    return true;
+    }
+
+    /**
+     * Projects this model onto an axis, and returns the interval of that projection.
+     * @param axis A normal vector to project this model onto.
+     * @return The minimum and maximum dot product of the points in this model.
+     */
+    public double[] project(Vector2D axis) {
+        double min = points.get(0).dot(axis); // Start the min and max on a calculated value. 0 might not be in range.
+        double max = points.get(0).dot(axis);
+
+        for (int i = 1; i < points.size(); i++) { // Find the projection of this model on this axis
+            double dot = axis.dot(points.get(i).copy().add(position));
+
+            if (dot < min) {
+                min = dot;
+            }
+            if (dot > max) {
+                max = dot;
+            }
+        }
+
+        return new double[] {min, max};
     }
 
     /**
