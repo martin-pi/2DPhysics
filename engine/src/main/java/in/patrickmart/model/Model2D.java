@@ -131,25 +131,36 @@ public class Model2D {
 		return new AABB(new Vector2D(), furthestX, furthestY);
 	}
 
-	public void setPosition(Vector2D position) {
-	    this.position = position;
+
+
+
+
+    public boolean containsPoint(Vector2D point) {
+        //Not really needed as of yet.
+        return false;
     }
 
+    /**
+     * Implements Hyperplane Separation Theorem, the best named theorem in existence, to determine intersection.
+     * @param other The model to check collision against
+     * @return true if this model and the other model are intersecting
+     */
+    public boolean intersectsModel2D(Model2D other) {
+	    //Build a list of edge vectors.
+
+        //Get the normal vector of each edge vector by swapping x and y, then negating one of them.
+	    return false;
+    }
+
+    public void setPosition(Vector2D position) {
+        this.position = position;
+    }
     public Vector2D getPosition() {
         if (position != null) {
             return position;
         }
-	    return new Vector2D();
+        return new Vector2D();
     }
-
-    public boolean containsPoint(Vector2D point) {
-        return false;
-    }
-
-    public boolean intersectsModel2D(Model2D other) {
-	    return false;
-    }
-
     public List<Vector2D> getPoints() {
         return this.points;
     }

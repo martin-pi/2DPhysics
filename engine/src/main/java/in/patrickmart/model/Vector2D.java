@@ -255,6 +255,15 @@ public class Vector2D {
     }
 
     /**
+     * Returns a vector which is perpendicular or 'normal' to this one.
+     * @return a Vector2D object which is perpendicular to this one
+     */
+    public Vector2D getPerpendicular() {
+        // Get the normal vector by swapping x and y, then negating either one of them.
+        return new Vector2D(this.y, -this.x);
+    }
+
+    /**
      *	Calculates the angle between this vector and another vector.
      *	@return The angle between this vector and another vector.
      */
