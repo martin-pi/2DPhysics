@@ -5,10 +5,12 @@ import java.util.ArrayList;
 public class Scenario {
     private ArrayList<Entity> entities; // TODO implement Quadtree.
     private ArrayList<CollisionData> collisions;
+    private ArrayList<Force> forces;
 
     public Scenario() {
         entities = new ArrayList<Entity>();
         collisions = new ArrayList<CollisionData>();
+        forces = new ArrayList<Force>();
     }
 
     public void addEntity(Entity e) {
@@ -24,6 +26,11 @@ public class Scenario {
 		collisions = new ArrayList<CollisionData>();
         // Move each object in the scenario along its velocity vector.
         for (Entity e:entities) {
+            if (!forces.isEmpty()) {
+                for (Force f : forces) {
+                    e.applyForce(f.getDirection());
+                }
+            }
             e.calculateAcceleration();
             e.calculateVelocity();
             e.calculatePosition();
@@ -79,4 +86,17 @@ public class Scenario {
     public ArrayList<Entity> getEntities() {
         return entities;
     }
+
+    /**
+     * add a force to the scenario
+     * @param f the force to be added
+     */
+    public void addForce(Force f){
+        forces.add(f);
+    }
+
+    public ArrayList<Force> getForces(){
+        return forces;
+    }
+
 }

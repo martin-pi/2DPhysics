@@ -165,6 +165,10 @@ public class Viewer implements Observer {
             if ( key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
                 controller.viewEvent(); //TODO expand this "Command pattern?"
             }
+            if ( key == GLFW_KEY_G && action == GLFW_PRESS) {
+                controller.gravityOn(); //TODO expand this "Command pattern?"
+            }
+
         });
 
         glfwSetWindowCloseCallback(window,(window) ->

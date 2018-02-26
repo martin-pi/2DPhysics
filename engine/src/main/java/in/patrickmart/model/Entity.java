@@ -13,6 +13,7 @@ public class Entity {
     private Model2D model;
     private Material material;
     private AABB bounds;
+    private Vector2D acceleration;
 
     // Colors here are being stored for debug purposes. TODO Implement materials and move colors there.
 	private double[] color;
@@ -30,6 +31,7 @@ public class Entity {
         this.rotation = 0;
         this.velocity = new Vector2D();
         this.rotationalVelocity = 0;
+        acceleration = new Vector2D();
 
         // Calculate some random colors to make things look good. TODO remove these when materials are in.
         Random r = new Random();
@@ -49,6 +51,7 @@ public class Entity {
         this.rotation = 0;
         this.velocity = new Vector2D();
         this.rotationalVelocity = 0;
+        acceleration = new Vector2D();
 
         // Calculate some random colors to make things look good. TODO remove these when materials are in.
         Random r = new Random();
@@ -74,8 +77,9 @@ public class Entity {
 		collisionColor = new double[] {0.9,0.4,0.4,0.75}; // Red
     }
 	
-	public Vector2D applyForce(Vector2D acceleration, Force force) {
-        return acceleration;
+	public void applyForce(Vector2D direction) {
+        acceleration = acceleration.add(direction);
+
         //TODO applying a force should apply acceleration to this entity. Should acceleration also be a field?
     }
 	
@@ -93,13 +97,16 @@ public class Entity {
     public void calculateAcceleration() {
         //this.acceleration = new Vector2D();
         //applyForce(gravity); //Something like this?
+        //applyForce is basically calculate acceleration since only forces effect acceleration
     }
 
     /**
      * Apply acceleration to this entity's linear and rotational velocity.
      */
     public void calculateVelocity() {
-
+        //acceleration * time + velocity
+        //ever step should be about 1/60 th of a second
+        velocity = velocity.add(acceleration.mult(1/60));
     }
 
     /**
@@ -143,12 +150,6 @@ public class Entity {
 		color = collisionColor;
     }
 
-    //TODO delete this
-    public void setVelocity(Vector2D velocity)
-    {
-        this.velocity = velocity;
-    }
-		
     /**
      * Accessor for position
      * @return position vector

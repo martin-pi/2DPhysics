@@ -84,9 +84,15 @@ public class Controller {
         double y = (r.nextDouble() * 2) - 1;
         int sides = r.nextInt((10 - 3) + 1) + 3;
         Entity e = new Entity(new Vector2D(x,y), new Model2D(sides ,.1));
-        e.setVelocity(new Vector2D((r.nextDouble() - .5) * .001,(r.nextDouble() - .5) * .001)); //testing collision response.
         model.addEntity(e);
         System.out.println("Added random entity #" + e.id + " to the model.");
+    }
+
+    public void gravityOn(){
+        Force gravity = new Force(new Vector2D(0,-8.99));
+        model.getScenario().addForce(gravity);
+        System.out.println("turning on gravity");
+
     }
 
     /**
