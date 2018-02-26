@@ -84,6 +84,15 @@ public class Controller {
         double y = (r.nextDouble() * 2) - 1;
         int sides = r.nextInt((10 - 3) + 1) + 3;
         Entity e = new Entity(new Vector2D(x,y), new Model2D(sides ,.1));
+        e.setVelocity(new Vector2D((r.nextDouble() - .5) * .01,(r.nextDouble() - .5) * .01));
+        model.addEntity(e);
+        System.out.println("Added random entity #" + e.id + " to the model.");
+    }
+
+    public void launchEvent(){
+        Random r = new Random();
+        Entity e = new Entity(new Vector2D(1,0), new Model2D(8 ,.1));
+        e.setVelocity(new Vector2D(-.03,.03));
         model.addEntity(e);
         System.out.println("Added random entity #" + e.id + " to the model.");
     }

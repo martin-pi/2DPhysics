@@ -16,9 +16,8 @@ public class Force {
      * @param mass of entity
      * @return force vector in newtons
      */
-    public  Vector2D calculateMagnitude(double mass){
+    public  Vector2D calculateForce(double mass){
         Vector2D mag = direction.mult(mass);
         return mag;
-
     }
 }

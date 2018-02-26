@@ -1,6 +1,7 @@
 package in.patrickmart.model;
 
 import java.util.Random;
+import java.util.Vector;
 
 public class Entity {
 	public int id;
@@ -194,6 +195,14 @@ public class Entity {
      */
     public Material getMaterial() {
         return material;
+    }
+
+    /**
+     * for setting an initial launch velocity or a one time velocity change
+     * @param velocity
+     */
+    public void setVelocity(Vector2D velocity){
+        this.velocity = velocity;
     }
 
     /**

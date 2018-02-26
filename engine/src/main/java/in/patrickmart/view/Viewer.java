@@ -168,6 +168,9 @@ public class Viewer implements Observer {
             if ( key == GLFW_KEY_G && action == GLFW_PRESS) {
                 controller.gravityToggle();
             }
+            if ( key == GLFW_KEY_L && action == GLFW_PRESS){
+                controller.launchEvent();
+            }
         });
 
         glfwSetWindowCloseCallback(window,(window) ->
