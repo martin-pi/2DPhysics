@@ -184,7 +184,7 @@ public class Viewer implements Observer {
                 glfwGetCursorPos(window,x,y);
                 glfwGetWindowSize(window,h,w);
                 x_cursor = (x[0] - (h[0] / 2)) / (h[0] / 2);
-                y_cursor = (y[0] - (w[0] / 2)) / (w[0] / 2);
+                y_cursor = ((w[0] / 2) - y[0])/ (w[0] / 2);
                 controller.clickEvent(x_cursor,y_cursor);
             }
         });
