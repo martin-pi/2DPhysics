@@ -106,7 +106,8 @@ public class Entity {
     public void calculateVelocity() {
         //acceleration * time + velocity
         //ever step should be about 1/60 th of a second
-        velocity = velocity.add(acceleration.mult(1/60));
+        //velocity = velocity.add(acceleration.mult(1/60));
+        velocity = velocity.add(acceleration.mult(.016));
     }
 
     /**

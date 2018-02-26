@@ -95,6 +95,11 @@ public class Scenario {
         forces.add(f);
     }
 
+    public void removeForce(){
+        //TODO: actually remove specific forces
+        forces.clear();
+    }
+
     public ArrayList<Force> getForces(){
         return forces;
     }

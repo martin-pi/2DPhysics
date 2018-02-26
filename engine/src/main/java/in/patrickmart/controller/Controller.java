@@ -88,11 +88,15 @@ public class Controller {
         System.out.println("Added random entity #" + e.id + " to the model.");
     }
 
-    public void gravityOn(){
-        Force gravity = new Force(new Vector2D(0,-8.99));
-        model.getScenario().addForce(gravity);
-        System.out.println("turning on gravity");
-
+    public void gravityToggle(){
+        if (model.getScenario().getForces().isEmpty()) {
+            Force gravity = new Force(new Vector2D(0, -.0899)); //smaller acceleration cuz are view is tiny
+            model.getScenario().addForce(gravity);
+            System.out.println("turning on gravity");
+        } else{
+            System.out.println("turning off gravity");
+            model.getScenario().removeForce();
+        }
     }
 
     /**
