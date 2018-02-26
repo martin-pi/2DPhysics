@@ -117,7 +117,9 @@ public class Entity {
         if (rotationalVelocity != 0) { // If we have rotated, we need a new bounding box.
             bounds = model.calculateBounds(this.rotation);
         }
-        setPosition(this.position.add(velocity)); // TODO As soon as forces are being implemented, change this.
+        if (!(this.position.getY() < -.9)) {
+            setPosition(this.position.add(velocity)); // TODO As soon as forces are being implemented, change this.
+        }
     }
 	
 	/**
