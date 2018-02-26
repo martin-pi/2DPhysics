@@ -11,6 +11,7 @@ public class Entity {
     private Vector2D velocity;
     private double rotationalVelocity;
     private Model2D model;
+    private Material material;
     private AABB bounds;
 
     // Colors here are being stored for debug purposes. TODO Implement materials and move colors there.
@@ -18,10 +19,11 @@ public class Entity {
     private double[] originalColor;
 	private double[] collisionColor ;
 
-    public Entity(Vector2D position, Model2D model) {
+    public Entity(Vector2D position, Model2D model, Material material) {
 		this.id = getNewId();
 
         this.model = model;
+        this.material = material;
         this.bounds = model.calculateBounds(this.rotation);
 
         setPosition(position);
@@ -33,6 +35,25 @@ public class Entity {
         Random r = new Random();
         originalColor = new double[] {r.nextDouble(),0.65,0.80,0.75};
 		this.color = originalColor;
+        collisionColor = new double[] {0.9,0.4,0.4,0.75}; // Red
+    }
+
+    public Entity(Vector2D position, Model2D model) {
+        this.id = getNewId();
+
+        this.model = model;
+        this.material = null;
+        this.bounds = model.calculateBounds(this.rotation);
+
+        setPosition(position);
+        this.rotation = 0;
+        this.velocity = new Vector2D();
+        this.rotationalVelocity = 0;
+
+        // Calculate some random colors to make things look good. TODO remove these when materials are in.
+        Random r = new Random();
+        originalColor = new double[] {r.nextDouble(),0.65,0.80,0.75};
+        this.color = originalColor;
         collisionColor = new double[] {0.9,0.4,0.4,0.75}; // Red
     }
 
@@ -147,8 +168,8 @@ public class Entity {
     }
 
     /**
-     * Accessor for model
-     * @return entity model
+     * Accessor for this entity's model or "shape."
+     * @return This entity's model
      */
     public Model2D getModel() {
         return model;
@@ -162,11 +183,24 @@ public class Entity {
     }
 
     /**
+     * Accessor for this entity's material, containing many of its static physical properties.
+     * @return This entity's material
+     */
+    public Material getMaterial() {
+        return material;
+    }
+
+    /**
      * accessor for color.
      * @return color array
      */
     public double[] getColor() {
-        return color;
+        //TODO remove that else, every entity needs a material.
+        if (material != null) {
+            return material.getColor();
+        } else {
+            return color;
+        }
     }
 
     /**
