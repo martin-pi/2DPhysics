@@ -148,6 +148,10 @@ public class Entity {
      * Use the CollisionData generated from the collision check to move out of the collision and apply Normal force.
      */
     public void collisionResponse() {
+        if (!(acceleration.getY() == 0)) {
+            acceleration = new Vector2D(0, .0898);
+            calculateVelocity();
+        }
 		color = collisionColor;
     }
 
