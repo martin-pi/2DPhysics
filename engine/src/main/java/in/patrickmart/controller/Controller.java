@@ -90,7 +90,6 @@ public class Controller {
     }
 
     public void launchEvent(){
-        Random r = new Random();
         Entity e = new Entity(new Vector2D(1,0), new Model2D(8 ,.1));
         e.setVelocity(new Vector2D(-.03,.03));
         model.addEntity(e);

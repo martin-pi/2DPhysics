@@ -88,7 +88,6 @@ public class Entity {
 	 * Give this entity a chance to react to its surroundings and act on its own.
 	 */
 	public void step() {
-	    position = position.add(velocity);
 		color = originalColor;
 	}
 	
@@ -118,7 +117,7 @@ public class Entity {
         if (rotationalVelocity != 0) { // If we have rotated, we need a new bounding box.
             bounds = model.calculateBounds(this.rotation);
         }
-        setPosition(this.position); // TODO As soon as forces are being implemented, change this.
+        setPosition(this.position.add(velocity)); // TODO As soon as forces are being implemented, change this.
     }
 	
 	/**
@@ -149,10 +148,6 @@ public class Entity {
      * Use the CollisionData generated from the collision check to move out of the collision and apply Normal force.
      */
     public void collisionResponse() {
-        if (!(acceleration.getY() == 0)) {
-            acceleration = new Vector2D(0, .0898);
-            calculateVelocity();
-        }
 		color = collisionColor;
     }
 
