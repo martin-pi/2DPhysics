@@ -173,6 +173,22 @@ public class Viewer implements Observer {
             }
         });
 
+        glfwSetMouseButtonCallback(window,(window, button, action, mods) -> {
+            if(button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
+                double[] x = new double[1];
+                double[] y = new double[1];
+                int[] h = new int[1];
+                int[] w = new int[1];
+                double x_cursor = 0;
+                double y_cursor = 0;
+                glfwGetCursorPos(window,x,y);
+                glfwGetWindowSize(window,h,w);
+                x_cursor = (x[0] - (h[0] / 2)) / (h[0] / 2);
+                y_cursor = (y[0] - (w[0] / 2)) / (w[0] / 2);
+                controller.clickEvent(x_cursor,y_cursor);
+            }
+        });
+
         glfwSetWindowCloseCallback(window,(window) ->
             closeWindow()
         );

@@ -107,6 +107,14 @@ public class Controller {
         }
     }
 
+    public void clickEvent(double x, double y){
+        //need to convert this to model units
+        System.out.println("click at: " + x + ", " + y);
+        //check all entities to see which one was clicked
+        //tell the model to create a status for the view
+        //view creates window to display the status of the clicked entity.
+    }
+
     /**
      * accessor for this controller's model
      * @return model
