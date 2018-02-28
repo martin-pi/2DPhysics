@@ -98,7 +98,7 @@ public class Controller {
 
     public void gravityToggle(){
         if (model.getScenario().getForces().isEmpty()) {
-            Force gravity = new Force(new Vector2D(0, -.0899)); //smaller acceleration cuz are view is tiny
+            Force gravity = new Force(new Vector2D(0, -.0899));
             model.getScenario().addForce(gravity);
             System.out.println("turning on gravity");
         } else{

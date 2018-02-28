@@ -1,5 +1,6 @@
 package in.patrickmart.model;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -9,7 +10,7 @@ import java.util.Vector;
  *	@version 0.1
  *  Uses a set of Vector2Ds to define a convex shape.
  */
-public class Model2D {
+public class Model2D implements CompositeModel{
     private List<Vector2D> points;  //A collection of vectors representing offsets from the model's center of gravity.
     private Vector2D position;
 	private double area; //The area of this model, used for calculations of mass.
@@ -73,6 +74,7 @@ public class Model2D {
         //Construct this model from a set of vectors or x/y pairs.
         calculateArea();
     }
+
 
     /**
      *  Adjust all vectors in this model so that their origin is the model's center of gravity.
@@ -138,6 +140,7 @@ public class Model2D {
      * @return true if point is within model.
      */
     public boolean containsPoint(Vector2D point) {
+        /**
         //turn point vector into horizontal line extending forever in one direction
         double end_x = point.getX() + 9999;
         int intersections = 0;
@@ -155,7 +158,9 @@ public class Model2D {
         }
 
         return intersections == 1;
+         */
         // TODO: use this to determine which object is clicked on for displaying information window
+        return false;
     }
 
     /**
@@ -216,7 +221,7 @@ public class Model2D {
      * Calculates the edge vectors that define this shape. An edge is a line between two points from the points list.
      * @return An ArrayList of every edge vector in this model.
      */
-    public ArrayList<Vector2D> getEdges() {
+    private ArrayList<Vector2D> getEdges() {
         ArrayList<Vector2D> edges = new ArrayList<>();
         for (int i = 0; i < points.size(); i++) {
             // edge[n] = points[n + 1] - points[n];
@@ -239,8 +244,6 @@ public class Model2D {
         return normals;
     }
 
-
-
     public void setPosition(Vector2D position) {
         this.position = position;
     }
@@ -256,4 +259,15 @@ public class Model2D {
     public double getArea() {
         return this.area;
     }
+    public ArrayList<Model2D> getSubModels(){
+        ArrayList<Model2D> model = new ArrayList<>();
+        model.add(this);
+        return model;
+    }
+
+    public void addModel(Model2D model){
+
+    }
+    public Model2D getModel(int index){return this;}
+    public void removeModel(Model2D model){}
 }
