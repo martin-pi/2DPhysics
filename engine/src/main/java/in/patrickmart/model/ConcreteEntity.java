@@ -80,7 +80,7 @@ public class ConcreteEntity implements Entity{
     }
 
     public Force generateForce(ArrayList<Entity> ents){
-        return new Force(new Vector2D(0,0));
+        return new Force();
     }
 	public void applyForce(Vector2D direction) {
         acceleration = acceleration.add(direction);
@@ -121,9 +121,7 @@ public class ConcreteEntity implements Entity{
         if (rotationalVelocity != 0) { // If we have rotated, we need a new bounding box.
             bounds = model.calculateBounds(this.rotation);
         }
-        if (!(this.position.getY() < -.9)) {
-            setPosition(this.position.add(velocity)); // TODO As soon as forces are being implemented, change this.
-        }
+        setPosition(this.position.add(velocity));
     }
 	
 	/**

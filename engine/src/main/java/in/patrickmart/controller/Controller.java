@@ -89,24 +89,6 @@ public class Controller {
         System.out.println("Added random entity #" + e.getId() + " to the model.");
     }
 
-    public void launchEvent(){
-        Entity e = new ConcreteEntity(new Vector2D(1,0), new Model2D(8 ,.1));
-        e.setVelocity(new Vector2D(-.03,.03));
-        model.addEntity(e);
-        System.out.println("Added random entity #" + e.getId() + " to the model.");
-    }
-
-    public void gravityToggle(){
-        if (model.getScenario().getForces().isEmpty()) {
-            Force gravity = new Force(new Vector2D(0, -.0899));
-            model.getScenario().addForce(gravity);
-            System.out.println("turning on gravity");
-        } else{
-            System.out.println("turning off gravity");
-            model.getScenario().removeForce();
-        }
-    }
-
     public void clickEvent(double x, double y){
         System.out.println("click at: " + x + ", " + y);
         //check all entities to see which one was clicked

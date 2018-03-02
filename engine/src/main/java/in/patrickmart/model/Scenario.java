@@ -26,11 +26,6 @@ public class Scenario {
 		collisions = new ArrayList<CollisionData>();
         // Move each object in the scenario along its velocity vector.
         for (Entity e:entities) {
-            if (!forces.isEmpty()) {
-                for (Force f : forces) {
-                    e.applyForce(f.getDirection());
-                }
-            }
             e.calculateAcceleration();
             e.calculateVelocity();
             e.calculatePosition();
