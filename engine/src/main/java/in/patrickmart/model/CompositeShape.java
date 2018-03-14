@@ -122,6 +122,12 @@ public class CompositeShape implements Shape {
         return false;
     }
 
+    public double[] project(Vector2D axis) {
+        //TODO: actually project the entire composite shape onto the axis
+        double[] fixme = {0, 0};
+        return fixme;
+    }
+
 
     public void setPosition(Vector2D position) {
         this.position = position;
@@ -143,6 +149,14 @@ public class CompositeShape implements Shape {
             }
         }
         return points;
+    }
+
+    public ArrayList<Vector2D> getNormals() {
+        ArrayList<Vector2D> subNormals = new ArrayList<>();
+        for(Shape m : shapes){
+            subNormals.addAll(m.getNormals());
+        }
+        return subNormals;
     }
 
     public ArrayList<Shape> getSubShapes(){

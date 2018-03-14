@@ -15,4 +15,6 @@ public interface Shape {
     Vector2D getPosition();
     List<Vector2D> getPoints();
     ArrayList<Shape> getSubShapes();
+    ArrayList<Vector2D> getNormals();
+    double[]project(Vector2D axis);
 }
