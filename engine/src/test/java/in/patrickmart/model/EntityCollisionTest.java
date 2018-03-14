@@ -121,7 +121,7 @@ public class EntityCollisionTest extends TestCase
         firstPoints.add(new Vector2D(-1, 1));
         firstPoints.add(new Vector2D(1, 1));
         ConcreteEntity first = new ConcreteEntity(new Vector2D(0, 2), new ConcreteShape(firstPoints));
-        ConcreteShape model = first.getShape();
+        Shape model = first.getShape();
 
         ArrayList<Vector2D> axes = model.getNormals();
         for (Vector2D axis : axes) {
