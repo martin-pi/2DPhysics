@@ -1,6 +1,7 @@
 package in.patrickmart.controller;
 
 import in.patrickmart.model.*;
+import in.patrickmart.model.forces.ForceGravity;
 
 import java.util.Random;
 

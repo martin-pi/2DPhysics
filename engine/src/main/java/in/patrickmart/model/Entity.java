@@ -1,5 +1,5 @@
 package in.patrickmart.model;
-import java.util.ArrayList;
+import in.patrickmart.model.forces.Force;
 
 public interface Entity {
     void step();

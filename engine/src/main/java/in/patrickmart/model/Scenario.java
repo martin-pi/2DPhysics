@@ -1,5 +1,7 @@
 package in.patrickmart.model;
 
+import in.patrickmart.model.forces.Force;
+
 import java.util.ArrayList;
 
 public class Scenario {

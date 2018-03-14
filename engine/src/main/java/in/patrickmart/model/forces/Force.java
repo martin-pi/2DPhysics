@@ -1,4 +1,7 @@
-package in.patrickmart.model;
+package in.patrickmart.model.forces;
+
+import in.patrickmart.model.Entity;
+import in.patrickmart.model.Vector2D;
 
 import java.util.ArrayList;
 

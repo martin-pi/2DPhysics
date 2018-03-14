@@ -1,5 +1,7 @@
 package in.patrickmart.model;
 
+import in.patrickmart.model.forces.Force;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -110,14 +112,11 @@ public class ConcreteEntity implements Entity{
 	 * Calculate the angular and linear acceleration of this entity.
 	 */
     public void calculateAcceleration() {
-
-
-
-        //Start by finding netForce and netTorque.
+        // Start by finding netForce and netTorque.
         Vector2D netForce = new Vector2D();
 
         for (Force f : forces) {
-            //TODO calculate angular acceleration.
+            // TODO calculate angular acceleration.
             netForce.add(f.getForce());
         }
 
@@ -125,6 +124,9 @@ public class ConcreteEntity implements Entity{
         acceleration = new Vector2D(netForce.getX() / this.mass, netForce.getY() / this.mass);
         // TODO Similarly, for torque: netTorque = momentOfInertia(around center of mass) * angularAcceleration
         angularAcceleration = 0;
+
+        // Clear the list of forces so that they don't build up step after step.
+        forces = new ArrayList<>();
     }
 
     /**
@@ -157,7 +159,7 @@ public class ConcreteEntity implements Entity{
      */
     public CollisionData collisionCheck(Entity other) {
         // TODO Implement raycasting so we can predict collision.
-        //TODO restore rough collision check.
+        // TODO restore rough collision check.
         if (roughCollision(other)) {
             if (fineCollision(other)) {
                 return new CollisionData(this, other);
