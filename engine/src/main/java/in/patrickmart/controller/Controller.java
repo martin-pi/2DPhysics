@@ -1,7 +1,7 @@
 package in.patrickmart.controller;
 
 import in.patrickmart.model.*;
-import in.patrickmart.model.forces.ForceGravity;
+import in.patrickmart.model.forces.*;
 
 import java.util.Random;
 
@@ -10,12 +10,16 @@ public class Controller {
     private boolean running;
     private int ticksPerSecond; //How many times per second should the controller call step?
     private double actualTicksPerSecond; // How many times per second is step actually called?
+    private boolean gravityOn;
+    private boolean flatEarth;
 
     public Controller(Model model) {
         this.model = model;
         this.running = false ;
         actualTicksPerSecond = 0;
         ticksPerSecond = 60;
+        gravityOn = false;
+        flatEarth = false;
     }
 
     /**
@@ -71,6 +75,19 @@ public class Controller {
     public void step()
     {
         model.step();
+        //TODO: change this when implementing global forces
+        if (flatEarth) {
+            for (Entity e : model.getScenario().getEntities()) {
+                e.applyForce(new ForceFEA(e));
+            }
+        }
+        if (gravityOn) {
+            for (Entity e : model.getScenario().getEntities()) {
+                for (Entity o: model.getScenario().getEntities()) {
+                    if (!e.equals(o)) e.applyForce(new ForceGravity(e,o));
+                }
+            }
+        }
     }
 
     /**
@@ -88,10 +105,22 @@ public class Controller {
         System.out.println("Added random entity #" + e.getId() + " to the model.");
     }
 
+    /**
+     * toggles the force of gravity acting on all entities
+     */
+    public void toggleFEA(){
+        flatEarth = !flatEarth;
+    }
+
+    /**
+     * toggle gravity of objects
+     */
+    public void toggleGravity(){
+        gravityOn = !gravityOn;
+    }
+
     public void clickEvent(double x, double y){
-        for (Entity e : model.getScenario().getEntities()) {
-            e.applyForce(new ForceGravity(e));
-        }
+
         System.out.println("click at: " + x + ", " + y);
         //check all entities to see which one was clicked
         //tell the model to create a status for the view
