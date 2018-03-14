@@ -3,8 +3,8 @@ import java.util.ArrayList;
 
 public interface Entity {
     void step();
-    Force generateForce(ArrayList<Entity> ents);
-    void applyForce(Vector2D direction); //need to change this when forces are implemented
+    Force generateForce(ArrayList<Entity> appliesTo);
+    void applyForce(Force force);
     void calculateAcceleration();
     void calculateVelocity();
     void calculatePosition();

@@ -10,13 +10,14 @@ public class ConcreteEntity implements Entity{
     private Vector2D position;
     private double rotation;
     private Vector2D velocity;
+    private ArrayList<Force> forces;
     private double rotationalVelocity;
     private ConcreteShape shape;
     private Material material;
     private AABB bounds;
     private Vector2D acceleration;
 
-    // Colors here are being stored for debug purposes. TODO Implement materials and move colors there.
+    // When no material is specified, these are the default colors.
 	private double[] color;
     private double[] originalColor;
 	private double[] collisionColor ;
@@ -34,7 +35,7 @@ public class ConcreteEntity implements Entity{
         this.rotationalVelocity = 0;
         acceleration = new Vector2D();
 
-        // Calculate some random colors to make things look good. TODO remove these when materials are in.
+        // Calculate some random colors as defaults if there are no materials.
         Random r = new Random();
         originalColor = new double[] {r.nextDouble(),0.65,0.80,0.75};
 		this.color = originalColor;
@@ -54,7 +55,7 @@ public class ConcreteEntity implements Entity{
         this.rotationalVelocity = 0;
         acceleration = new Vector2D();
 
-        // Calculate some random colors to make things look good. TODO remove these when materials are in.
+        // Calculate some random colors as defaults if there are no materials.
         Random r = new Random();
         originalColor = new double[] {r.nextDouble(),0.65,0.80,0.75};
         this.color = originalColor;
@@ -72,19 +73,18 @@ public class ConcreteEntity implements Entity{
         this.velocity = new Vector2D();
         this.rotationalVelocity = 0;
 
-        // Add some color to make things look good. TODO remove these when materials are in.
+        // Calculate some random colors as defaults if there are no materials.
         originalColor = color;
 		this.color = originalColor;
 		collisionColor = new double[] {0.9,0.4,0.4,0.75}; // Red
     }
 
-    public Force generateForce(ArrayList<Entity> ents){
-        return new Force();
+    public Force generateForce(ArrayList<Entity> appliesTo){
+        return new Force(this, appliesTo);
     }
-	public void applyForce(Vector2D direction) {
-        acceleration = acceleration.add(direction);
 
-        //TODO applying a force should apply acceleration to this entity. Should acceleration also be a field?
+	public void applyForce(Force force) {
+        this.forces.add(force);
     }
 	
 	/**
@@ -98,9 +98,16 @@ public class ConcreteEntity implements Entity{
 	 * Calculate the angular and linear acceleration of this entity.
 	 */
     public void calculateAcceleration() {
-        //this.acceleration = new Vector2D();
-        //applyForce(gravity); //Something like this?
-        //applyForce is basically calculate acceleration since only forces effect acceleration
+        // Newton's Second law: netForce = mass * acceleration -> acceleration = netForce / mass
+        // Similarly, for torque: netTorque = momentOfInertia(around center of mass) * angularAcceleration
+
+        //Start by finding netForce and netTorque.
+        Vector2D netForce = new Vector2D();
+
+        for (Force f : forces) {
+            //TODO calculate angular acceleration.
+            netForce.add(f.getForce());
+        }
     }
 
     /**
@@ -108,9 +115,11 @@ public class ConcreteEntity implements Entity{
      */
     public void calculateVelocity() {
         //acceleration * time + velocity
-        //ever step should be about 1/60 th of a second
+        //every step should be about 1/60th of a second
         //velocity = velocity.add(acceleration.mult(1/60));
         velocity = velocity.add(acceleration.mult(.016));
+
+        //TODO calculate angularVelocity.
     }
 
     /**
