@@ -1,7 +1,7 @@
 package in.patrickmart.modelrefactor;
 
-import in.patrickmart.model.Entity;
-import in.patrickmart.model.Scenario;
+import in.patrickmart.modelrefactor.Entity;
+import in.patrickmart.modelrefactor.Scenario;
 import in.patrickmart.view.Observer;
 
 public class Model extends in.patrickmart.modelrefactor.Subject {
