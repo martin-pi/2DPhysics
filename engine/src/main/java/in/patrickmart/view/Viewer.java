@@ -1,11 +1,11 @@
 package in.patrickmart.view;
 
 import in.patrickmart.controller.Controller;
-import in.patrickmart.modelrefactor.Entity;
-import in.patrickmart.modelrefactor.Scenario;
-import in.patrickmart.modelrefactor.Vector2D;
-import in.patrickmart.modelrefactor.Model;
+import in.patrickmart.model.Entity;
+import in.patrickmart.model.*;
+import in.patrickmart.model.Scenario;
 
+import in.patrickmart.model.Vector2D;
 import org.lwjgl.*;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;

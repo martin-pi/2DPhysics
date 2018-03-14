@@ -16,7 +16,7 @@ public class Model2D implements CompositeModel{
 	private double area; //The area of this model, used for calculations of mass.
 
     /**
-     * Constructor for objects of Class Shape
+     * Constructor for objects of Class Model2D
      * @param points an already-constructed list of Vector2D objects defining the points that make up this shape.
      */
     public Model2D(List<Vector2D> points) {
@@ -31,7 +31,7 @@ public class Model2D implements CompositeModel{
     }
 
     /**
-     * Constructor for objects of Class Shape, constructs an n-sided polygon.
+     * Constructor for objects of Class Model2D, constructs an n-sided polygon.
      * @param n number of vertices to construct this model from.
      * @param radius how far each vertex is from the center of gravity.
      */
@@ -53,7 +53,7 @@ public class Model2D implements CompositeModel{
     }
 
     /**
-     * Default Constructor for objects of Class Shape, constructs a triangle with a 1m "radius".
+     * Default Constructor for objects of Class Model2D, constructs a triangle with a 1m "radius".
      */
     public Model2D() {
         int n = 3;
