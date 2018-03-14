@@ -1,14 +1,18 @@
 package in.patrickmart.model;
 
+import in.patrickmart.model.forces.Force;
+
 import java.util.ArrayList;
 
 public class Scenario {
     private ArrayList<Entity> entities; // TODO implement Quadtree.
     private ArrayList<CollisionData> collisions;
+    private ArrayList<Force> forces;
 
     public Scenario() {
         entities = new ArrayList<Entity>();
         collisions = new ArrayList<CollisionData>();
+        forces = new ArrayList<Force>();
     }
 
     public void addEntity(Entity e) {
@@ -79,4 +83,22 @@ public class Scenario {
     public ArrayList<Entity> getEntities() {
         return entities;
     }
+
+    /**
+     * add a force to the scenario
+     * @param f the force to be added
+     */
+    public void addForce(Force f){
+        forces.add(f);
+    }
+
+    public void removeForce(){
+        //TODO: actually remove specific forces
+        forces.clear();
+    }
+
+    public ArrayList<Force> getForces(){
+        return forces;
+    }
+
 }

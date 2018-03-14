@@ -120,10 +120,10 @@ public class Viewer implements Observer {
             glEnd();
             */
             // Draw this entity.
-            for (int i = 0; i < e.getModel().getPoints().size(); i++) {
+            for (int i = 0; i < e.getShape().getPoints().size(); i++) {
                 // Draw triangles between the center of mass and the points making up the model.
-                Vector2D v = e.getModel().getPoints().get(i);
-                Vector2D w = e.getModel().getPoints().get((i + 1) % e.getModel().getPoints().size());
+                Vector2D v = e.getShape().getPoints().get(i);
+                Vector2D w = e.getShape().getPoints().get((i + 1) % e.getShape().getPoints().size());
                 glBegin(GL_TRIANGLES);
                 glColor4d(e.getColor()[0], e.getColor()[1], e.getColor()[2], e.getColor()[3]);
                 glVertex2d(e.getPosition().getX(), e.getPosition().getY());
@@ -164,6 +164,28 @@ public class Viewer implements Observer {
             }
             if ( key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
                 controller.viewEvent(); //TODO expand this "Command pattern?"
+            }
+            if ( key == GLFW_KEY_G && action == GLFW_PRESS) {
+                controller.toggleFEA();
+            }
+            if ( key == GLFW_KEY_B && action == GLFW_PRESS) {
+                controller.toggleGravity();
+            }
+        });
+
+        glfwSetMouseButtonCallback(window,(window, button, action, mods) -> {
+            if(button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
+                double[] x = new double[1];
+                double[] y = new double[1];
+                int[] h = new int[1];
+                int[] w = new int[1];
+                double x_cursor = 0;
+                double y_cursor = 0;
+                glfwGetCursorPos(window,x,y);
+                glfwGetWindowSize(window,h,w);
+                x_cursor = (x[0] - (h[0] / 2)) / (h[0] / 2);
+                y_cursor = ((w[0] / 2) - y[0])/ (w[0] / 2);
+                controller.clickEvent(x_cursor,y_cursor);
             }
         });
 

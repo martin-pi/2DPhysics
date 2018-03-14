@@ -35,21 +35,21 @@ public class EntityCollisionTest extends TestCase
         firstPoints.add(new Vector2D(1, -1));
         firstPoints.add(new Vector2D(-1, -1));
         firstPoints.add(new Vector2D(-1, 1));
-        Entity first = new Entity(new Vector2D(0, 0), new Model2D(firstPoints));
+        ConcreteEntity first = new ConcreteEntity(new Vector2D(0, 0), new ConcreteShape(firstPoints));
 
         ArrayList<Vector2D> secondPoints = new ArrayList<>();
         secondPoints.add(new Vector2D(0.5, 0.5));
         secondPoints.add(new Vector2D(0.5, -0.5));
         secondPoints.add(new Vector2D(-0.5, -0.5));
         secondPoints.add(new Vector2D(-0.5, 0.5));
-        Entity second = new Entity(new Vector2D(-2, 0), new Model2D(secondPoints));
+        ConcreteEntity second = new ConcreteEntity(new Vector2D(-2, 0), new ConcreteShape(secondPoints));
 
         ArrayList<Vector2D> thirdPoints = new ArrayList<>();
         thirdPoints.add(new Vector2D(0.5, 0.5));
         thirdPoints.add(new Vector2D(0.5, -0.5));
         thirdPoints.add(new Vector2D(-0.5, -0.5));
         thirdPoints.add(new Vector2D(-0.5, 0.5));
-        Entity third = new Entity(new Vector2D(0, -2), new Model2D(thirdPoints));
+        ConcreteEntity third = new ConcreteEntity(new Vector2D(0, -2), new ConcreteShape(thirdPoints));
 
         // Test whether rough collision returns a false positive.
         assertFalse(first.roughCollision(second));
@@ -71,13 +71,13 @@ public class EntityCollisionTest extends TestCase
         firstPoints.add(new Vector2D(1, -1));
         firstPoints.add(new Vector2D(-1, -1));
         firstPoints.add(new Vector2D(0, 1));
-        Entity first = new Entity(new Vector2D(0, 0), new Model2D(firstPoints));
+        ConcreteEntity first = new ConcreteEntity(new Vector2D(0, 0), new ConcreteShape(firstPoints));
 
         ArrayList<Vector2D> secondPoints = new ArrayList<>();
         secondPoints.add(new Vector2D(1, 1));
         secondPoints.add(new Vector2D(-1, 1));
         secondPoints.add(new Vector2D(0, -1));
-        Entity second = new Entity(new Vector2D(-1, 1), new Model2D(secondPoints));
+        ConcreteEntity second = new ConcreteEntity(new Vector2D(-1, 1), new ConcreteShape(secondPoints));
 
         // Rough Collision should return true.
         assertTrue(first.roughCollision(second));
@@ -95,13 +95,13 @@ public class EntityCollisionTest extends TestCase
         firstPoints.add(new Vector2D(1, -1));
         firstPoints.add(new Vector2D(-1, -1));
         firstPoints.add(new Vector2D(0, 1));
-        Entity first = new Entity(new Vector2D(0, 0), new Model2D(firstPoints));
+        ConcreteEntity first = new ConcreteEntity(new Vector2D(0, 0), new ConcreteShape(firstPoints));
 
         ArrayList<Vector2D> secondPoints = new ArrayList<>();
         secondPoints.add(new Vector2D(1, 1));
         secondPoints.add(new Vector2D(-1, 1));
         secondPoints.add(new Vector2D(0, -1));
-        Entity second = new Entity(new Vector2D(0, 1), new Model2D(secondPoints));
+        ConcreteEntity second = new ConcreteEntity(new Vector2D(0, 1), new ConcreteShape(secondPoints));
 
         // Rough Collision should return true.
         //assertTrue(first.roughCollision(second));
@@ -120,8 +120,8 @@ public class EntityCollisionTest extends TestCase
         firstPoints.add(new Vector2D(-1, -1));
         firstPoints.add(new Vector2D(-1, 1));
         firstPoints.add(new Vector2D(1, 1));
-        Entity first = new Entity(new Vector2D(0, 2), new Model2D(firstPoints));
-        Model2D model = first.getModel();
+        ConcreteEntity first = new ConcreteEntity(new Vector2D(0, 2), new ConcreteShape(firstPoints));
+        Shape model = first.getShape();
 
         ArrayList<Vector2D> axes = model.getNormals();
         for (Vector2D axis : axes) {

@@ -8,16 +8,16 @@ import java.util.List;
  *	@version 0.1
  *  Uses a set of Vector2Ds to define a convex shape.
  */
-public class Model2D {
-    private List<Vector2D> points;  //A collection of vectors representing offsets from the model's center of gravity.
+public class ConcreteShape implements Shape {
+    private List<Vector2D> points;  //A collection of vectors representing offsets from the shape's center of gravity.
     private Vector2D position;
-	private double area; //The area of this model, used for calculations of mass.
+	private double area; //The area of this shape, used for calculations of mass.
 
     /**
-     * Constructor for objects of Class Model2D
+     * Constructor for objects of Class Shape
      * @param points an already-constructed list of Vector2D objects defining the points that make up this shape.
      */
-    public Model2D(List<Vector2D> points) {
+    public ConcreteShape(List<Vector2D> points) {
 		//Construct this model from a set of vectors or x/y pairs.
         this.points = points;
 		
@@ -29,11 +29,11 @@ public class Model2D {
     }
 
     /**
-     * Constructor for objects of Class Model2D, constructs an n-sided polygon.
+     * Constructor for objects of Class Shape, constructs an n-sided polygon.
      * @param n number of vertices to construct this model from.
      * @param radius how far each vertex is from the center of gravity.
      */
-    public Model2D(int n, double radius) {
+    public ConcreteShape(int n, double radius) {
         //Calculate the angle (in radians) between each vector and the next.
         // The first vertex is directly above the center of gravity.
         double rotation = Math.PI * 2 / n;
@@ -51,9 +51,9 @@ public class Model2D {
     }
 
     /**
-     * Default Constructor for objects of Class Model2D, constructs a triangle with a 1m "radius".
+     * Default Constructor for objects of Class Shape, constructs a triangle with a 1m "radius".
      */
-    public Model2D() {
+    public ConcreteShape() {
         int n = 3;
         int radius = 1;
 
@@ -72,6 +72,7 @@ public class Model2D {
         //Construct this model from a set of vectors or x/y pairs.
         calculateArea();
     }
+
 
     /**
      *  Adjust all vectors in this model so that their origin is the model's center of gravity.
@@ -137,7 +138,25 @@ public class Model2D {
      * @return true if point is within model.
      */
     public boolean containsPoint(Vector2D point) {
-        //Not really needed as of yet.
+        /**
+        //turn point vector into horizontal line extending forever in one direction
+        double end_x = point.getX() + 9999;
+        int intersections = 0;
+        //check how many edges that line touches
+        //if it touches one edge but not another then it is inside the polygon
+        ArrayList<Vector2D> edges = getEdges();
+        for (int i = 0; i < edges.size();i++){
+            if(point.getY() > edges.get(i).getY()){
+                if(edges.size() == i+1 && edges.get(0).getY() > point.getY()){
+                    if(edges.get(i).getX() > point.getX() && edges.get(i).getX() < end_x){
+                        intersections++; //we intersected a side
+                    }
+                }
+            }
+        }
+
+        return intersections == 1;
+         */
         // TODO: use this to determine which object is clicked on for displaying information window
         return false;
     }
@@ -147,7 +166,7 @@ public class Model2D {
      * @param other The model to check collision against
      * @return true if this model and the other model are intersecting
      */
-    public boolean intersectsModel2D(Model2D other) {
+    public boolean intersectsShape(Shape other) {
 	    // Build a list of normal vectors from both shapes. Each normal is one of our axes
         ArrayList<Vector2D> axes = getNormals();
         axes.addAll(other.getNormals());
@@ -200,7 +219,7 @@ public class Model2D {
      * Calculates the edge vectors that define this shape. An edge is a line between two points from the points list.
      * @return An ArrayList of every edge vector in this model.
      */
-    public ArrayList<Vector2D> getEdges() {
+    private ArrayList<Vector2D> getEdges() {
         ArrayList<Vector2D> edges = new ArrayList<>();
         for (int i = 0; i < points.size(); i++) {
             // edge[n] = points[n + 1] - points[n];
@@ -223,8 +242,6 @@ public class Model2D {
         return normals;
     }
 
-
-
     public void setPosition(Vector2D position) {
         this.position = position;
     }
@@ -239,5 +256,20 @@ public class Model2D {
     }
     public double getArea() {
         return this.area;
+    }
+    public ArrayList<Shape> getSubShapes(){
+        ArrayList<Shape> singletonSubShape = new ArrayList<>();
+        singletonSubShape.add(this);
+        return singletonSubShape;
+    }
+
+    public void addShape(Shape shape) {
+
+    }
+    public Shape getShape(int index) {
+        return this;
+    }
+    public void removeShape(Shape shape) {
+
     }
 }

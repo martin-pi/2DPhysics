@@ -1,9 +1,8 @@
 package in.patrickmart.controller;
 
 import in.patrickmart.model.*;
-import in.patrickmart.view.*;
+import in.patrickmart.model.forces.*;
 
-import java.util.Optional;
 import java.util.Random;
 
 public class Controller {
@@ -11,12 +10,16 @@ public class Controller {
     private boolean running;
     private int ticksPerSecond; //How many times per second should the controller call step?
     private double actualTicksPerSecond; // How many times per second is step actually called?
+    private boolean gravityOn;
+    private boolean flatEarth;
 
     public Controller(Model model) {
         this.model = model;
         this.running = false ;
         actualTicksPerSecond = 0;
         ticksPerSecond = 60;
+        gravityOn = false;
+        flatEarth = false;
     }
 
     /**
@@ -72,6 +75,19 @@ public class Controller {
     public void step()
     {
         model.step();
+        //TODO: change this when implementing global forces
+        if (flatEarth) {
+            for (Entity e : model.getScenario().getEntities()) {
+                e.applyForce(new ForceFEA(e));
+            }
+        }
+        if (gravityOn) {
+            for (Entity e : model.getScenario().getEntities()) {
+                for (Entity o: model.getScenario().getEntities()) {
+                    if (!e.equals(o)) e.applyForce(new ForceGravity(e,o));
+                }
+            }
+        }
     }
 
     /**
@@ -83,10 +99,32 @@ public class Controller {
         double x = (r.nextDouble() * 2) - 1;
         double y = (r.nextDouble() * 2) - 1;
         int sides = r.nextInt((10 - 3) + 1) + 3;
-        Entity e = new Entity(new Vector2D(x,y), new Model2D(sides ,.1));
-        e.setVelocity(new Vector2D((r.nextDouble() - .5) * .001,(r.nextDouble() - .5) * .001)); //testing collision response.
+        Entity e = new ConcreteEntity(new Vector2D(x,y), new ConcreteShape(sides ,.1));
+        e.setVelocity(new Vector2D((r.nextDouble() - .5) * .01,(r.nextDouble() - .5) * .01));
         model.addEntity(e);
-        System.out.println("Added random entity #" + e.id + " to the model.");
+        System.out.println("Added random entity #" + e.getId() + " to the model.");
+    }
+
+    /**
+     * toggles the force of gravity acting on all entities
+     */
+    public void toggleFEA(){
+        flatEarth = !flatEarth;
+    }
+
+    /**
+     * toggle gravity of objects
+     */
+    public void toggleGravity(){
+        gravityOn = !gravityOn;
+    }
+
+    public void clickEvent(double x, double y){
+
+        System.out.println("click at: " + x + ", " + y);
+        //check all entities to see which one was clicked
+        //tell the model to create a status for the view
+        //view creates window to display the status of the clicked entity.
     }
 
     /**
