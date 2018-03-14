@@ -1,8 +1,8 @@
 package in.patrickmart.modelrefactor;
 
-import in.patrickmart.modelrefactor.CollisionData;
-import in.patrickmart.modelrefactor.Entity;
-import in.patrickmart.modelrefactor.Force;
+import in.patrickmart.model.CollisionData;
+import in.patrickmart.model.Entity;
+import in.patrickmart.model.Force;
 
 import java.util.ArrayList;
 
