@@ -11,7 +11,7 @@ public class ConcreteEntity implements Entity{
     private double rotation;
     private Vector2D velocity;
     private double rotationalVelocity;
-    private Shape model;
+    private Shape shape;
     private Material material;
     private AABB bounds;
     private Vector2D acceleration;
@@ -21,12 +21,12 @@ public class ConcreteEntity implements Entity{
     private double[] originalColor;
 	private double[] collisionColor ;
 
-    public ConcreteEntity(Vector2D position, Shape model, Material material) {
+    public ConcreteEntity(Vector2D position, Shape shape, Material material) {
 		this.id = getNewId();
 
-        this.model = model;
+        this.shape = shape;
         this.material = material;
-        this.bounds = model.calculateBounds(this.rotation);
+        this.bounds = shape.calculateBounds(this.rotation);
 
         setPosition(position);
         this.rotation = 0;
@@ -41,12 +41,12 @@ public class ConcreteEntity implements Entity{
         collisionColor = new double[] {0.9,0.4,0.4,0.75}; // Red
     }
 
-    public ConcreteEntity(Vector2D position, Shape model) {
+    public ConcreteEntity(Vector2D position, Shape shape) {
         this.id = getNewId();
 
-        this.model = model;
+        this.shape = shape;
         this.material = null;
-        this.bounds = model.calculateBounds(this.rotation);
+        this.bounds = shape.calculateBounds(this.rotation);
 
         setPosition(position);
         this.rotation = 0;
@@ -61,11 +61,11 @@ public class ConcreteEntity implements Entity{
         collisionColor = new double[] {0.9,0.4,0.4,0.75}; // Red
     }
 
-    public ConcreteEntity(Vector2D position, Shape model, double[] color) {
+    public ConcreteEntity(Vector2D position, Shape shape, double[] color) {
 		this.id = getNewId();
 
-        this.model = model;
-        this.bounds = model.calculateBounds(this.rotation);
+        this.shape = shape;
+        this.bounds = shape.calculateBounds(this.rotation);
 
         setPosition(position);
         this.rotation = 0;
@@ -118,7 +118,7 @@ public class ConcreteEntity implements Entity{
      */
     public void calculatePosition() {
         if (rotationalVelocity != 0) { // If we have rotated, we need a new bounding box.
-            bounds = model.calculateBounds(this.rotation);
+            bounds = shape.calculateBounds(this.rotation);
         }
         setPosition(this.position.add(velocity));
     }
@@ -169,19 +169,19 @@ public class ConcreteEntity implements Entity{
     public void setPosition(Vector2D position) {
         this.position = position.copy();
         this.bounds.setCenter(position.copy());
-        this.model.setPosition(position.copy());
+        this.shape.setPosition(position.copy());
     }
 
     /**
-     * Accessor for this entity's model or "shape."
-     * @return This entity's model
+     * Accessor for this entity's shape.
+     * @return This entity's shape
      */
-    public Shape getModel() {
-        return model;
+    public Shape getShape() {
+        return shape;
     }
 
     /**
-     * accessor for this entity's model's bounding box.
+     * accessor for this entity's shape's bounding box.
      */
     public AABB getBounds() {
         return bounds;
@@ -221,7 +221,7 @@ public class ConcreteEntity implements Entity{
      */
     public String toString()
     {
-        return position.toString() + ", " + model.toString() +", " + velocity.toString() + ", " + color.toString();
+        return position.toString() + ", " + shape.toString() +", " + velocity.toString() + ", " + color.toString();
     }
 
     /**
