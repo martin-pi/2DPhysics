@@ -88,6 +88,9 @@ public class Controller {
     }
 
     public void clickEvent(double x, double y){
+        for (Entity e : model.getScenario().getEntities()) {
+            e.applyForce(new ForceGravity(e));
+        }
         System.out.println("click at: " + x + ", " + y);
         //check all entities to see which one was clicked
         //tell the model to create a status for the view

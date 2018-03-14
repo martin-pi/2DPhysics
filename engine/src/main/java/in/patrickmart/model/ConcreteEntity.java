@@ -95,10 +95,6 @@ public class ConcreteEntity implements Entity{
 		collisionColor = new double[] {0.9,0.4,0.4,0.75}; // Red
     }
 
-    public Force generateForce(ArrayList<Entity> appliesTo){
-        return new Force(this, appliesTo);
-    }
-
 	public void applyForce(Force force) {
         this.forces.add(force);
     }
@@ -216,6 +212,13 @@ public class ConcreteEntity implements Entity{
      */
     public AABB getBounds() {
         return bounds;
+    }
+
+    /**
+     * accessor for mass
+     */
+    public double getMass(){
+        return mass;
     }
 
     /**

@@ -7,8 +7,8 @@ public abstract class Force {
     private Vector2D force;
 
     //Store the source and destination entities in order to provide data for our calculate methods.
-    private Entity source;
-    private Entity destination;
+    protected Entity source;
+    protected Entity destination;
 
     /**
      * Constructor for objects of class force. Implements template method pattern to allow concrete forces to calculate

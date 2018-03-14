@@ -3,7 +3,6 @@ import java.util.ArrayList;
 
 public interface Entity {
     void step();
-    Force generateForce(ArrayList<Entity> appliesTo);
     void applyForce(Force force);
     void calculateAcceleration();
     void calculateVelocity();
@@ -20,4 +19,5 @@ public interface Entity {
     String toString();
     Material getMaterial();
     void setPosition(Vector2D position);
+    double getMass();
 }
