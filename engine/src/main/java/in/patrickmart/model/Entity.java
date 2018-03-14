@@ -20,8 +20,4 @@ public interface Entity {
     String toString();
     Material getMaterial();
     void setPosition(Vector2D position);
-
-
-
-
 }

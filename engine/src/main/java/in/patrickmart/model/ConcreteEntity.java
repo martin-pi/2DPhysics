@@ -167,9 +167,9 @@ public class ConcreteEntity implements Entity{
      * @return position vector
      */
     public void setPosition(Vector2D position) {
-        this.position = position.copy();
-        this.bounds.setCenter(position.copy());
-        this.shape.setPosition(position.copy());
+        this.position = position;
+        this.bounds.setCenter(position);
+        this.shape.setPosition(position);
     }
 
     /**

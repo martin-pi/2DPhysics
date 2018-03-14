@@ -128,21 +128,22 @@ public class CompositeShape implements Shape {
         return fixme;
     }
 
-
     public void setPosition(Vector2D position) {
         this.position = position;
     }
+
     public Vector2D getPosition() {
         if (position != null) {
             return position;
         }
         return new Vector2D();
     }
+
     public List<Vector2D> getPoints() {
         List<Vector2D> points = new ArrayList<>();
         for(Shape m : shapes){
-            List<Vector2D> subpoints = m.getPoints();
-            for (Vector2D point : subpoints) {
+            List<Vector2D> subPoints = m.getPoints();
+            for (Vector2D point : subPoints) {
                 if (!points.contains(point)) {
                     points.add(point);
                 }
