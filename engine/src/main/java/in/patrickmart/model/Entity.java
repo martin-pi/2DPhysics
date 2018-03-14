@@ -10,7 +10,7 @@ public interface Entity {
     void calculatePosition();
     CollisionData collisionCheck(Entity other);
     void collisionResponse();
-    Shape getShape();
+    ConcreteShape getShape();
     AABB getBounds();
     Vector2D getPosition();
     double[] getColor();

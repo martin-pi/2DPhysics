@@ -81,7 +81,7 @@ public class Controller {
         double x = (r.nextDouble() * 2) - 1;
         double y = (r.nextDouble() * 2) - 1;
         int sides = r.nextInt((10 - 3) + 1) + 3;
-        Entity e = new ConcreteEntity(new Vector2D(x,y), new Shape(sides ,.1));
+        Entity e = new ConcreteEntity(new Vector2D(x,y), new ConcreteShape(sides ,.1));
         e.setVelocity(new Vector2D((r.nextDouble() - .5) * .01,(r.nextDouble() - .5) * .01));
         model.addEntity(e);
         System.out.println("Added random entity #" + e.getId() + " to the model.");

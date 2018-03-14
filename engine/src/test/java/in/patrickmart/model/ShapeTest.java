@@ -35,7 +35,7 @@ public class ShapeTest extends TestCase
         points.add(new Vector2D(-1, 1));
         points.add(new Vector2D(1, 1));
 
-        Shape failedModel = new Shape(points);
+        ConcreteShape failedModel = new ConcreteShape(points);
         assertTrue(failedModel.getArea() == 0);
     }
 
@@ -51,7 +51,7 @@ public class ShapeTest extends TestCase
         points.add(new Vector2D(1, -1));
         points.add(new Vector2D(-1, -1));
 
-        Shape model = new Shape(points);
+        ConcreteShape model = new ConcreteShape(points);
         assertTrue(model.getArea() == 4.0);
     }
 
@@ -60,7 +60,7 @@ public class ShapeTest extends TestCase
      */
     public void testGeneration() {
         //Generate a 4 sided shape with each point 1m from the center.
-        Shape model = new Shape(4, 1);
+        ConcreteShape model = new ConcreteShape(4, 1);
         assertTrue(model.getArea() == 2.0);
     }
 }

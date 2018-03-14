@@ -33,7 +33,7 @@ public class RenderShapeTest extends TestCase
         double acceptableError = 0.0000000001; // Vector calculations will always result in some rounding/error.
 
         Model m = new Model();
-        m.addEntity(new ConcreteEntity(new Vector2D(1, 2), new Shape(4, 0.5)));
+        m.addEntity(new ConcreteEntity(new Vector2D(1, 2), new ConcreteShape(4, 0.5)));
         Scenario s = m.getScenario(); // A scenario can be retrieved.
         Entity e = s.getEntities().get(0); // A specific entity can be retrieved from a scenario.
 

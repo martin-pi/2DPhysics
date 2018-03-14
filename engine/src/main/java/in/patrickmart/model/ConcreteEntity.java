@@ -11,7 +11,7 @@ public class ConcreteEntity implements Entity{
     private double rotation;
     private Vector2D velocity;
     private double rotationalVelocity;
-    private Shape shape;
+    private ConcreteShape shape;
     private Material material;
     private AABB bounds;
     private Vector2D acceleration;
@@ -21,7 +21,7 @@ public class ConcreteEntity implements Entity{
     private double[] originalColor;
 	private double[] collisionColor ;
 
-    public ConcreteEntity(Vector2D position, Shape shape, Material material) {
+    public ConcreteEntity(Vector2D position, ConcreteShape shape, Material material) {
 		this.id = getNewId();
 
         this.shape = shape;
@@ -41,7 +41,7 @@ public class ConcreteEntity implements Entity{
         collisionColor = new double[] {0.9,0.4,0.4,0.75}; // Red
     }
 
-    public ConcreteEntity(Vector2D position, Shape shape) {
+    public ConcreteEntity(Vector2D position, ConcreteShape shape) {
         this.id = getNewId();
 
         this.shape = shape;
@@ -61,7 +61,7 @@ public class ConcreteEntity implements Entity{
         collisionColor = new double[] {0.9,0.4,0.4,0.75}; // Red
     }
 
-    public ConcreteEntity(Vector2D position, Shape shape, double[] color) {
+    public ConcreteEntity(Vector2D position, ConcreteShape shape, double[] color) {
 		this.id = getNewId();
 
         this.shape = shape;
@@ -176,7 +176,7 @@ public class ConcreteEntity implements Entity{
      * Accessor for this entity's shape or "shape."
      * @return This entity's shape
      */
-    public Shape getShape() {
+    public ConcreteShape getShape() {
         return shape;
     }
 
