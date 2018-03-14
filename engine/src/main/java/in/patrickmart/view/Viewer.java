@@ -120,10 +120,10 @@ public class Viewer implements Observer {
             glEnd();
             */
             // Draw this entity.
-            for (int i = 0; i < e.getModel().getPoints().size(); i++) {
+            for (int i = 0; i < e.getShape().getPoints().size(); i++) {
                 // Draw triangles between the center of mass and the points making up the model.
-                Vector2D v = e.getModel().getPoints().get(i);
-                Vector2D w = e.getModel().getPoints().get((i + 1) % e.getModel().getPoints().size());
+                Vector2D v = e.getShape().getPoints().get(i);
+                Vector2D w = e.getShape().getPoints().get((i + 1) % e.getShape().getPoints().size());
                 glBegin(GL_TRIANGLES);
                 glColor4d(e.getColor()[0], e.getColor()[1], e.getColor()[2], e.getColor()[3]);
                 glVertex2d(e.getPosition().getX(), e.getPosition().getY());

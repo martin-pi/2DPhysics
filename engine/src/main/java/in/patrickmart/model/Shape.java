@@ -1,25 +1,23 @@
 package in.patrickmart.model;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 /**
  *	@author Patrick Martin
  *	@version 0.1
  *  Uses a set of Vector2Ds to define a convex shape.
  */
-public class Model2D implements CompositeModel{
-    private List<Vector2D> points;  //A collection of vectors representing offsets from the model's center of gravity.
+public class Shape implements CompositeShape {
+    private List<Vector2D> points;  //A collection of vectors representing offsets from the shape's center of gravity.
     private Vector2D position;
-	private double area; //The area of this model, used for calculations of mass.
+	private double area; //The area of this shape, used for calculations of mass.
 
     /**
-     * Constructor for objects of Class Model2D
+     * Constructor for objects of Class Shape
      * @param points an already-constructed list of Vector2D objects defining the points that make up this shape.
      */
-    public Model2D(List<Vector2D> points) {
+    public Shape(List<Vector2D> points) {
 		//Construct this model from a set of vectors or x/y pairs.
         this.points = points;
 		
@@ -31,11 +29,11 @@ public class Model2D implements CompositeModel{
     }
 
     /**
-     * Constructor for objects of Class Model2D, constructs an n-sided polygon.
+     * Constructor for objects of Class Shape, constructs an n-sided polygon.
      * @param n number of vertices to construct this model from.
      * @param radius how far each vertex is from the center of gravity.
      */
-    public Model2D(int n, double radius) {
+    public Shape(int n, double radius) {
         //Calculate the angle (in radians) between each vector and the next.
         // The first vertex is directly above the center of gravity.
         double rotation = Math.PI * 2 / n;
@@ -53,9 +51,9 @@ public class Model2D implements CompositeModel{
     }
 
     /**
-     * Default Constructor for objects of Class Model2D, constructs a triangle with a 1m "radius".
+     * Default Constructor for objects of Class Shape, constructs a triangle with a 1m "radius".
      */
-    public Model2D() {
+    public Shape() {
         int n = 3;
         int radius = 1;
 
@@ -168,7 +166,7 @@ public class Model2D implements CompositeModel{
      * @param other The model to check collision against
      * @return true if this model and the other model are intersecting
      */
-    public boolean intersectsModel2D(Model2D other) {
+    public boolean intersectsShape(Shape other) {
 	    // Build a list of normal vectors from both shapes. Each normal is one of our axes
         ArrayList<Vector2D> axes = getNormals();
         axes.addAll(other.getNormals());
@@ -259,15 +257,15 @@ public class Model2D implements CompositeModel{
     public double getArea() {
         return this.area;
     }
-    public ArrayList<Model2D> getSubModels(){
-        ArrayList<Model2D> model = new ArrayList<>();
+    public ArrayList<Shape> getSubShapes(){
+        ArrayList<Shape> model = new ArrayList<>();
         model.add(this);
         return model;
     }
 
-    public void addModel(Model2D model){
+    public void addShape(Shape shape){
 
     }
-    public Model2D getModel(int index){return this;}
-    public void removeModel(Model2D model){}
+    public Shape getShape(int index){return this;}
+    public void removeShape(Shape shape){}
 }

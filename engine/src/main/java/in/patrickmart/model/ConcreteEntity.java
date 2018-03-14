@@ -2,7 +2,6 @@ package in.patrickmart.model;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Vector;
 
 public class ConcreteEntity implements Entity{
 	public int id;
@@ -12,7 +11,7 @@ public class ConcreteEntity implements Entity{
     private double rotation;
     private Vector2D velocity;
     private double rotationalVelocity;
-    private Model2D model;
+    private Shape shape;
     private Material material;
     private AABB bounds;
     private Vector2D acceleration;
@@ -22,12 +21,12 @@ public class ConcreteEntity implements Entity{
     private double[] originalColor;
 	private double[] collisionColor ;
 
-    public ConcreteEntity(Vector2D position, Model2D model, Material material) {
+    public ConcreteEntity(Vector2D position, Shape shape, Material material) {
 		this.id = getNewId();
 
-        this.model = model;
+        this.shape = shape;
         this.material = material;
-        this.bounds = model.calculateBounds(this.rotation);
+        this.bounds = shape.calculateBounds(this.rotation);
 
         setPosition(position);
         this.rotation = 0;
@@ -42,12 +41,12 @@ public class ConcreteEntity implements Entity{
         collisionColor = new double[] {0.9,0.4,0.4,0.75}; // Red
     }
 
-    public ConcreteEntity(Vector2D position, Model2D model) {
+    public ConcreteEntity(Vector2D position, Shape shape) {
         this.id = getNewId();
 
-        this.model = model;
+        this.shape = shape;
         this.material = null;
-        this.bounds = model.calculateBounds(this.rotation);
+        this.bounds = shape.calculateBounds(this.rotation);
 
         setPosition(position);
         this.rotation = 0;
@@ -62,11 +61,11 @@ public class ConcreteEntity implements Entity{
         collisionColor = new double[] {0.9,0.4,0.4,0.75}; // Red
     }
 
-    public ConcreteEntity(Vector2D position, Model2D model, double[] color) {
+    public ConcreteEntity(Vector2D position, Shape shape, double[] color) {
 		this.id = getNewId();
 
-        this.model = model;
-        this.bounds = model.calculateBounds(this.rotation);
+        this.shape = shape;
+        this.bounds = shape.calculateBounds(this.rotation);
 
         setPosition(position);
         this.rotation = 0;
@@ -119,7 +118,7 @@ public class ConcreteEntity implements Entity{
      */
     public void calculatePosition() {
         if (rotationalVelocity != 0) { // If we have rotated, we need a new bounding box.
-            bounds = model.calculateBounds(this.rotation);
+            bounds = shape.calculateBounds(this.rotation);
         }
         setPosition(this.position.add(velocity));
     }
@@ -145,7 +144,7 @@ public class ConcreteEntity implements Entity{
     }
 
     public boolean fineCollision(Entity other) {
-        return this.getModel().intersectsModel2D(other.getModel());
+        return this.getShape().intersectsShape(other.getShape());
     }
 
     /**
@@ -170,19 +169,19 @@ public class ConcreteEntity implements Entity{
     public void setPosition(Vector2D position) {
         this.position = position.copy();
         this.bounds.setCenter(position.copy());
-        this.model.setPosition(position.copy());
+        this.shape.setPosition(position.copy());
     }
 
     /**
-     * Accessor for this entity's model or "shape."
-     * @return This entity's model
+     * Accessor for this entity's shape or "shape."
+     * @return This entity's shape
      */
-    public Model2D getModel() {
-        return model;
+    public Shape getShape() {
+        return shape;
     }
 
     /**
-     * accessor for this entity's model's bounding box.
+     * accessor for this entity's shape's bounding box.
      */
     public AABB getBounds() {
         return bounds;
@@ -222,7 +221,7 @@ public class ConcreteEntity implements Entity{
      */
     public String toString()
     {
-        return position.toString() + ", " + model.toString() +", " + velocity.toString() + ", " + color.toString();
+        return position.toString() + ", " + shape.toString() +", " + velocity.toString() + ", " + color.toString();
     }
 
     /**

@@ -6,13 +6,13 @@ import junit.framework.TestSuite;
 
 import java.util.ArrayList;
 
-public class Model2DTest extends TestCase
+public class ShapeTest extends TestCase
 {
     /**
      * Create the test case
      * @param testName name of the test case
      */
-    public Model2DTest( String testName )
+    public ShapeTest(String testName )
     {
         super( testName );
     }
@@ -22,7 +22,7 @@ public class Model2DTest extends TestCase
      */
     public static Test suite()
     {
-        return new TestSuite( Model2DTest.class );
+        return new TestSuite( ShapeTest.class );
     }
 
     /**
@@ -35,7 +35,7 @@ public class Model2DTest extends TestCase
         points.add(new Vector2D(-1, 1));
         points.add(new Vector2D(1, 1));
 
-        Model2D failedModel = new Model2D(points);
+        Shape failedModel = new Shape(points);
         assertTrue(failedModel.getArea() == 0);
     }
 
@@ -51,7 +51,7 @@ public class Model2DTest extends TestCase
         points.add(new Vector2D(1, -1));
         points.add(new Vector2D(-1, -1));
 
-        Model2D model = new Model2D(points);
+        Shape model = new Shape(points);
         assertTrue(model.getArea() == 4.0);
     }
 
@@ -60,7 +60,7 @@ public class Model2DTest extends TestCase
      */
     public void testGeneration() {
         //Generate a 4 sided shape with each point 1m from the center.
-        Model2D model = new Model2D(4, 1);
+        Shape model = new Shape(4, 1);
         assertTrue(model.getArea() == 2.0);
     }
 }

@@ -1,31 +1,28 @@
 package in.patrickmart.model;
 
-import java.lang.reflect.Array;
-import java.net.CookieHandler;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 public class CompositeModel2D {
-    private ArrayList<Model2D> models;
+    private ArrayList<Shape> models;
     private Vector2D position;
     private double area;
 
-    public CompositeModel2D(ArrayList<Model2D> models){
+    public CompositeModel2D(ArrayList<Shape> models){
         this.models = models;
         calculateArea();
         calculateCenterOfGravity();
     }
 
-    public void addModel(Model2D model){
+    public void addModel(Shape model){
         models.add(model);
     }
 
-    public Model2D getModel(int index){
+    public Shape getModel(int index){
         return models.get(index);
     }
 
-    public void removeModel(Model2D model){
+    public void removeModel(Shape model){
         models.remove(model);
     }
 
@@ -37,7 +34,7 @@ public class CompositeModel2D {
         double x = 0;
         double y = 0;
         ArrayList<Vector2D> points = new ArrayList<>();
-        for(Model2D m: models){
+        for(Shape m: models){
             List<Vector2D> subpoints = m.getPoints();
             for (Vector2D point : subpoints) {
                 if (!points.contains(point)) {
@@ -64,7 +61,7 @@ public class CompositeModel2D {
      */
     private void calculateArea() {
         this.area = 0;
-        for(Model2D m: models){
+        for(Shape m: models){
             this.area += m.getArea();
         }
     }
@@ -74,7 +71,7 @@ public class CompositeModel2D {
      */
     public AABB calculateBounds(double rotation) {
         ArrayList<Vector2D> points = new ArrayList<>();
-        for(Model2D m: models){
+        for(Shape m: models){
             List<Vector2D> subpoints = m.getPoints();
             for (Vector2D point : subpoints) {
                 points.add(point);
@@ -102,7 +99,7 @@ public class CompositeModel2D {
      * @return true if point is within model.
      */
     public boolean containsPoint(Vector2D point) {
-        for(Model2D m: models){
+        for(Shape m: models){
             if(m.containsPoint(point)){
                 return true;
             }
@@ -115,10 +112,10 @@ public class CompositeModel2D {
      * @param other The model to check collision against
      * @return true if this model and the other model are intersecting
      */
-    public boolean intersectsModel2D(in.patrickmart.model.Model2D other) {
+    public boolean intersectsModel2D(Shape other) {
         //TODO: change this so that it returns collisionData
-        for(Model2D m: models){
-            if(m.intersectsModel2D(other)){
+        for(Shape m: models){
+            if(m.intersectsShape(other)){
                 return true;
             }
         }
@@ -137,7 +134,7 @@ public class CompositeModel2D {
     }
     public List<Vector2D> getPoints() {
         List<Vector2D> points = new ArrayList<>();
-        for(Model2D m: models){
+        for(Shape m: models){
             List<Vector2D> subpoints = m.getPoints();
             for (Vector2D point : subpoints) {
                 if (!points.contains(point)) {
@@ -148,10 +145,10 @@ public class CompositeModel2D {
         return points;
     }
 
-    public ArrayList<Model2D> getSubModels(){
-        ArrayList<Model2D> subModels= new ArrayList<>();
-        for(Model2D m: models){
-            subModels.addAll(m.getSubModels());
+    public ArrayList<Shape> getSubModels(){
+        ArrayList<Shape> subModels= new ArrayList<>();
+        for(Shape m: models){
+            subModels.addAll(m.getSubShapes());
         }
         return subModels;
     }
