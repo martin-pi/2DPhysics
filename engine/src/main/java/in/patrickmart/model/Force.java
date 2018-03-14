@@ -2,55 +2,70 @@ package in.patrickmart.model;
 
 import java.util.ArrayList;
 
-public class Force {
+public abstract class Force {
     private Vector2D position;
     private Vector2D force;
 
+    //Store the source and destination entities in order to provide data for our calculate methods.
+    private Entity source;
+    private Entity destination;
+
+    /**
+     * Constructor for objects of class force. Implements template method pattern to allow concrete forces to calculate
+     * their effects separately from the way those effects are applied.
+     * @param source The Entity that is generating this force
+     * @param destination The Entity that this force is being applied to.
+     */
     public Force(Entity source, Entity destination) {
-        calculatePosition();
-        calculateDirection();
-        calculateNewtons();
+        this.source = source;
+        this.destination = destination;
+
+        position = calculatePosition();
+        force = calculateDirection();
+        force.setMag(calculateNewtons());
         applyTo(destination);
     }
 
-
     public Force(Entity source, ArrayList<Entity> destinations) {
-
+        //TODO implement multiple destination forces later.
+        System.out.println("Multi-destination forces have not been implemented, make separate forces for each.");
     }
 
     /**
      * Where does this force interact with its destination from?
      */
-    public void calculatePosition() {
-
-    }
+    abstract Vector2D calculatePosition();
 
     /**
      * What direction is this force being applied in?
      */
-    public void calculateDirection() {
-
-    }
+    abstract Vector2D calculateDirection();
 
     /**
      * How much force is being applied?
      */
-    public void calculateNewtons() {
-
-    }
+    abstract double calculateNewtons();
 
     /**
      * Add this force to an entity's net force calculation.
      * @param destination the entity
      */
-    public void applyTo(Entity destination) {
+    private void applyTo(Entity destination) {
         destination.applyForce(this);
     }
 
+    /**
+     * Accessor for this force as a vector.
+     * @return This force as a positionless vector.
+     */
     public Vector2D getForce() {
         return force;
     }
 
+    /**
+     * Accessor for the position of this force.
+     * @return This force's position in the scenario.
+     */
     public Vector2D getPosition() {
         return position;
     }
