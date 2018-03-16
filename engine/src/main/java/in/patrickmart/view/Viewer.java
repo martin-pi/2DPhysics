@@ -27,6 +27,7 @@ public class Viewer implements Observer {
     private Model model;
     private Controller controller;
     private long window; // Handle for GLFW window
+    private Vector2D camera;
 
     /**
      * Constructor for Viewer objects.
@@ -40,6 +41,7 @@ public class Viewer implements Observer {
         openWindow();
 
         m.addObserver(this);
+        camera = new Vector2D(0,0);
     }
 
     /**
@@ -126,9 +128,9 @@ public class Viewer implements Observer {
                 Vector2D w = e.getShape().getPoints().get((i + 1) % e.getShape().getPoints().size());
                 glBegin(GL_TRIANGLES);
                 glColor4d(e.getColor()[0], e.getColor()[1], e.getColor()[2], e.getColor()[3]);
-                glVertex2d(e.getPosition().getX(), e.getPosition().getY());
-                glVertex2d(v.getX() + e.getPosition().getX(), v.getY() + e.getPosition().getY());
-                glVertex2d(w.getX() + e.getPosition().getX(), w.getY() + e.getPosition().getY());
+                glVertex2d(e.getPosition().getX() + camera.getX(), e.getPosition().getY() + camera.getY());
+                glVertex2d(v.getX() + e.getPosition().getX()+ camera.getX(), v.getY() + e.getPosition().getY()+ camera.getY());
+                glVertex2d(w.getX() + e.getPosition().getX() + camera.getX(), w.getY() + e.getPosition().getY() + camera.getY());
                 glEnd();
             }
         }
@@ -170,6 +172,18 @@ public class Viewer implements Observer {
             }
             if ( key == GLFW_KEY_B && action == GLFW_PRESS) {
                 controller.toggleGravity();
+            }
+            if (key == GLFW_KEY_LEFT && action == GLFW_PRESS) {
+                camera.add(new Vector2D(1,0));
+            }
+            if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS) {
+                camera.add(new Vector2D(-1,0));
+            }
+            if (key == GLFW_KEY_UP && action == GLFW_PRESS) {
+                camera.add(new Vector2D(0,-1));
+            }
+            if (key == GLFW_KEY_DOWN && action == GLFW_PRESS) {
+                camera.add(new Vector2D(0,1));
             }
         });
 
