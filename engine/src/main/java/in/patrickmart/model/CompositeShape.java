@@ -112,14 +112,9 @@ public class CompositeShape implements Shape {
      * @param other The model to check collision against
      * @return true if this model and the other model are intersecting
      */
-    public boolean intersectsShape(Shape other) {
+    public Vector2D intersectsShape(Shape other) {
         //TODO: change this so that it returns collisionData
-        for(Shape m : shapes){
-            if(m.intersectsShape(other)){
-                return true;
-            }
-        }
-        return false;
+        return null;
     }
 
     public double[] project(Vector2D axis) {

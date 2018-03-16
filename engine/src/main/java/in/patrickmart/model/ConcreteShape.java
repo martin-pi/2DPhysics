@@ -166,11 +166,13 @@ public class ConcreteShape implements Shape {
      * @param other The model to check collision against
      * @return true if this model and the other model are intersecting
      */
-    public boolean intersectsShape(Shape other) {
+    public Vector2D intersectsShape(Shape other) {
 	    // Build a list of normal vectors from both shapes. Each normal is one of our axes
         ArrayList<Vector2D> axes = getNormals();
         axes.addAll(other.getNormals());
 
+        double minOverlap = Double.MAX_VALUE; //Biggest possible double.
+        Vector2D minVector = null;
         // For each axis, find the min and max dot product of that axis with each point in this shape and the other
         for (Vector2D axis : axes) {
             double[] projection = project(axis);
@@ -184,12 +186,18 @@ public class ConcreteShape implements Shape {
             // Determine if there is any overlap between the min/max of this and the other shape. if not, return false
             // seems to say there is no collision only when the objects have space between them on the x axis.
             if (!(min <= oMax && oMin <= max)) {
-                    return false;
+                return null;
+            } else {
+                // If there is any overlap, find out how much. Keep track of the minimum so we can return it in the mtv.
+                //overlap = maximum(0, minimum(oMax, max) - maximum(oMin, min))
+                double overlap = Math.max(0, Math.min(max, oMax) - Math.max(min, oMin));
+                if (overlap < minOverlap) {
+                    minOverlap = overlap;
+                    minVector = axis.copy().setMag(overlap); // The minimum translation vector.
+                }
             }
         }
-
-        // TODO Calculate the minimum translation vector and return it if there is a collision.
-	    return true;
+	    return minVector;
     }
 
     /**

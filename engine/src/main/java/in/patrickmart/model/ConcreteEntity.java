@@ -159,10 +159,10 @@ public class ConcreteEntity implements Entity{
      */
     public CollisionData collisionCheck(Entity other) {
         // TODO Implement raycasting so we can predict collision.
-        // TODO restore rough collision check.
         if (roughCollision(other)) {
-            if (fineCollision(other)) {
-                return new CollisionData(this, other);
+            Vector2D mtv = fineCollision(other);
+            if (mtv != null) {
+                return new CollisionData(this, other, mtv);
             }
         }
         return null;
@@ -172,15 +172,16 @@ public class ConcreteEntity implements Entity{
         return this.getBounds().intersectsAABB(other.getBounds());
     }
 
-    public boolean fineCollision(Entity other) {
+    public Vector2D fineCollision(Entity other) {
         return this.getShape().intersectsShape(other.getShape());
     }
 
     /**
      * Use the CollisionData generated from the collision check to move out of the collision and apply Normal force.
      */
-    public void collisionResponse() {
+    public void collisionResponse(Vector2D mtv) {
 		color = collisionColor;
+		this.position.add(mtv);
     }
 
     /**

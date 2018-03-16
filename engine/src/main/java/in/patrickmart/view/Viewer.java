@@ -238,8 +238,6 @@ public class Viewer implements Observer {
 
             if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_RELEASE) {
                 mouse_rb_down = false;
-
-                //camera.add(new Vector2D((mouse_x - mouse_rb_initialX) / 1280, (mouse_rb_initialY - mouse_y) / 800));
             }
         });
 

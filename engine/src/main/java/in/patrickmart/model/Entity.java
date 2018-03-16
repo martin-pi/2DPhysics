@@ -8,7 +8,7 @@ public interface Entity {
     void calculateVelocity();
     void calculatePosition();
     CollisionData collisionCheck(Entity other);
-    void collisionResponse();
+    void collisionResponse(Vector2D mtv);
     Shape getShape();
     AABB getBounds();
     Vector2D getPosition();

@@ -57,9 +57,9 @@ public class EntityCollisionTest extends TestCase
         assertFalse(second.roughCollision(third));
 
         // Test whether fine collision returns a false positive.
-        assertFalse(first.fineCollision(second));
-        assertFalse(first.fineCollision(third));
-        assertFalse(second.fineCollision(third));
+        assertFalse(first.fineCollision(second) != null);
+        assertFalse(first.fineCollision(third) != null);
+        assertFalse(second.fineCollision(third) != null);
     }
 
     /**
@@ -107,7 +107,7 @@ public class EntityCollisionTest extends TestCase
         //assertTrue(first.roughCollision(second));
 
         // Fine Collision should also return true.
-        assertTrue(first.fineCollision(second));
+        assertTrue(first.fineCollision(second) != null);
     }
 
     /**

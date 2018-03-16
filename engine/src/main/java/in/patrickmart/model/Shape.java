@@ -10,7 +10,7 @@ public interface Shape {
     double getArea();
     AABB calculateBounds(double rotation);
     boolean containsPoint(Vector2D point);
-    boolean intersectsShape(Shape other);
+    Vector2D intersectsShape(Shape other);
     void setPosition(Vector2D point);
     Vector2D getPosition();
     List<Vector2D> getPoints();

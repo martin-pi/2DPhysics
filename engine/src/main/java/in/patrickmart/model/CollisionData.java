@@ -3,11 +3,12 @@ package in.patrickmart.model;
 public class CollisionData {
     Entity first;
     Entity second;
-    //TODO What do we need to know about this collision in order to resolve it?
+	Vector2D mtv;
 	
-	public CollisionData(Entity first, Entity second) {
+	public CollisionData(Entity first, Entity second, Vector2D mtv) {
 		this.first = first;
 		this.second = second;
+		this.mtv = mtv;
 	}
 	
 	public boolean equals(CollisionData other) {
@@ -16,8 +17,8 @@ public class CollisionData {
 	}
 	
 	public boolean resolve() {
-		first.collisionResponse();
-		second.collisionResponse();
+		first.collisionResponse(mtv.copy().div(2));
+		second.collisionResponse(mtv.copy().mult(-0.5));
 		return true;
 	}
 }
