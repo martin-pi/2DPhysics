@@ -23,6 +23,20 @@ public class Scenario {
         entities.remove(e);
     }
 
+    public void addForce(Force f) {
+        forces.add(f);
+    }
+
+    public void removeForce(Force f) {
+        forces.remove(f);
+    }
+
+    public void applyForces() {
+        for (Force f : forces) {
+
+        }
+    }
+
     public void step() {
 		// Reset the list of collisions for this new step.
 		collisions = new ArrayList<CollisionData>();
@@ -82,19 +96,6 @@ public class Scenario {
      */
     public ArrayList<Entity> getEntities() {
         return entities;
-    }
-
-    /**
-     * add a force to the scenario
-     * @param f the force to be added
-     */
-    public void addForce(Force f){
-        forces.add(f);
-    }
-
-    public void removeForce(){
-        //TODO: actually remove specific forces
-        forces.clear();
     }
 
     public ArrayList<Force> getForces(){
