@@ -26,7 +26,6 @@ public abstract class Force {
         position = calculatePosition();
         force = calculateDirection();
         force.setMag(calculateNewtons());
-        System.out.println(force);
         applyTo(destination);
     }
 

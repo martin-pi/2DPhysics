@@ -100,7 +100,9 @@ public class Controller {
         double y = (r.nextDouble() * 2) - 1;
         int sides = r.nextInt((10 - 3) + 1) + 3;
         Entity e = new ConcreteEntity(new Vector2D(x,y), new ConcreteShape(sides ,.1));
-        e.setVelocity(new Vector2D((r.nextDouble() - .5) * .01,(r.nextDouble() - .5) * .01));
+        //e.setVelocity(new Vector2D((r.nextDouble() - .5) * .01,(r.nextDouble() - .5) * .01));
+        //TODO: remove this. forcing mass to be large here.
+        e.setMass(50000000000000000000000.0);
         model.addEntity(e);
         System.out.println("Added random entity #" + e.getId() + " to the model.");
     }

@@ -21,13 +21,14 @@ public class ForceGravity extends Force{
      * What direction is this force being applied in?
      */
     public Vector2D calculateDirection(){
-        return destination.getPosition().sub(source.getPosition());
+        Vector2D dir = source.getPosition().copy().sub(destination.getPosition());
+        return dir;
     }
 
     /**
      * How much force is being applied?
      */
     public double calculateNewtons(){
-        return G * ((source.getMass() * destination.getMass())/ Math.pow((source.getPosition().dist(destination.getPosition())), 2));
+        return G * ((source.getMass() * destination.getMass())/ Math.pow((destination.getPosition().dist(source.getPosition())), 2));
     }
 }

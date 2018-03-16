@@ -282,4 +282,11 @@ public class ConcreteEntity implements Entity{
 		return r;
 	}
 
+    /**
+     * setter for entity mass
+     */
+    public void setMass(double mass){
+        this.mass = mass;
+    }
+
 }

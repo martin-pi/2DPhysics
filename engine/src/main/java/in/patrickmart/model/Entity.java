@@ -20,4 +20,5 @@ public interface Entity {
     Material getMaterial();
     void setPosition(Vector2D position);
     double getMass();
+    void setMass(double mass);
 }
