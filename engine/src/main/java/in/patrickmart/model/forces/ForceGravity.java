@@ -3,31 +3,31 @@ package in.patrickmart.model.forces;
 import in.patrickmart.model.Entity;
 import in.patrickmart.model.Vector2D;
 
-public class ForceGravity extends Force {
+public class ForceGravity extends Force{
+    static final double G = .0000000000667;
 
-    public ForceGravity(Entity destination){
-        super(null, destination);
+    public ForceGravity(Entity source, Entity destination){
+        super(source, destination);
     }
+
     /**
-     * force comes from directly above each object
+     * Where does this force interact with its destination from?
      */
     public Vector2D calculatePosition(){
-        return destination.getPosition().copy().add(new Vector2D(0,1));
+        return source.getPosition();
     }
 
     /**
      * What direction is this force being applied in?
      */
     public Vector2D calculateDirection(){
-        return new Vector2D(0, -.00098);
+        return destination.getPosition().sub(source.getPosition());
     }
 
     /**
      * How much force is being applied?
      */
     public double calculateNewtons(){
-        double newts = .00098 * destination.getMass();
-
-        return newts;
+        return G * ((source.getMass() * destination.getMass())/ Math.pow((source.getPosition().dist(destination.getPosition())), 2));
     }
 }
