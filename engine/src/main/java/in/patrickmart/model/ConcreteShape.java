@@ -168,13 +168,13 @@ public class ConcreteShape implements Shape {
      */
     public Vector2D intersectsShape(Shape other) {
 	    // Build a list of normal vectors from both shapes. Each normal is one of our axes
-        ArrayList<Vector2D> axes = getNormals();
-        axes.addAll(other.getNormals());
+        ArrayList<Vector2D> theseAxes = getNormals();
+        ArrayList<Vector2D> otherAxes = other.getNormals();
 
         double minOverlap = Double.MAX_VALUE; //Biggest possible double.
         Vector2D minVector = null;
         // For each axis, find the min and max dot product of that axis with each point in this shape and the other
-        for (Vector2D axis : axes) {
+        for (Vector2D axis : theseAxes) {
             double[] projection = project(axis);
             double min = projection[0];
             double max = projection[1];
@@ -193,7 +193,31 @@ public class ConcreteShape implements Shape {
                 double overlap = Math.max(0, Math.min(max, oMax) - Math.max(min, oMin));
                 if (overlap < minOverlap) {
                     minOverlap = overlap;
-                    minVector = axis.copy().setMag(overlap); // The minimum translation vector.
+                    minVector = axis.copy().mult(1).setMag(overlap); // The minimum translation vector.
+                }
+            }
+        }
+
+        for (Vector2D axis : otherAxes) {
+            double[] projection = project(axis);
+            double min = projection[0];
+            double max = projection[1];
+
+            double[] otherProjection = other.project(axis);
+            double oMin = otherProjection[0];
+            double oMax = otherProjection[1];
+
+            // Determine if there is any overlap between the min/max of this and the other shape. if not, return false
+            // seems to say there is no collision only when the objects have space between them on the x axis.
+            if (!(min <= oMax && oMin <= max)) {
+                return null;
+            } else {
+                // If there is any overlap, find out how much. Keep track of the minimum so we can return it in the mtv.
+                //overlap = maximum(0, minimum(oMax, max) - maximum(oMin, min))
+                double overlap = Math.max(0, Math.min(max, oMax) - Math.max(min, oMin));
+                if (overlap < minOverlap) {
+                    minOverlap = overlap;
+                    minVector = axis.copy().mult(-1).setMag(overlap); // The minimum translation vector. Reversed due to this axis belonging to the other shape.
                 }
             }
         }

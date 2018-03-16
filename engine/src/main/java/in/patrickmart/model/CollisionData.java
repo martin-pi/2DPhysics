@@ -17,8 +17,10 @@ public class CollisionData {
 	}
 	
 	public boolean resolve() {
-		first.collisionResponse(mtv.copy().div(2));
-		second.collisionResponse(mtv.copy().mult(-0.5));
+		//TODO We need to know which entity to apply the negative translation to. This means we need to know where the axis came from.
+		first.collisionResponse(mtv.copy().mult(-0.5));
+		second.collisionResponse(mtv.copy().mult(0.5));
+		//TODO Apply a normal force to each entity.
 		return true;
 	}
 }
