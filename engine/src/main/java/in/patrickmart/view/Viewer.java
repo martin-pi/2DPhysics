@@ -29,6 +29,12 @@ public class Viewer implements Observer {
     private long window; // Handle for GLFW window
     private Vector2D camera;
 
+    private boolean mouse_rb_down;
+    private double mouse_rb_initialX;
+    private double mouse_rb_initialY;
+    private double mouse_x;
+    private double mouse_y;
+
     /**
      * Constructor for Viewer objects.
      * @param c The MVC's controller object
@@ -37,6 +43,12 @@ public class Viewer implements Observer {
     public Viewer(Controller c, Model m) {
         this.controller = c;
         this.model = m;
+
+        mouse_rb_down = false;
+        mouse_rb_initialX = 0;
+        mouse_rb_initialY = 0;
+        mouse_x = 0;
+        mouse_y = 0;
 
         openWindow();
 
@@ -103,6 +115,18 @@ public class Viewer implements Observer {
      */
     public void update(Scenario s) {
         GL.createCapabilities();
+        // Get the mouse position.
+        double[] x = new double[1];
+        double[] y = new double[1];
+        glfwGetCursorPos(window,x,y);
+        double mouse_x_prev = mouse_x;
+        double mouse_y_prev = mouse_y;
+        mouse_x = x[0];
+        mouse_y = y[0];
+
+        if (mouse_rb_down) {
+            camera.add(new Vector2D((mouse_x - mouse_x_prev) / 640, (mouse_y_prev - mouse_y) / 400));
+        }
 
         // Set the clear or "background" color.
         glClearColor(0.8f, 1.0f, 0.8f, 0.0f);
@@ -188,7 +212,7 @@ public class Viewer implements Observer {
         });
 
         glfwSetMouseButtonCallback(window,(window, button, action, mods) -> {
-            if(button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
+            if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
                 double[] x = new double[1];
                 double[] y = new double[1];
                 int[] h = new int[1];
@@ -201,10 +225,27 @@ public class Viewer implements Observer {
                 y_cursor = ((w[0] / 2) - y[0])/ (w[0] / 2);
                 controller.clickEvent(x_cursor,y_cursor);
             }
+
+            if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS) {
+                mouse_rb_down = true;
+
+                double[] x = new double[1];
+                double[] y = new double[1];
+                glfwGetCursorPos(window,x,y);
+                mouse_rb_initialX = x[0];
+                mouse_rb_initialY = y[0];
+            }
+
+            if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_RELEASE) {
+                mouse_rb_down = false;
+
+                //camera.add(new Vector2D((mouse_x - mouse_rb_initialX) / 1280, (mouse_rb_initialY - mouse_y) / 800));
+            }
         });
 
         glfwSetWindowCloseCallback(window,(window) ->
             closeWindow()
         );
     }
+
 }
