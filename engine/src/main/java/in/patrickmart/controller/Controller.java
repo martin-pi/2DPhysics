@@ -122,11 +122,14 @@ public class Controller {
     }
 
     public void clickEvent(double x, double y){
-
         System.out.println("click at: " + x + ", " + y);
-        //check all entities to see which one was clicked
-        //tell the model to create a status for the view
-        //view creates window to display the status of the clicked entity.
+        int sides = 12;
+        Entity e = new ConcreteEntity(new Vector2D(x,y), new ConcreteShape(sides ,.1));
+        //e.setVelocity(new Vector2D((r.nextDouble() - .5) * .01,(r.nextDouble() - .5) * .01));
+        //TODO: remove this. forcing mass to be large here.
+        e.setMass(5000.0);
+        model.addEntity(e);
+        System.out.println("Added random entity #" + e.getId() + " to the model.");
     }
 
     /**
