@@ -64,13 +64,13 @@ public class Scenario {
                     CollisionData c = e.collisionCheck(n);
                     if (c != null) {
                         // There is a collision. Check to make sure we haven't already detected this collision.
-                        boolean duplicate = false;
+                        boolean duplicateFound = false;
                         for (CollisionData d : collisions) {
                             if (c.equals(d)) {
-                                duplicate = true;
+                                duplicateFound = true;
                             }
                         }
-                        if (!duplicate) {
+                        if (!duplicateFound) {
                             // This is not a duplicate collsion.
                             collisions.add(c);
                         }

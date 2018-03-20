@@ -50,6 +50,14 @@ public abstract class Force {
     }
 
     /**
+     * Constructor for objects of class force which will define their data on their own. This is dangerous and should
+     * not be used unless necessary.
+     */
+    public Force() {
+
+    }
+
+    /**
      * Where does this force interact with its destination from?
      */
     abstract Vector2D calculatePosition();
