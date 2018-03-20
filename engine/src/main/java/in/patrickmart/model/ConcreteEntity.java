@@ -18,6 +18,7 @@ public class ConcreteEntity implements Entity{
     private double angularAcceleration;
 
     private ArrayList<Force> forces;
+    private Vector2D netForce;
     private ConcreteShape shape;
     private Material material;
     private AABB bounds;
@@ -107,6 +108,7 @@ public class ConcreteEntity implements Entity{
 	 */
 	public void step() {
 		color = originalColor;
+		calculateNetForce();
 	}
 	
 	/**
@@ -130,12 +132,11 @@ public class ConcreteEntity implements Entity{
         forces = new ArrayList<>();
     }
 
-    public double calculateNormalForce(Vector2D mtv) {
-        Vector2D netForce = new Vector2D();
+    public void calculateNetForce() {
+        netForce = new Vector2D();
         for (Force f: forces){
             netForce.add(f.getForce());
         }
-        return netForce.dot(mtv.mult(-1));
     }
 
     /**
@@ -191,7 +192,7 @@ public class ConcreteEntity implements Entity{
     public void collisionResponse(Entity other, Vector2D mtv) {
         color = collisionColor;
 		this.position.add(mtv);
-		applyForce(new ForceGeneric(this, other, mtv.copy().setMag(calculateNormalForce(mtv)), getPosition()));
+		applyForce(new ForceGeneric(other, this, mtv.copy().setMag(netForce.dot(mtv)), getPosition()));
     }
 
     /**
