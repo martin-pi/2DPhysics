@@ -26,8 +26,6 @@ public class ForceFEA extends Force {
      * How much force is being applied?
      */
     public double calculateNewtons(){
-        double newts = .00098 * destination.getMass();
-
-        return newts;
+        return .00098 * destination.getMass();
     }
 }

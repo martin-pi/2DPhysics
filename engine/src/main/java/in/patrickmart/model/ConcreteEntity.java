@@ -1,6 +1,7 @@
 package in.patrickmart.model;
 
 import in.patrickmart.model.forces.Force;
+import in.patrickmart.model.forces.ForceGeneric;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -129,6 +130,14 @@ public class ConcreteEntity implements Entity{
         forces = new ArrayList<>();
     }
 
+    public double calculateNormalForce(Vector2D mtv) {
+        Vector2D netForce = new Vector2D();
+        for (Force f: forces){
+            netForce.add(f.getForce());
+        }
+        return netForce.dot(mtv.mult(-1));
+    }
+
     /**
      * Apply acceleration to this entity's linear and rotational velocity.
      */
@@ -179,9 +188,10 @@ public class ConcreteEntity implements Entity{
     /**
      * Use the CollisionData generated from the collision check to move out of the collision and apply Normal force.
      */
-    public void collisionResponse(Vector2D mtv) {
-		color = collisionColor;
+    public void collisionResponse(Entity other, Vector2D mtv) {
+        color = collisionColor;
 		this.position.add(mtv);
+		applyForce(new ForceGeneric(this, other, mtv.copy().setMag(calculateNormalForce(mtv)), getPosition()));
     }
 
     /**
