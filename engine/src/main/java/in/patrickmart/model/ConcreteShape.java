@@ -167,7 +167,43 @@ public class ConcreteShape implements Shape {
      * @return true if this model and the other model are intersecting
      */
     public Vector2D intersectsShape(Shape other) {
-	    // Build a list of normal vectors from both shapes. Each normal is one of our axes
+        // Build a list of normal vectors from both shapes. Each normal is one of our axes
+        ArrayList<Vector2D> axes = getNormals();
+        axes.addAll(other.getNormals());
+
+        double minOverlap = Double.MAX_VALUE; //Biggest possible double.
+        Vector2D minVector = null;
+        // For each axis, find the min and max dot product of that axis with each point in this shape and the other
+        for (Vector2D axis : axes) {
+            double[] projection = project(axis);
+            double min = projection[0];
+            double max = projection[1];
+
+            double[] otherProjection = other.project(axis);
+            double oMin = otherProjection[0];
+            double oMax = otherProjection[1];
+
+            // Determine if there is any overlap between the min/max of this and the other shape. if not, return false
+            // seems to say there is no collision only when the objects have space between them on the x axis.
+            if (!(min <= oMax && oMin <= max)) {
+                return null;
+            } else {
+                // If there is any overlap, find out how much. Keep track of the minimum so we can return it in the mtv.
+                // overlap = maximum(0, minimum(oMax, max) - maximum(oMin, min))
+                double overlap = Math.max(0, Math.min(max, oMax) - Math.max(min, oMin));
+                // Determine if we have the mtv backwards.
+                if (overlap < minOverlap) {
+                    minOverlap = overlap;
+                    if (min < oMin) {
+                        minVector = axis.copy().setMag(overlap); // The minimum translation vector.
+                    } else {
+                        minVector = axis.copy().mult(-1).setMag(overlap); // The corrected minimum translation vector.
+                    }
+                }
+            }
+        }
+        return minVector;
+	    /*// Build a list of normal vectors from both shapes. Each normal is one of our axes
         ArrayList<Vector2D> theseAxes = getNormals();
         ArrayList<Vector2D> otherAxes = other.getNormals();
 
@@ -221,7 +257,7 @@ public class ConcreteShape implements Shape {
                 }
             }
         }
-	    return minVector;
+	    return minVector;*/
     }
 
     /**

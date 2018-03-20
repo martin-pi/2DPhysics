@@ -19,7 +19,7 @@ public class CollisionData {
 	}
 	
 	public boolean resolve() {
-		//TODO We need to know which entity to apply the negative translation to. This means we need to know where the axis came from.
+		// Apply a negative translation to one object, and a positive translation to the other. Split the overlap.
 		first.collisionResponse(mtv.copy().mult(-0.5));
 		second.collisionResponse(mtv.copy().mult(0.5));
 		//TODO Apply a normal force to each entity. These are not correct. This collision needs a location.
