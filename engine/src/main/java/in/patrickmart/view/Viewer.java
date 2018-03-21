@@ -200,6 +200,9 @@ public class Viewer implements Observer {
             if ( key == GLFW_KEY_B && action == GLFW_PRESS) {
                 controller.toggleGravity();
             }
+            if ( key == GLFW_KEY_L && action == GLFW_PRESS) {
+                controller.launchBall();
+            }
             if (key == GLFW_KEY_LEFT && action == GLFW_PRESS) {
                 camera.add(new Vector2D(1,0));
             }

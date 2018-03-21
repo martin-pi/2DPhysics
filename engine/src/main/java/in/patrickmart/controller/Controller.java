@@ -121,6 +121,13 @@ public class Controller {
         gravityOn = !gravityOn;
     }
 
+    public void launchBall(){
+        Entity e = new ConcreteEntity(new Vector2D(0.6,-.1), new ConcreteShape(8 ,.1));
+        e.setVelocity(new Vector2D(-.007,.005));
+        e.setMass(50000);
+        model.addEntity(e);
+        System.out.println("Added launch entity #" + e.getId() + " to the model.");
+    }
     public void clickEvent(double x, double y){
         System.out.println("click at: " + x + ", " + y);
         int sides = 12;
