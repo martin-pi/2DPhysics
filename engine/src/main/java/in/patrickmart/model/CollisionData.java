@@ -23,7 +23,7 @@ public class CollisionData {
 		first.collisionResponse(second, mtv.copy().mult(-0.5));
 		second.collisionResponse(first, mtv.copy().mult(0.5));
 		//TODO Apply a normal force to each entity. These are not correct. This collision needs a location.
-		first.applyForce(new ForceGeneric(second,first, mtv.copy(), first.getPosition()));
+		//first.applyForce(new ForceGeneric(second,first, mtv.copy(), first.getPosition()));
 		//second.applyForce(new ForceGeneric(first,second, mtv.copy().mult(-1), second.getPosition()));
 		return true;
 	}

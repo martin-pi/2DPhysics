@@ -160,6 +160,11 @@ public class Viewer implements Observer {
                 glVertex2d((w.getX() * cameraScale) + (e.getPosition().getX() * cameraScale) + (camera.getX() * cameraScale), (w.getY() * cameraScale) + (e.getPosition().getY() * cameraScale) + (camera.getY() * cameraScale));
                 glEnd();
             }
+            glBegin(GL_LINES);
+            glColor4i(0,0,0,0);
+            glVertex2d((e.getPosition().getX() * cameraScale) + (camera.getX() * cameraScale), (e.getPosition().getY() * cameraScale) + (camera.getY() * cameraScale));
+            glVertex2d(((e.getPosition().getX() + e.getVelocity().getX()*100) * cameraScale) + (camera.getX() * cameraScale), ((100*e.getVelocity().getY() + e.getPosition().getY()) * cameraScale) + (camera.getY() * cameraScale));
+            glEnd();
         }
 
         glfwSwapBuffers(window); // Place the frame that we just rendered onto the window.

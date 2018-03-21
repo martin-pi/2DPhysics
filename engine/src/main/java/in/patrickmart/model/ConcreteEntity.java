@@ -301,4 +301,7 @@ public class ConcreteEntity implements Entity{
         this.mass = mass;
     }
 
+    public Vector2D getVelocity() {
+        return velocity.copy();
+    }
 }
