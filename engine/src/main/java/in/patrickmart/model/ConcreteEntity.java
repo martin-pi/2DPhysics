@@ -108,7 +108,6 @@ public class ConcreteEntity implements Entity{
 	 */
 	public void step() {
 		color = originalColor;
-		calculateNetForce();
 	}
 	
 	/**
@@ -116,7 +115,7 @@ public class ConcreteEntity implements Entity{
 	 */
     public void calculateAcceleration() {
         // Start by finding netForce and netTorque.
-        Vector2D netForce = new Vector2D();
+        netForce = new Vector2D();
 
         for (Force f : forces) {
             // TODO calculate angular acceleration.
@@ -132,12 +131,12 @@ public class ConcreteEntity implements Entity{
         forces = new ArrayList<>();
     }
 
-    public void calculateNetForce() {
+    /*public void calculateNetForce() {
         netForce = new Vector2D();
         for (Force f: forces){
             netForce.add(f.getForce());
         }
-    }
+    }*/
 
     /**
      * Apply acceleration to this entity's linear and rotational velocity.
@@ -192,7 +191,7 @@ public class ConcreteEntity implements Entity{
     public void collisionResponse(Entity other, Vector2D mtv) {
         color = collisionColor;
 		this.position.add(mtv);
-		applyForce(new ForceGeneric(other, this, mtv.copy().setMag(netForce.dot(mtv)), getPosition()));
+		new ForceGeneric(other, this, mtv.copy().setMag(netForce.dot(mtv)), getPosition());
     }
 
     /**
@@ -249,6 +248,10 @@ public class ConcreteEntity implements Entity{
      */
     public void setVelocity(Vector2D velocity){
         this.velocity = velocity;
+    }
+
+    public Vector2D getNetForce(){
+        return this.netForce;
     }
 
     /**

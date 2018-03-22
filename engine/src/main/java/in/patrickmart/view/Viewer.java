@@ -132,7 +132,8 @@ public class Viewer implements Observer {
         }
 
         // Set the clear or "background" color.
-        glClearColor(0.8f, 1.0f, 0.8f, 0.0f);
+        //glClearColor(0.8f, 1.0f, 0.8f, 0.0f); // Green
+        glClearColor(0.95f, 0.95f, 0.95f, 0.0f);
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -161,7 +162,13 @@ public class Viewer implements Observer {
                 glEnd();
             }
             glBegin(GL_LINES);
-            glColor4i(0,0,0,0);
+            glColor4d(0,0,0,0);
+            glVertex2d((e.getPosition().getX() * cameraScale) + (camera.getX() * cameraScale), (e.getPosition().getY() * cameraScale) + (camera.getY() * cameraScale));
+            glVertex2d(((e.getPosition().getX() + e.getNetForce().getX()*100) * cameraScale) + (camera.getX() * cameraScale), ((100*e.getNetForce().getY() + e.getPosition().getY()) * cameraScale) + (camera.getY() * cameraScale));
+            glEnd();
+
+            glBegin(GL_LINES);
+            glColor4d(1,0.2,0.2,0);
             glVertex2d((e.getPosition().getX() * cameraScale) + (camera.getX() * cameraScale), (e.getPosition().getY() * cameraScale) + (camera.getY() * cameraScale));
             glVertex2d(((e.getPosition().getX() + e.getVelocity().getX()*100) * cameraScale) + (camera.getX() * cameraScale), ((100*e.getVelocity().getY() + e.getPosition().getY()) * cameraScale) + (camera.getY() * cameraScale));
             glEnd();

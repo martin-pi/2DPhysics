@@ -21,6 +21,7 @@ public interface Entity {
     String toString();
     Material getMaterial();
     Vector2D getVelocity();
+    Vector2D getNetForce();
     void setPosition(Vector2D position);
     double getMass();
     void setMass(double mass);
