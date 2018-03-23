@@ -1,6 +1,7 @@
 package in.patrickmart.model;
 import in.patrickmart.model.forces.Force;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 public interface Entity {
@@ -22,6 +23,7 @@ public interface Entity {
     Material getMaterial();
     Vector2D getVelocity();
     Vector2D getNetForce();
+    ArrayList<Force> getForces();
     void setPosition(Vector2D position);
     double getMass();
     void setMass(double mass);

@@ -38,8 +38,9 @@ public class Scenario {
     }
 
     public void step() {
-		// Reset the list of collisions for this new step.
-		collisions = new ArrayList<CollisionData>();
+        // Reset the list of collisions for this new step.
+        collisions = new ArrayList<CollisionData>();
+
         // Move each object in the scenario along its velocity vector.
         for (Entity e:entities) {
             e.calculateAcceleration();

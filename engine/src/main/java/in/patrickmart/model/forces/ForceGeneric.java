@@ -15,9 +15,12 @@ public class ForceGeneric extends Force {
      * @param position This Force's position in the Scenario.
      */
     public ForceGeneric(Entity source, Entity destination, Vector2D force, Vector2D position) {
-        super(source, destination);
-        this.force = force;
+        super();
+        this.source = source;
+        this.destination = destination;
         this.position = position;
+        this.force = force;
+        applyTo(destination);
     }
 
     @Override

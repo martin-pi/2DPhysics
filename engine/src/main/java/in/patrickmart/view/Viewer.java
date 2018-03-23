@@ -6,6 +6,7 @@ import in.patrickmart.model.*;
 import in.patrickmart.model.Scenario;
 
 import in.patrickmart.model.Vector2D;
+import in.patrickmart.model.forces.Force;
 import org.lwjgl.*;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
@@ -161,14 +162,24 @@ public class Viewer implements Observer {
                 glVertex2d((w.getX() * cameraScale) + (e.getPosition().getX() * cameraScale) + (camera.getX() * cameraScale), (w.getY() * cameraScale) + (e.getPosition().getY() * cameraScale) + (camera.getY() * cameraScale));
                 glEnd();
             }
+
+            // Draw the net force acting on this Entity.
             glBegin(GL_LINES);
             glColor4d(0,0,0,0);
             glVertex2d((e.getPosition().getX() * cameraScale) + (camera.getX() * cameraScale), (e.getPosition().getY() * cameraScale) + (camera.getY() * cameraScale));
-            glVertex2d(((e.getPosition().getX() + e.getNetForce().getX()*100) * cameraScale) + (camera.getX() * cameraScale), ((100*e.getNetForce().getY() + e.getPosition().getY()) * cameraScale) + (camera.getY() * cameraScale));
+            glVertex2d(((e.getPosition().getX() + e.getNetForce().getX()*10) * cameraScale) + (camera.getX() * cameraScale), ((10*e.getNetForce().getY() + e.getPosition().getY()) * cameraScale) + (camera.getY() * cameraScale));
             glEnd();
-
+            // Draw the net force acting on this Entity.
+            for (Force f : e.getForces()) {
+                glBegin(GL_LINES);
+                glColor4d(0.4, 0.4, 0.4, 0);
+                glVertex2d((e.getPosition().getX() * cameraScale) + (camera.getX() * cameraScale), (e.getPosition().getY() * cameraScale) + (camera.getY() * cameraScale));
+                glVertex2d(((e.getPosition().getX() + f.getForce().getX() * 10) * cameraScale) + (camera.getX() * cameraScale), ((10 * f.getForce().getY() + e.getPosition().getY()) * cameraScale) + (camera.getY() * cameraScale));
+                glEnd();
+            }
+            // Draw this Entity's velocity.
             glBegin(GL_LINES);
-            glColor4d(1,0.2,0.2,0);
+            glColor4d(1,0.1,0.1,0);
             glVertex2d((e.getPosition().getX() * cameraScale) + (camera.getX() * cameraScale), (e.getPosition().getY() * cameraScale) + (camera.getY() * cameraScale));
             glVertex2d(((e.getPosition().getX() + e.getVelocity().getX()*100) * cameraScale) + (camera.getX() * cameraScale), ((100*e.getVelocity().getY() + e.getPosition().getY()) * cameraScale) + (camera.getY() * cameraScale));
             glEnd();
@@ -235,12 +246,10 @@ public class Viewer implements Observer {
                 double[] y = new double[1];
                 int[] h = new int[1];
                 int[] w = new int[1];
-                double x_cursor = 0;
-                double y_cursor = 0;
                 glfwGetCursorPos(window,x,y);
                 glfwGetWindowSize(window,h,w);
-                x_cursor = (x[0] - (h[0] / 2)) / (h[0] / 2);
-                y_cursor = ((w[0] / 2) - y[0])/ (w[0] / 2);
+                double x_cursor = (x[0] - (h[0] / 2)) / (h[0] / 2);
+                double y_cursor = ((w[0] / 2) - y[0])/ (w[0] / 2);
 
                 Vector2D modelCoords = translateCoordsToModel(new Vector2D(x_cursor, y_cursor));
                 controller.clickEvent(modelCoords.getX(), modelCoords.getY());

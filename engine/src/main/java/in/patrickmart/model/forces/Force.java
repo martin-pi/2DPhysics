@@ -76,7 +76,7 @@ public abstract class Force {
      * Add this force to an entity's net force calculation.
      * @param destination the entity
      */
-    private void applyTo(Entity destination) {
+    protected void applyTo(Entity destination) {
         destination.applyForce(this);
     }
 

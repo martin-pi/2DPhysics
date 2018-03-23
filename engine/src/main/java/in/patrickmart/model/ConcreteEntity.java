@@ -1,6 +1,7 @@
 package in.patrickmart.model;
 
 import in.patrickmart.model.forces.Force;
+import in.patrickmart.model.forces.ForceFEA;
 import in.patrickmart.model.forces.ForceGeneric;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ public class ConcreteEntity implements Entity{
     private double angularAcceleration;
 
     private ArrayList<Force> forces;
+    private ArrayList<Force> lastForces;
     private Vector2D netForce;
     private ConcreteShape shape;
     private Material material;
@@ -128,6 +130,7 @@ public class ConcreteEntity implements Entity{
         angularAcceleration = 0;
 
         // Clear the list of forces so that they don't build up step after step.
+        lastForces = forces;
         forces = new ArrayList<>();
     }
 
@@ -191,7 +194,8 @@ public class ConcreteEntity implements Entity{
     public void collisionResponse(Entity other, Vector2D mtv) {
         color = collisionColor;
 		this.position.add(mtv);
-		new ForceGeneric(other, this, mtv.copy().setMag(netForce.dot(mtv)), getPosition());
+		double n = this.netForce.mag();
+		new ForceFEA(this);
     }
 
     /**
@@ -252,6 +256,10 @@ public class ConcreteEntity implements Entity{
 
     public Vector2D getNetForce(){
         return this.netForce;
+    }
+
+    public ArrayList<Force> getForces(){
+        return this.lastForces;
     }
 
     /**
