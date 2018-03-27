@@ -195,7 +195,11 @@ public class ConcreteEntity implements Entity{
         color = collisionColor;
 		this.position.add(mtv);
 		double n = this.netForce.mag();
-		new ForceFEA(this);
+		applyForce(new ForceGeneric(other, this, mtv.copy().setMag(netForce.dot(mtv)), getPosition()));
+        calculateAcceleration();
+        calculateVelocity();
+        calculatePosition();
+		//new ForceFEA(this);
     }
 
     /**
