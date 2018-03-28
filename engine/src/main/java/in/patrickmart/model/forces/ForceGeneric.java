@@ -22,6 +22,14 @@ public class ForceGeneric extends Force {
         this.force = force;
         applyTo(destination);
     }
+    public ForceGeneric(Entity destination, Vector2D force) {
+        super();
+        this.source = null;
+        this.destination = destination;
+        this.position = null;
+        this.force = force;
+        applyTo(destination);
+    }
 
     @Override
     protected Vector2D calculatePosition() {

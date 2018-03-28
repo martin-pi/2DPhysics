@@ -319,4 +319,8 @@ public class ConcreteEntity implements Entity{
     public Vector2D getVelocity() {
         return velocity.copy();
     }
+
+    public Vector2D getAcceleration() {
+        return acceleration.copy();
+    }
 }

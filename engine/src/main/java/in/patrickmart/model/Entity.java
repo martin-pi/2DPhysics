@@ -27,4 +27,5 @@ public interface Entity {
     void setPosition(Vector2D position);
     double getMass();
     void setMass(double mass);
+    Vector2D getAcceleration();
 }

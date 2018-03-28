@@ -19,13 +19,13 @@ public class ForceFEA extends Force {
      * What direction is this force being applied in?
      */
     public Vector2D calculateDirection(){
-        return new Vector2D(0, -.00098);
+        return new Vector2D(0, -9.8);
     }
 
     /**
      * How much force is being applied?
      */
     public double calculateNewtons(){
-        return .00098 * destination.getMass();
+        return 9.8 * destination.getMass();
     }
 }
