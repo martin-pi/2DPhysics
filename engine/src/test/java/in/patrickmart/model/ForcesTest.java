@@ -31,7 +31,6 @@ public class ForcesTest extends TestCase
         Entity e = new ConcreteEntity(new Vector2D(),new ConcreteShape(3,.1));
         e.setMass(10);
         ForceFEA grav = new ForceFEA(e);
-        e.applyForce(grav);
         e.calculateAcceleration();
         assertEquals(grav.getForce().getY() / e.getMass(), e.getAcceleration().getY());
     }
@@ -40,7 +39,6 @@ public class ForcesTest extends TestCase
         Entity e = new ConcreteEntity(new Vector2D(),new ConcreteShape(3,.1));
         e.setMass(10);
         ForceGeneric g = new ForceGeneric(e, new Vector2D(0,9.8));
-        e.applyForce(g);
         e.calculateAcceleration();
         assertEquals(g.getForce().copy().getY() / e.getMass(), e.getAcceleration().getY());
     }

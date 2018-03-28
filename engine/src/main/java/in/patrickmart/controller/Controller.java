@@ -134,7 +134,7 @@ public class Controller {
         Entity e = new ConcreteEntity(new Vector2D(x,y), new ConcreteShape(sides ,.1));
         //e.setVelocity(new Vector2D((r.nextDouble() - .5) * .01,(r.nextDouble() - .5) * .01));
         //TODO: remove this. forcing mass to be large here.
-        e.setMass(5000.0);
+        e.setMass(500000.0);
         model.addEntity(e);
         System.out.println("Added random entity #" + e.getId() + " to the model.");
     }
