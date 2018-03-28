@@ -204,6 +204,8 @@ public class Viewer implements Observer {
         glfwSetErrorCallback(null).free();
 
         System.out.println("Closed the Viewing Window.");
+
+        System.exit(1);
     }
 
     /**
