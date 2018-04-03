@@ -1,6 +1,8 @@
 package in.patrickmart.model;
 
 import in.patrickmart.model.forces.Force;
+import in.patrickmart.model.forces.ForceFEA;
+import in.patrickmart.model.forces.ForceGravity;
 
 import java.util.ArrayList;
 
@@ -8,6 +10,8 @@ public class Scenario {
     private ArrayList<Entity> entities; // TODO implement Quadtree.
     private ArrayList<CollisionData> collisions;
     private ArrayList<Force> forces;
+    private boolean FEAgravity;
+    private boolean gravity;
 
     public Scenario() {
         entities = new ArrayList<Entity>();
@@ -39,10 +43,23 @@ public class Scenario {
 
     public void step() {
         // Reset the list of collisions for this new step.
-        collisions = new ArrayList<CollisionData>();
+        collisions = new ArrayList<>();
+        if(FEAgravity){
+            for (Entity e : entities) {
+                e.applyForce(new ForceFEA(e));
+            }
+        }
 
         // Move each object in the scenario along its velocity vector.
         for (Entity e:entities) {
+            if (FEAgravity) {
+                e.applyForce(new ForceFEA(e));
+            }
+            if(gravity) {
+                for (Entity o: entities) {
+                    if (!e.equals(o)) e.applyForce(new ForceGravity(o,e));
+                }
+            }
             e.calculateAcceleration();
             e.calculateVelocity();
             e.calculatePosition();
@@ -101,6 +118,14 @@ public class Scenario {
 
     public ArrayList<Force> getForces(){
         return forces;
+    }
+
+    public void toggleFEAgravity(){
+        FEAgravity = !FEAgravity;
+    }
+
+    public void toggleGravity() {
+        gravity = !gravity;
     }
 
 }

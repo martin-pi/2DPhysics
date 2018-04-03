@@ -10,16 +10,12 @@ public class Controller {
     private boolean running;
     private int ticksPerSecond; //How many times per second should the controller call step?
     private double actualTicksPerSecond; // How many times per second is step actually called?
-    private boolean gravityOn;
-    private boolean flatEarth;
 
     public Controller(Model model) {
         this.model = model;
         this.running = false ;
         actualTicksPerSecond = 0;
         ticksPerSecond = 60;
-        gravityOn = false;
-        flatEarth = false;
     }
 
     /**
@@ -75,19 +71,6 @@ public class Controller {
     public void step()
     {
         model.step();
-        //TODO: change this when implementing global forces
-        if (flatEarth) {
-            for (Entity e : model.getScenario().getEntities()) {
-                e.applyForce(new ForceFEA(e));
-            }
-        }
-        if (gravityOn) {
-            for (Entity e : model.getScenario().getEntities()) {
-                for (Entity o: model.getScenario().getEntities()) {
-                    if (!e.equals(o)) e.applyForce(new ForceGravity(o,e));
-                }
-            }
-        }
     }
 
     /**
@@ -111,14 +94,14 @@ public class Controller {
      * toggles the force of gravity acting on all entities
      */
     public void toggleFEA(){
-        flatEarth = !flatEarth;
+        model.getScenario().toggleFEAgravity();
     }
 
     /**
      * toggle gravity of objects
      */
     public void toggleGravity(){
-        gravityOn = !gravityOn;
+        model.getScenario().toggleGravity();
     }
 
     public void launchBall(){
