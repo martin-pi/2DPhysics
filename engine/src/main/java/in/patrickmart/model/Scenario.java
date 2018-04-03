@@ -3,6 +3,7 @@ package in.patrickmart.model;
 import in.patrickmart.model.forces.Force;
 import in.patrickmart.model.forces.ForceFEA;
 import in.patrickmart.model.forces.ForceGravity;
+import in.patrickmart.model.forces.ForceNormal;
 
 import java.util.ArrayList;
 
@@ -44,20 +45,17 @@ public class Scenario {
     public void step() {
         // Reset the list of collisions for this new step.
         collisions = new ArrayList<>();
-        if(FEAgravity){
-            for (Entity e : entities) {
-                e.applyForce(new ForceFEA(e));
-            }
-        }
 
         // Move each object in the scenario along its velocity vector.
         for (Entity e:entities) {
             if (FEAgravity) {
-                e.applyForce(new ForceFEA(e));
+                new ForceFEA(e);
             }
             if(gravity) {
                 for (Entity o: entities) {
-                    if (!e.equals(o)) e.applyForce(new ForceGravity(o,e));
+                    if (!e.equals(o)) {
+                        new ForceGravity(o,e);
+                    }
                 }
             }
             e.calculateAcceleration();
@@ -104,7 +102,7 @@ public class Scenario {
     private void collisionResponse() {
         //TODO iterate through collisions and call resolve on the collisiondata objects to get collisionResponses.
         for (CollisionData c : collisions){
-            c.resolve();
+            c.resolve(gravity, FEAgravity);
         }
     }
 

@@ -20,7 +20,7 @@ public class CollisionData {
 			&& (this.second.equals(other.second) || this.second.equals(other.first));
 	}
 	
-	public boolean resolve() {
+	public boolean resolve(boolean gravity, boolean FEAgravity) {
 		//calculate momentum of each entity
 		Vector2D m1 = first.getVelocity().mult(first.getMass());
 		Vector2D m2 = second.getVelocity().mult(second.getMass());
@@ -34,8 +34,17 @@ public class CollisionData {
 		//call each entitie's collision response
 		first.collisionResponse(second, mtv.copy().mult(-0.5));
 		second.collisionResponse(first, mtv.copy().mult(0.5));
-
-		//TODO Apply a normal force to each entity.
+		
+		if(gravity){
+			//apply the same force in the opposite direction
+			new ForceNormal(first,second);
+			new ForceNormal(second,first);
+		}
+		if(FEAgravity){
+			//apply gravity opposite and projected onto the mtv.
+			new ForceFEA(first).getForce().mult(-1).dot(second.getPosition().sub(first.getPosition()).normalize());
+			new ForceFEA(second).getForce().mult(-1).dot(first.getPosition().sub(second.getPosition()).normalize());
+		}
 
 		return true;
 	}

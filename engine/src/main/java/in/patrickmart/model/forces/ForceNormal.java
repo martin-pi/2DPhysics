@@ -3,10 +3,10 @@ package in.patrickmart.model.forces;
 import in.patrickmart.model.Entity;
 import in.patrickmart.model.Vector2D;
 
-public class ForceGravity extends Force{
+public class ForceNormal extends Force{
     static final double G = .0000000000667;
 
-    public ForceGravity(Entity source, Entity destination){
+    public ForceNormal(Entity source, Entity destination){
         super(source, destination);
     }
 
@@ -22,7 +22,7 @@ public class ForceGravity extends Force{
      */
     public Vector2D calculateDirection(){
         Vector2D dir = source.getPosition().sub(destination.getPosition());
-        return dir;
+        return dir.mult(-1);
     }
 
     /**
