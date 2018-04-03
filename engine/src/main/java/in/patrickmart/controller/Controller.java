@@ -123,7 +123,7 @@ public class Controller {
 
     public void launchBall(){
         Entity e = new ConcreteEntity(new Vector2D(0.6,-.1), new ConcreteShape(8 ,.1));
-        e.setVelocity(new Vector2D(-.007,.005));
+        e.setVelocity(new Vector2D(-.0007,.0003));
         e.setMass(500000);
         model.addEntity(e);
         System.out.println("Added launch entity #" + e.getId() + " to the model.");
