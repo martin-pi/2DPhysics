@@ -1,8 +1,6 @@
 package in.patrickmart.model;
 
-import in.patrickmart.model.forces.Force;
-import in.patrickmart.model.forces.ForceFEA;
-import in.patrickmart.model.forces.ForceGeneric;
+import in.patrickmart.model.forces.*;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -194,8 +192,6 @@ public class ConcreteEntity implements Entity{
     public void collisionResponse(Entity other, Vector2D mtv) {
         color = collisionColor;
 		this.position.add(mtv);
-        //new ForceGeneric(other, this, mtv.copy().setMag(netForce.dot(mtv)), getPosition());
-
     }
 
     /**
@@ -203,7 +199,7 @@ public class ConcreteEntity implements Entity{
      * @return position vector
      */
     public Vector2D getPosition() {
-        return position;
+        return position.copy();
     }
 
     /**

@@ -1,7 +1,8 @@
 package in.patrickmart.model;
 
-import in.patrickmart.model.forces.ForceFEA;
+import in.patrickmart.model.forces.*;
 import in.patrickmart.model.forces.ForceGeneric;
+import org.lwjgl.system.CallbackI;
 
 public class CollisionData {
     Entity first;
@@ -20,28 +21,22 @@ public class CollisionData {
 	}
 	
 	public boolean resolve() {
-		// Apply a negative translation to one object, and a positive translation to the other. Split the overlap.
+		//calculate momentum of each entity
+		Vector2D m1 = first.getVelocity().mult(first.getMass());
+		Vector2D m2 = second.getVelocity().mult(second.getMass());
+		//project the force onto the vector between the two entities.
+		double newM1 = m1.dot(second.getPosition().sub(first.getPosition()).normalize());
+		double newM2 = m2.dot(first.getPosition().sub(second.getPosition()).normalize());
+		//apply the force equally to both in opposite directions
+		new ForceGeneric(second, first, mtv.copy().setMag(newM1 + newM2).mult(-1), second.getPosition());
+		new ForceGeneric(first, second, mtv.copy().setMag(newM2 + newM1), first.getPosition());
 
-		Vector2D firstDir = first.getVelocity().add(mtv.copy().mult(-.5).normalize());
-		Vector2D secondDir = new Vector2D(firstDir.getY(), firstDir.getX());
-		double vfx1 = (((first.getVelocity().getX())*(first.getMass() - second.getMass())) +(2 * second.getMass() * second.getVelocity().getX()))/(first.getMass() + second.getMass());
-		double vfy1 = (((first.getVelocity().getY())*(first.getMass() - second.getMass())) +(2 * second.getMass() * second.getVelocity().getY()))/(first.getMass() + second.getMass());
-		double vfx2 = (((second.getVelocity().getX())*(second.getMass() - first.getMass())) +(2 * first.getMass() * first.getVelocity().getX()))/(first.getMass() + second.getMass());
-		double vfy2 = (((second.getVelocity().getY())*(second.getMass() - first.getMass())) +(2 * first.getMass() * first.getVelocity().getY()))/(first.getMass() + second.getMass());
-		Vector2D newFirst = new Vector2D(vfx1, vfy1);
-		Vector2D newSecond = new Vector2D(vfx2, vfy2);
-		first.setVelocity(firstDir.setMag(firstDir.dot(newFirst)));
-		second.setVelocity(secondDir.setMag(secondDir.dot(newSecond)));
-		System.out.println(first.getVelocity());
+		//call each entitie's collision response
 		first.collisionResponse(second, mtv.copy().mult(-0.5));
 		second.collisionResponse(first, mtv.copy().mult(0.5));
-		//TODO Apply a normal force to each entity. These are not correct. This collision needs a location.
-		//Calculate the normal force on the first object.
-		double firstNormal = first.getNetForce().dot(mtv);
-		double secondNormal = second.getNetForce().dot(mtv);
 
-		//new ForceGeneric(second, first, mtv.copy().setMag(firstNormal), first.getPosition());
-		//new ForceGeneric(first, second, mtv.copy().setMag(secondNormal).mult(-1), second.getPosition());
+		//TODO Apply a normal force to each entity.
+
 		return true;
 	}
 }
