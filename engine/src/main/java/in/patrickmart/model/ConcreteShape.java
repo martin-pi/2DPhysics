@@ -11,6 +11,7 @@ import java.util.List;
 public class ConcreteShape implements Shape {
     private List<Vector2D> points;  //A collection of vectors representing offsets from the shape's center of gravity.
     private Vector2D position;
+    private double rotation;
 	private double area; //The area of this shape, used for calculations of mass.
 
     /**
@@ -20,6 +21,8 @@ public class ConcreteShape implements Shape {
     public ConcreteShape(List<Vector2D> points) {
 		//Construct this model from a set of vectors or x/y pairs.
         this.points = points;
+
+        this.rotation = 0; // No rotation provided, default is zero.
 		
         //Correct the center of gravity.
         calculateCenterOfGravity();
@@ -42,6 +45,8 @@ public class ConcreteShape implements Shape {
         for (int i = 0; i < n; i++) {
             this.points.add(new Vector2D(0, radius).rotate(rotation * i));
         }
+
+        this.rotation = 0; // No rotation provided, default is zero.
 
         //Correct the center of gravity.
         calculateCenterOfGravity();
@@ -66,6 +71,8 @@ public class ConcreteShape implements Shape {
         for (int i = 0; i < n; i++) {
             this.points.add(new Vector2D(0, radius).rotate(rotation * i));
         }
+
+        this.rotation = 0; // No rotation provided, default is zero.
         
         //Correct the center of gravity.
         calculateCenterOfGravity();
@@ -318,6 +325,13 @@ public class ConcreteShape implements Shape {
             return position;
         }
         return new Vector2D();
+    }
+
+    public void setRotation(double rotation) {
+        this.rotation = rotation;
+    }
+    public double getRotation() {
+        return rotation;
     }
     public List<Vector2D> getPoints() {
         return this.points;

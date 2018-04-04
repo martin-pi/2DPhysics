@@ -147,7 +147,8 @@ public class ConcreteEntity implements Entity{
         //every step should be about 1/60th of a second
         //velocity = velocity.add(acceleration.mult(1/60));
         velocity = velocity.add(acceleration.mult(.016));
-        angularVelocity += angularAcceleration;
+        //angularVelocity += angularAcceleration;
+        angularVelocity = 0.1;
     }
 
     /**
