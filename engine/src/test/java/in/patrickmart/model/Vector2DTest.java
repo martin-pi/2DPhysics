@@ -203,6 +203,12 @@ public class Vector2DTest
         Vector2D v = new Vector2D(2.0,2.0);
         Vector2D result = v.copy();
         assertEquals(result.setMag(1).toString(), v.normalize().toString());
+
+        //test zero vector normalized
+        v.setX(0);
+        v.setY(0);
+        v.normalize();
+        assertEquals(0.0,v.mag());
     }
 
     /**
@@ -276,7 +282,7 @@ public class Vector2DTest
     {
         Vector2D v = new Vector2D(4,6);
         double angle = Vector2D.degreesToRadians(90);
-        double rot = v.heading() + angle;
+        double rot = v.heading() - angle;
         double mag = v.mag();
         Vector2D result = new Vector2D(Math.cos(rot) * mag,Math.sin(rot) * mag);
         assertEquals(result.toString(), v.rotate(angle).toString());

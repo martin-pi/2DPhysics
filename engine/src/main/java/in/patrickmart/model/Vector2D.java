@@ -226,6 +226,9 @@ public class Vector2D {
      *	@return		This newly modified vector.
      */
     public Vector2D setMag(double mag) {
+        if(x == 0 && y == 0){
+            return this;
+        }
         double multiplier = mag / this.mag();
         this.x = this.x * multiplier;
         this.y = this.y * multiplier;

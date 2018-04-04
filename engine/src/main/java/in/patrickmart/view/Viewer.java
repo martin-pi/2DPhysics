@@ -37,6 +37,17 @@ public class Viewer implements Observer {
     private double mouse_x;
     private double mouse_y;
 
+    private boolean showBoundingBox;
+    private boolean showNetForce;
+    private boolean showForces;
+    private boolean showVelocity;
+    private boolean showAcceleration;
+    private boolean showCollisions;
+    private boolean altKey;
+    private boolean showAll;
+
+    private double[] collisionColor ;
+
     /**
      * Constructor for Viewer objects.
      * @param c The MVC's controller object
@@ -54,6 +65,17 @@ public class Viewer implements Observer {
 
         camera = new Vector2D(0,0);
         cameraScale = 1;
+
+        showBoundingBox = false;
+        showNetForce = false;
+        showForces = false;
+        showVelocity = false;
+        showAcceleration = false;
+        showCollisions = false;
+        altKey = false;
+        showAll = false;
+
+        collisionColor = new double[] {0.9,0.4,0.4,0.75}; // Red
 
         openWindow();
 
@@ -140,49 +162,71 @@ public class Viewer implements Observer {
 
         // Draw all entities in the model.
         for (Entity e : s.getEntities()) {
-            /*draw the bounding box
-            AABB b = e.getBounds();
-            glBegin(GL_LINE_LOOP );
-            glColor4d(0,0,1,.0003);
-            glVertex2d(e.getPosition().getX() + b.getHalfWidth(), e.getPosition().getY() + b.getHalfHeight());
-            glVertex2d(e.getPosition().getX() + b.getHalfWidth(), e.getPosition().getY() - b.getHalfHeight());
-            glVertex2d(e.getPosition().getX() - b.getHalfWidth(), e.getPosition().getY() - b.getHalfHeight());
-            glVertex2d(e.getPosition().getX() - b.getHalfWidth(), e.getPosition().getY() + b.getHalfHeight());
-            glEnd();
-            */
             // Draw this entity.
+            glBegin(GL_TRIANGLES);
             for (int i = 0; i < e.getShape().getPoints().size(); i++) {
                 // Draw triangles between the center of mass and the points making up the model.
                 Vector2D v = e.getShape().getPoints().get(i);
                 Vector2D w = e.getShape().getPoints().get((i + 1) % e.getShape().getPoints().size());
-                glBegin(GL_TRIANGLES);
-                glColor4d(e.getColor()[0], e.getColor()[1], e.getColor()[2], e.getColor()[3]);
+
+
+                if(e.isColliding() && showCollisions){
+                    glColor4d(collisionColor[0],collisionColor[1],collisionColor[2],collisionColor[3]);
+                }
+                else{
+                    glColor4d(e.getColor()[0],e.getColor()[1], e.getColor()[2], e.getColor()[3]);
+                }
                 glVertex2d((e.getPosition().getX() * cameraScale) + (camera.getX() * cameraScale), (e.getPosition().getY() * cameraScale) + (camera.getY() * cameraScale));
                 glVertex2d((v.getX() * cameraScale) + (e.getPosition().getX() * cameraScale) + (camera.getX() * cameraScale), (v.getY() * cameraScale) + (e.getPosition().getY() * cameraScale) + (camera.getY() * cameraScale));
                 glVertex2d((w.getX() * cameraScale) + (e.getPosition().getX() * cameraScale) + (camera.getX() * cameraScale), (w.getY() * cameraScale) + (e.getPosition().getY() * cameraScale) + (camera.getY() * cameraScale));
-                glEnd();
             }
+            glEnd();
 
             // Draw the net force acting on this Entity.
-            glBegin(GL_LINES);
-            glColor4d(0,0,0,0);
-            glVertex2d((e.getPosition().getX() * cameraScale) + (camera.getX() * cameraScale), (e.getPosition().getY() * cameraScale) + (camera.getY() * cameraScale));
-            glVertex2d(((e.getPosition().getX() + e.getNetForce().getX()*10) * cameraScale) + (camera.getX() * cameraScale), ((10*e.getNetForce().getY() + e.getPosition().getY()) * cameraScale) + (camera.getY() * cameraScale));
-            glEnd();
-            // Draw the net force acting on this Entity.
-            for (Force f : e.getForces()) {
+            if(showNetForce) {
                 glBegin(GL_LINES);
-                glColor4d(0.4, 0.4, 0.4, 0);
-                glVertex2d((e.getPosition().getX() * cameraScale) + (camera.getX() * cameraScale), (e.getPosition().getY() * cameraScale) + (camera.getY() * cameraScale));
-                glVertex2d(((e.getPosition().getX() + f.getForce().getX() * 10) * cameraScale) + (camera.getX() * cameraScale), ((10 * f.getForce().getY() + e.getPosition().getY()) * cameraScale) + (camera.getY() * cameraScale));
+                glColor4d(0, 0, 0, 0);
+                glVertex2d((e.getPosition().getX() + camera.getX()) * cameraScale, (e.getPosition().getY() + camera.getY()) * cameraScale);
+                glVertex2d((e.getPosition().getX() + e.getNetForce().normalize().getX() * 10 + camera.getX()) * cameraScale, (e.getNetForce().normalize().getY() * 10 + e.getPosition().getY() + camera.getY()) * cameraScale);
                 glEnd();
             }
+            // Draw each individual force.
+            if(showForces){
+                for (Force f : e.getForces()) {
+                    glBegin(GL_LINES);
+                    glColor4d(0.4, 0.4, 0.4, 0);
+                    glVertex2d((e.getPosition().getX() + camera.getX()) * cameraScale, (e.getPosition().getY() + camera.getY()) * cameraScale);
+                    glVertex2d((e.getPosition().getX() + f.getForce().normalize().getX()*10 + camera.getX()) * cameraScale, ( f.getForce().normalize().getY() * 10 + e.getPosition().getY() + camera.getY()) * cameraScale);
+                    glEnd();
+                }
+            }
             // Draw this Entity's velocity.
-            glBegin(GL_LINES);
-            glColor4d(1,0.1,0.1,0);
-            glVertex2d((e.getPosition().getX() * cameraScale) + (camera.getX() * cameraScale), (e.getPosition().getY() * cameraScale) + (camera.getY() * cameraScale));
-            glVertex2d(((e.getPosition().getX() + e.getVelocity().getX()*100) * cameraScale) + (camera.getX() * cameraScale), ((100*e.getVelocity().getY() + e.getPosition().getY()) * cameraScale) + (camera.getY() * cameraScale));
-            glEnd();
+            if(showVelocity) {
+                glBegin(GL_LINES);
+                glColor4d(1, 0.1, 0.1, 0);
+                glVertex2d((e.getPosition().getX() + camera.getX()) * cameraScale, (e.getPosition().getY() + camera.getY()) * cameraScale);
+                glVertex2d((e.getPosition().getX() + e.getVelocity().normalize().getX() * 20 + camera.getX()) * cameraScale, ( e.getVelocity().normalize().getY() * 20 + e.getPosition().getY() + camera.getY()) * cameraScale);
+                glEnd();
+            }
+            // Draw the Entity's acceleration.
+            if(showAcceleration) {
+                glBegin(GL_LINES);
+                glColor4d(.6, 0, .9, 0);
+                glVertex2d((e.getPosition().getX() + camera.getX()) * cameraScale, (e.getPosition().getY() + camera.getY()) * cameraScale);
+                glVertex2d((e.getPosition().getX() + e.getAcceleration().normalize().getX() * 15 + camera.getX()) * cameraScale, ( e.getAcceleration().normalize().getY() * 15 + e.getPosition().getY() + camera.getY()) * cameraScale);
+                glEnd();
+            }
+            //draw the bounding box if turned on
+            if(showBoundingBox) {
+                AABB b = e.getBounds();
+                glBegin(GL_LINE_LOOP);
+                glColor4d(0, 0, 1, .0003);
+                glVertex2d((e.getPosition().getX() + b.getHalfWidth()) * cameraScale, (e.getPosition().getY() + b.getHalfHeight()) * cameraScale);
+                glVertex2d((e.getPosition().getX() + b.getHalfWidth()) * cameraScale, (e.getPosition().getY() - b.getHalfHeight()) * cameraScale);
+                glVertex2d((e.getPosition().getX() - b.getHalfWidth()) * cameraScale, (e.getPosition().getY() - b.getHalfHeight()) * cameraScale);
+                glVertex2d((e.getPosition().getX() - b.getHalfWidth()) * cameraScale, (e.getPosition().getY() + b.getHalfHeight()) * cameraScale);
+                glEnd();
+            }
         }
 
         glfwSwapBuffers(window); // Place the frame that we just rendered onto the window.
@@ -213,32 +257,75 @@ public class Viewer implements Observer {
      */
     private void createCallbacks() {
         glfwSetKeyCallback(window, (window, key, scancode, action, modes) -> {
-            if ((key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) || glfwWindowShouldClose(window)) {
-                closeWindow();
+            if(!altKey) {
+                if ((key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) || glfwWindowShouldClose(window)) {
+                    closeWindow();
+                }
+                if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
+                    controller.viewEvent(); //TODO expand this "Command pattern?"
+                }
+                if (key == GLFW_KEY_G && action == GLFW_PRESS) {
+                    controller.toggleFEA();
+                }
+                if (key == GLFW_KEY_B && action == GLFW_PRESS) {
+                    controller.toggleGravity();
+                }
+                if (key == GLFW_KEY_L && action == GLFW_PRESS) {
+                    controller.launchBall(cameraScale);
+                }
+                if (key == GLFW_KEY_LEFT && action == GLFW_PRESS) {
+                    camera.add(new Vector2D(1/cameraScale, 0));
+                }
+                if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS) {
+                    camera.add(new Vector2D(-1/cameraScale, 0));
+                }
+                if (key == GLFW_KEY_UP && action == GLFW_PRESS) {
+                    camera.add(new Vector2D(0, -1/cameraScale));
+                }
+                if (key == GLFW_KEY_DOWN && action == GLFW_PRESS) {
+                    camera.add(new Vector2D(0, 1/cameraScale));
+                }
             }
-            if ( key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
-                controller.viewEvent(); //TODO expand this "Command pattern?"
+            else{
+                if (altKey && key == GLFW_KEY_B && action == GLFW_PRESS) {
+                    showBoundingBox = !showBoundingBox;
+                }
+                if (altKey && key==GLFW_KEY_C && action == GLFW_PRESS) {
+                    showCollisions = !showCollisions;
+                }
+                if (altKey && key==GLFW_KEY_F && action == GLFW_PRESS) {
+                    showForces = !showForces;
+                }
+                if (altKey && key==GLFW_KEY_N && action == GLFW_PRESS) {
+                    showNetForce = !showNetForce;
+                }
+                if (altKey && key==GLFW_KEY_V && action == GLFW_PRESS) {
+                    showVelocity = !showVelocity;
+                }
+                if (altKey && key==GLFW_KEY_A && action == GLFW_PRESS) {
+                    showAcceleration = !showAcceleration;
+                }
+                if (altKey && key==GLFW_KEY_E && action == GLFW_PRESS) {
+                    showAll = !showAll;
+                    showBoundingBox = showAll;
+                    showNetForce = showAll;
+                    showForces = showAll;
+                    showVelocity = showAll;
+                    showAcceleration = showAll;
+                    showCollisions = showAll;
+                }
             }
-            if ( key == GLFW_KEY_G && action == GLFW_PRESS) {
-                controller.toggleFEA();
+            if (key == GLFW_KEY_LEFT_ALT && action == GLFW_PRESS) {
+                altKey = true;
             }
-            if ( key == GLFW_KEY_B && action == GLFW_PRESS) {
-                controller.toggleGravity();
+            if (key == GLFW_KEY_RIGHT_ALT && action == GLFW_PRESS) {
+                altKey = true;
             }
-            if ( key == GLFW_KEY_L && action == GLFW_PRESS) {
-                controller.launchBall();
+            if (key == GLFW_KEY_LEFT_ALT && action == GLFW_RELEASE){
+                altKey = false;
             }
-            if (key == GLFW_KEY_LEFT && action == GLFW_PRESS) {
-                camera.add(new Vector2D(1,0));
-            }
-            if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS) {
-                camera.add(new Vector2D(-1,0));
-            }
-            if (key == GLFW_KEY_UP && action == GLFW_PRESS) {
-                camera.add(new Vector2D(0,-1));
-            }
-            if (key == GLFW_KEY_DOWN && action == GLFW_PRESS) {
-                camera.add(new Vector2D(0,1));
+            if (key == GLFW_KEY_RIGHT_ALT && action == GLFW_RELEASE){
+                altKey = false;
             }
         });
 

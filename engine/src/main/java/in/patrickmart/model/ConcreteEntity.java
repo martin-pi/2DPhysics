@@ -27,7 +27,7 @@ public class ConcreteEntity implements Entity{
     // When no material is specified, these are the default colors.
 	private double[] color;
     private double[] originalColor;
-	private double[] collisionColor ;
+	private boolean isColliding = false;
 
     public ConcreteEntity(Vector2D position, ConcreteShape shape, Material material) {
 		this.id = getNewId();
@@ -50,7 +50,6 @@ public class ConcreteEntity implements Entity{
         Random r = new Random();
         originalColor = new double[] {r.nextDouble(),0.65,0.80,0.75};
 		this.color = originalColor;
-        collisionColor = new double[] {0.9,0.4,0.4,0.75}; // Red
     }
 
     public ConcreteEntity(Vector2D position, ConcreteShape shape) {
@@ -74,7 +73,6 @@ public class ConcreteEntity implements Entity{
         Random r = new Random();
         originalColor = new double[] {r.nextDouble(),0.65,0.80,0.75};
         this.color = originalColor;
-        collisionColor = new double[] {0.9,0.4,0.4,0.75}; // Red
     }
 
     public ConcreteEntity(Vector2D position, ConcreteShape shape, double[] color) {
@@ -96,7 +94,6 @@ public class ConcreteEntity implements Entity{
         // Calculate some random colors as defaults if there are no materials.
         originalColor = color;
 		this.color = originalColor;
-		collisionColor = new double[] {0.9,0.4,0.4,0.75}; // Red
     }
 
 	public void applyForce(Force force) {
@@ -107,7 +104,7 @@ public class ConcreteEntity implements Entity{
 	 * Give this entity a chance to react to its surroundings and act on its own.
 	 */
 	public void step() {
-		color = originalColor;
+		isColliding = false;
 	}
 	
 	/**
@@ -191,7 +188,7 @@ public class ConcreteEntity implements Entity{
      * Use the CollisionData generated from the collision check to move out of the collision and apply Normal force.
      */
     public void collisionResponse(Entity other, Vector2D mtv) {
-        color = collisionColor;
+        isColliding = true;
 		this.position.add(mtv);
     }
 
@@ -320,5 +317,9 @@ public class ConcreteEntity implements Entity{
 
     public Vector2D getAcceleration() {
         return acceleration.copy();
+    }
+
+    public boolean isColliding(){
+        return isColliding;
     }
 }

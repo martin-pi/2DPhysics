@@ -29,4 +29,5 @@ public interface Entity {
     double getMass();
     void setMass(double mass);
     Vector2D getAcceleration();
+    boolean isColliding();
 }
