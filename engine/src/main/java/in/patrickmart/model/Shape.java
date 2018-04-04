@@ -13,6 +13,7 @@ public interface Shape {
     Vector2D intersectsShape(Shape other);
     void setPosition(Vector2D point);
     void setRotation(double rotation);
+    void rotate(double rotation);
     Vector2D getPosition();
     double getRotation();
     List<Vector2D> getPoints();

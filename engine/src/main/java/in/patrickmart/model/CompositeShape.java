@@ -3,7 +3,7 @@ package in.patrickmart.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CompositeShape implements Shape {
+public class CompositeShape { //TODO implements Shape
     private ArrayList<Shape> shapes;
     private Vector2D position;
     private double area;

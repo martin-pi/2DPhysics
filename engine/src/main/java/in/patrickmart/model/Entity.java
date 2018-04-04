@@ -25,6 +25,7 @@ public interface Entity {
     Vector2D getNetForce();
     ArrayList<Force> getForces();
     void setPosition(Vector2D position);
+    void setRotation(double rotation);
     double getMass();
     void setMass(double mass);
     Vector2D getAcceleration();

@@ -328,7 +328,21 @@ public class ConcreteShape implements Shape {
     }
 
     public void setRotation(double rotation) {
-        this.rotation = rotation;
+        // Find the difference between the new rotation and the previous.
+        double difference = rotation - this.rotation;
+
+        // Rotate all points by the difference, update the stored rotation.
+        rotate(difference);
+    }
+
+    public void rotate(double rotation) {
+        // Update the stored rotation.
+        this.rotation += rotation;
+
+        // Rotate all of the points in this shape by the provided rotation.
+        for (Vector2D point : points) {
+            point.rotate(rotation);
+        }
     }
     public double getRotation() {
         return rotation;
@@ -339,19 +353,17 @@ public class ConcreteShape implements Shape {
     public double getArea() {
         return this.area;
     }
+
+
+
     public ArrayList<Shape> getSubShapes(){
         ArrayList<Shape> singletonSubShape = new ArrayList<>();
         singletonSubShape.add(this);
         return singletonSubShape;
     }
-
-    public void addShape(Shape shape) {
-
-    }
+    public void addShape(Shape shape) { }
     public Shape getShape(int index) {
         return this;
     }
-    public void removeShape(Shape shape) {
-
-    }
+    public void removeShape(Shape shape) { }
 }

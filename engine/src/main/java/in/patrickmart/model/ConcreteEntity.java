@@ -156,7 +156,7 @@ public class ConcreteEntity implements Entity{
      */
     public void calculatePosition() {
         setPosition(this.position.add(velocity));
-        rotation = rotation + angularVelocity;
+        setRotation(rotation + angularVelocity);
 
         if (angularVelocity != 0) { // If we have rotated, we need a new bounding box.
             bounds = shape.calculateBounds(this.rotation);
@@ -211,6 +211,11 @@ public class ConcreteEntity implements Entity{
         this.position = position;
         this.bounds.setCenter(position);
         this.shape.setPosition(position);
+    }
+
+    public void setRotation(double rotation) {
+        this.rotation = rotation;
+        this.shape.setRotation(rotation);
     }
 
     /**

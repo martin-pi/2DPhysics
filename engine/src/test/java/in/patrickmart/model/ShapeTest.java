@@ -63,4 +63,25 @@ public class ShapeTest extends TestCase
         ConcreteShape model = new ConcreteShape(4, 1);
         assertTrue(model.getArea() == 2.0);
     }
+
+    /**
+     * Test rotating a shape. Does it move all of the individual points to the right place?
+     * Also test both methods of rotating.
+     */
+    public void testRotation() {
+        double ROTATE_BY = 0.5;
+        //Define a vector that has no rotation. (0 rotation is pointed East in the cartesian coordinate system.)
+        Vector2D noRotation = new Vector2D().fromAngle(0);
+        // Generate a 4 sided shape and determine the angle of a vertex.
+        ConcreteShape shape = new ConcreteShape(4, 1);
+        double angleBefore = shape.getPoints().get(0).angleBetween(noRotation);
+        // Rotate the entire shape.
+        shape.rotate(ROTATE_BY);
+
+        // Determine the amount that a single vertex of the shape was rotated by.
+        double angleAfter = shape.getPoints().get(0).angleBetween(noRotation);
+        double difference = angleAfter - angleBefore;
+
+        assertTrue(difference == ROTATE_BY);
+    }
 }
