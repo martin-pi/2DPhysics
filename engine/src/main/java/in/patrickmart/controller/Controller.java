@@ -3,6 +3,7 @@ package in.patrickmart.controller;
 import in.patrickmart.model.*;
 import in.patrickmart.model.forces.*;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Controller {
@@ -112,7 +113,7 @@ public class Controller {
         System.out.println("Added launch entity #" + e.getId() + " to the model.");
     }
     public void createEntityClick(Vector2D position, double cameraScale){
-        System.out.println("click at: " + position.getX() + ", " + position.getY());
+        System.out.println("Click at: " + position.getX() + ", " + position.getY());
         int sides = 12;
         Entity e = new ConcreteEntity(new Vector2D(position.getX(),position.getY()), new ConcreteShape(sides ,.1 / cameraScale));
         //e.setVelocity(new Vector2D((r.nextDouble() - .5) * .01,(r.nextDouble() - .5) * .01));
@@ -122,11 +123,28 @@ public class Controller {
         System.out.println("Added random entity #" + e.getId() + " to the model.");
     }
 
+    public void createForce(Entity applyTo, Vector2D position, Vector2D force) {
+        System.out.println("Applied force (" + force.getX() + ", " + force.getY() + ")to entity #" + applyTo.getId() + ".");
+        Force f = new ForceGeneric(null, applyTo, position, force);
+        //model.getScenario().addForce(f);
+    }
+
     public void clickSelect(Vector2D position)
     {
         model.getScenario().pointCollisionCheck(position);
     }
 
+    public Entity getLatestEntity() {
+       ArrayList<Entity> entities = model.getScenario().getEntities();
+       int highest = 0;
+       Entity latest = null;
+       for (Entity e : entities) {
+           if (e.getId() > highest) {
+               latest = e;
+           }
+       }
+       return latest;
+    }
     /**
      * accessor for this controller's model
      * @return model

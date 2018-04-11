@@ -14,6 +14,7 @@ import org.lwjgl.system.*;
 
 import java.nio.*;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
@@ -32,8 +33,11 @@ public class Viewer implements Observer {
     private double cameraScale;
 
     private boolean mouse_rb_down;
+    private boolean mouse_lb_down;
     private double mouse_rb_initialX;
     private double mouse_rb_initialY;
+    private double mouse_lb_initialX;
+    private double mouse_lb_initialY;
     private double mouse_x;
     private double mouse_y;
 
@@ -45,6 +49,8 @@ public class Viewer implements Observer {
     private boolean showCollisions;
     private boolean altKey;
     private boolean showAll;
+
+    private Entity selected;
 
     private double[] collisionColor ;
 
@@ -169,12 +175,14 @@ public class Viewer implements Observer {
                 Vector2D v = e.getShape().getPoints().get(i);
                 Vector2D w = e.getShape().getPoints().get((i + 1) % e.getShape().getPoints().size());
 
-
-                if(e.isColliding() && showCollisions){
+                if (e.isColliding() && showCollisions) {
                     glColor4d(collisionColor[0],collisionColor[1],collisionColor[2],collisionColor[3]);
-                }
-                else{
+                } else {
                     glColor4d(e.getColor()[0],e.getColor()[1], e.getColor()[2], e.getColor()[3]);
+                }
+
+                if (selected != null && e.equals(selected)) {
+                    glColor4d(0.2,0.8,0.2, 1);
                 }
                 glVertex2d((e.getPosition().getX() * cameraScale) + (camera.getX() * cameraScale), (e.getPosition().getY() * cameraScale) + (camera.getY() * cameraScale));
                 glVertex2d((v.getX() * cameraScale) + (e.getPosition().getX() * cameraScale) + (camera.getX() * cameraScale), (v.getY() * cameraScale) + (e.getPosition().getY() * cameraScale) + (camera.getY() * cameraScale));
@@ -285,6 +293,9 @@ public class Viewer implements Observer {
                 if (key == GLFW_KEY_DOWN && action == GLFW_PRESS) {
                     camera.add(new Vector2D(0, 1/cameraScale));
                 }
+                if (key == GLFW_KEY_S && action == GLFW_PRESS) {
+                    selected = controller.getLatestEntity();
+                }
             }
             else{
                 if (key == GLFW_KEY_B && action == GLFW_PRESS) {
@@ -334,7 +345,22 @@ public class Viewer implements Observer {
                 if(altKey){
                     controller.createEntityClick(getPointer(), cameraScale);
                 }
-                else controller.clickSelect(getPointer());
+                else {
+                    mouse_lb_down = true;
+
+                    Vector2D forceStart = getPointer();
+                    mouse_lb_initialX = forceStart.getX();
+                    mouse_lb_initialY = forceStart.getY();
+                }
+            }
+
+            if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE) {
+                if (mouse_lb_down && selected != null) {
+                    Vector2D forceEnd = getPointer();
+                    Vector2D position = new Vector2D(mouse_lb_initialX, mouse_lb_initialY);
+                    Vector2D force = new Vector2D(forceEnd.getX(), forceEnd.getY()).sub(position);
+                    controller.createForce(selected, position, force);
+                }
             }
 
             if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS) {
