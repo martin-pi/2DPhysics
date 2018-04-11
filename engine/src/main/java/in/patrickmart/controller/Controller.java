@@ -107,19 +107,24 @@ public class Controller {
     public void launchBall(double cameraScale){
         Entity e = new ConcreteEntity(new Vector2D(1 / cameraScale,-.5 / cameraScale), new ConcreteShape(8 ,.1/cameraScale));
         e.setVelocity(new Vector2D(-.2 / cameraScale,.1 / cameraScale));
-        e.setMass(50 / cameraScale);
+        e.setMass(500 / cameraScale * 2);
         model.addEntity(e);
         System.out.println("Added launch entity #" + e.getId() + " to the model.");
     }
-    public void clickEvent(double x, double y, double cameraScale){
-        System.out.println("click at: " + x + ", " + y);
+    public void createEntityClick(Vector2D position, double cameraScale){
+        System.out.println("click at: " + position.getX() + ", " + position.getY());
         int sides = 12;
-        Entity e = new ConcreteEntity(new Vector2D(x,y), new ConcreteShape(sides ,.1 / cameraScale));
+        Entity e = new ConcreteEntity(new Vector2D(position.getX(),position.getY()), new ConcreteShape(sides ,.1 / cameraScale));
         //e.setVelocity(new Vector2D((r.nextDouble() - .5) * .01,(r.nextDouble() - .5) * .01));
         //TODO: remove this. forcing mass to be large here.
-        e.setMass(50 / cameraScale);
+        e.setMass(500 / cameraScale * 2);
         model.addEntity(e);
         System.out.println("Added random entity #" + e.getId() + " to the model.");
+    }
+
+    public void clickSelect(Vector2D position)
+    {
+        model.getScenario().pointCollisionCheck(position);
     }
 
     /**

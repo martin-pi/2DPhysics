@@ -145,27 +145,19 @@ public class ConcreteShape implements Shape {
      * @return true if point is within model.
      */
     public boolean containsPoint(Vector2D point) {
-        /**
         //turn point vector into horizontal line extending forever in one direction
         double end_x = point.getX() + 9999;
         int intersections = 0;
         //check how many edges that line touches
         //if it touches one edge but not another then it is inside the polygon
-        ArrayList<Vector2D> edges = getEdges();
-        for (int i = 0; i < edges.size();i++){
-            if(point.getY() > edges.get(i).getY()){
-                if(edges.size() == i+1 && edges.get(0).getY() > point.getY()){
-                    if(edges.get(i).getX() > point.getX() && edges.get(i).getX() < end_x){
-                        intersections++; //we intersected a side
-                    }
-                }
+        for (int i = 0; i < points.size();i++){
+            if(i+1 == points.size()){
+
             }
         }
 
         return intersections == 1;
-         */
         // TODO: use this to determine which object is clicked on for displaying information window
-        return false;
     }
 
     /**

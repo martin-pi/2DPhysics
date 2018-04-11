@@ -287,25 +287,25 @@ public class Viewer implements Observer {
                 }
             }
             else{
-                if (altKey && key == GLFW_KEY_B && action == GLFW_PRESS) {
+                if (key == GLFW_KEY_B && action == GLFW_PRESS) {
                     showBoundingBox = !showBoundingBox;
                 }
-                if (altKey && key==GLFW_KEY_C && action == GLFW_PRESS) {
+                if (key==GLFW_KEY_C && action == GLFW_PRESS) {
                     showCollisions = !showCollisions;
                 }
-                if (altKey && key==GLFW_KEY_F && action == GLFW_PRESS) {
+                if (key==GLFW_KEY_F && action == GLFW_PRESS) {
                     showForces = !showForces;
                 }
-                if (altKey && key==GLFW_KEY_N && action == GLFW_PRESS) {
+                if (key==GLFW_KEY_N && action == GLFW_PRESS) {
                     showNetForce = !showNetForce;
                 }
-                if (altKey && key==GLFW_KEY_V && action == GLFW_PRESS) {
+                if (key==GLFW_KEY_V && action == GLFW_PRESS) {
                     showVelocity = !showVelocity;
                 }
-                if (altKey && key==GLFW_KEY_A && action == GLFW_PRESS) {
+                if (key==GLFW_KEY_A && action == GLFW_PRESS) {
                     showAcceleration = !showAcceleration;
                 }
-                if (altKey && key==GLFW_KEY_E && action == GLFW_PRESS) {
+                if (key==GLFW_KEY_E && action == GLFW_PRESS) {
                     showAll = !showAll;
                     showBoundingBox = showAll;
                     showNetForce = showAll;
@@ -331,17 +331,10 @@ public class Viewer implements Observer {
 
         glfwSetMouseButtonCallback(window,(window, button, action, mods) -> {
             if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
-                double[] x = new double[1];
-                double[] y = new double[1];
-                int[] h = new int[1];
-                int[] w = new int[1];
-                glfwGetCursorPos(window,x,y);
-                glfwGetWindowSize(window,h,w);
-                double x_cursor = (x[0] - (h[0] / 2)) / (h[0] / 2);
-                double y_cursor = ((w[0] / 2) - y[0])/ (w[0] / 2);
-
-                Vector2D modelCoords = translateCoordsToModel(new Vector2D(x_cursor, y_cursor));
-                controller.clickEvent(modelCoords.getX(), modelCoords.getY(), cameraScale);
+                if(altKey){
+                    controller.createEntityClick(getPointer(), cameraScale);
+                }
+                else controller.clickSelect(getPointer());
             }
 
             if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS) {
@@ -372,10 +365,19 @@ public class Viewer implements Observer {
         );
     }
 
-    private Vector2D translateCoordsToModel(Vector2D viewCoords) {
-        double x = (viewCoords.getX() / cameraScale) - (camera.getX());
-        double y = (viewCoords.getY() / cameraScale) - (camera.getY());
-        return new Vector2D(x, y);
+    private Vector2D getPointer() {
+        double[] x = new double[1];
+        double[] y = new double[1];
+        int[] h = new int[1];
+        int[] w = new int[1];
+        glfwGetCursorPos(window,x,y);
+        glfwGetWindowSize(window,h,w);
+        double x_cursor = (x[0] - (h[0] / 2)) / (h[0] / 2);
+        double y_cursor = ((w[0] / 2) - y[0])/ (w[0] / 2);
+
+        x_cursor = (x_cursor / cameraScale) - (camera.getX());
+        y_cursor = (y_cursor / cameraScale) - (camera.getY());
+        return new Vector2D(x_cursor, y_cursor);
     }
 
 }

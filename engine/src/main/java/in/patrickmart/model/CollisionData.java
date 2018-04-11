@@ -22,14 +22,16 @@ public class CollisionData {
 	
 	public boolean resolve(boolean gravity, boolean FEAgravity) {
 		//calculate momentum of each entity
-		Vector2D m1 = first.getVelocity().mult(first.getMass());
-		Vector2D m2 = second.getVelocity().mult(second.getMass());
+		Vector2D p1 = first.getVelocity().mult(first.getMass());
+		Vector2D p2 = second.getVelocity().mult(second.getMass());
 		//project the force onto the vector between the two entities.
-		double newM1 = m1.dot(second.getPosition().sub(first.getPosition()).normalize());
-		double newM2 = m2.dot(first.getPosition().sub(second.getPosition()).normalize());
+		double newM1 = p1.copy().dot(mtv.copy().normalize().mult(-1));
+		double newM2 = p2.copy().dot(mtv.copy().normalize());
+		p1 = p1.add(mtv.copy().setMag(newM1 + newM2));
+		p2 = p2.add(mtv.copy().setMag(newM2 + newM1));
 		//apply the change in velocity equally to both in opposite directions
-		first.setVelocity(first.getVelocity().add(mtv.copy().mult(-1).setMag((newM1 + newM2)/first.getMass())));
-		second.setVelocity(second.getVelocity().add(mtv.copy().setMag((newM1 + newM2)/second.getMass())));
+		first.setVelocity(first.getVelocity().add(p1.div(first.getMass())));
+		second.setVelocity(second.getVelocity().add(p2.div(second.getMass())));
 
 		//call each entitie's collision response
 		first.collisionResponse(second, mtv.copy().mult(-0.5));

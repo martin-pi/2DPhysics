@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 public class Scenario {
     private ArrayList<Entity> entities; // TODO implement Quadtree.
+    private ArrayList<Entity> selectedEntities;
     private ArrayList<CollisionData> collisions;
     private ArrayList<Force> forces;
     private boolean FEAgravity;
@@ -16,8 +17,10 @@ public class Scenario {
 
     public Scenario() {
         entities = new ArrayList<Entity>();
+        selectedEntities = new ArrayList<Entity>();
         collisions = new ArrayList<CollisionData>();
         forces = new ArrayList<Force>();
+
     }
 
     public void addEntity(Entity e) {
@@ -94,6 +97,17 @@ public class Scenario {
 				}
             }
         }
+    }
+
+    public void pointCollisionCheck(Vector2D point){
+        selectedEntities.clear();
+        for (Entity e: entities){
+            if(e.getShape().containsPoint(point)){
+                selectedEntities.add(e);
+            }
+        }
+        if(!selectedEntities.isEmpty()) System.out.println(selectedEntities);
+        else System.out.println("no entity there");
     }
 
     /**
