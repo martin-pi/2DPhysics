@@ -106,18 +106,18 @@ public class Controller {
 
     public void launchBall(double cameraScale){
         Entity e = new ConcreteEntity(new Vector2D(1 / cameraScale,-.5 / cameraScale), new ConcreteShape(8 ,.1/cameraScale));
-        e.setVelocity(new Vector2D(-.02 / cameraScale,.01 / cameraScale));
+        e.setVelocity(new Vector2D(-.2 / cameraScale,.1 / cameraScale));
         e.setMass(50 / cameraScale);
         model.addEntity(e);
         System.out.println("Added launch entity #" + e.getId() + " to the model.");
     }
-    public void clickEvent(double x, double y){
+    public void clickEvent(double x, double y, double cameraScale){
         System.out.println("click at: " + x + ", " + y);
         int sides = 12;
-        Entity e = new ConcreteEntity(new Vector2D(x,y), new ConcreteShape(sides ,1));
+        Entity e = new ConcreteEntity(new Vector2D(x,y), new ConcreteShape(sides ,.1 / cameraScale));
         //e.setVelocity(new Vector2D((r.nextDouble() - .5) * .01,(r.nextDouble() - .5) * .01));
         //TODO: remove this. forcing mass to be large here.
-        e.setMass(500.0);
+        e.setMass(50 / cameraScale);
         model.addEntity(e);
         System.out.println("Added random entity #" + e.getId() + " to the model.");
     }

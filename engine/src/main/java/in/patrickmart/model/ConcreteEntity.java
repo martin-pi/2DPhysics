@@ -143,16 +143,16 @@ public class ConcreteEntity implements Entity{
         //acceleration * time + velocity
         //every step should be about 1/60th of a second
         //velocity = velocity.add(acceleration.mult(1/60));
-        velocity = velocity.add(acceleration.mult(.016));
+        velocity = velocity.add(getAcceleration().mult(.01666));
         //angularVelocity += angularAcceleration;
-        angularVelocity = 0.1;
+         //     angularVelocity = 0.1;
     }
 
     /**
      * Move this entity along its velocity vector, update its rotation.
      */
     public void calculatePosition() {
-        setPosition(this.position.add(velocity));
+        setPosition(position.add(getVelocity().mult(.016667)));
         setRotation(rotation + angularVelocity);
 
         if (angularVelocity != 0) { // If we have rotated, we need a new bounding box.
