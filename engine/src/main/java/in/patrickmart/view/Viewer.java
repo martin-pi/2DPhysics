@@ -341,7 +341,7 @@ public class Viewer implements Observer {
                 double y_cursor = ((w[0] / 2) - y[0])/ (w[0] / 2);
 
                 Vector2D modelCoords = translateCoordsToModel(new Vector2D(x_cursor, y_cursor));
-                controller.clickEvent(modelCoords.getX(), modelCoords.getY());
+                controller.clickEvent(modelCoords.getX(), modelCoords.getY(), cameraScale);
             }
 
             if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS) {
