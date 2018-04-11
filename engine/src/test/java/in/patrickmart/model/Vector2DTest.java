@@ -245,6 +245,19 @@ public class Vector2DTest
         result = v.heading() - v2.heading();
         assertEquals(result, v2.angleBetween(v));
 
+        Vector2D v3 = new Vector2D(0, 2);
+        Vector2D v4 = new Vector2D(2, 0);
+
+        assertTrue(v3.angle() == Math.PI/2);
+        assertTrue(v4.angle() == 0);
+        assertTrue(v3.angleBetween(v4) == -Math.PI/2);
+        assertTrue(v4.angleBetween(v3) == Math.PI/2);
+
+        Vector2D v5 = new Vector2D(0, -2);
+
+        assertTrue(v3.angleBetween(v5) == Math.PI || v3.angleBetween(v5) == -Math.PI);
+
+
         v2.setX(Math.cos(90));
         v2.setY(Math.sin(90));
         assertEquals(v2.toString(),v.fromAngle(90).toString());

@@ -12,6 +12,7 @@ public class ConcreteEntity implements Entity{
     private Vector2D position;
     private double rotation;
     private Vector2D velocity;
+    private double netTorque;  // Newton Meters
     private double angularVelocity;
     private Vector2D acceleration;
     private double angularAcceleration;
@@ -113,16 +114,24 @@ public class ConcreteEntity implements Entity{
     public void calculateAcceleration() {
         // Start by finding netForce and netTorque.
         netForce = new Vector2D();
+        netTorque = 0;
 
+        // Calculate the net force and net rotation from forces.
         for (Force f : forces) {
-            // TODO calculate angular acceleration.
+            // Calculate the new Net Torque.
+            Vector2D offset = f.getPosition().sub(this.getPosition());
+            double angleOfOffset = offset.angle();
+
+            // T = rFsin(angleOfForce)
+            netTorque += 0;
+            // Calculate the new Net Force.
             netForce.add(f.getForce());
         }
 
         // Newton's Second law: netForce = mass * acceleration -> acceleration = netForce / mass
         acceleration = new Vector2D(netForce.getX() / this.mass, netForce.getY() / this.mass);
         // TODO Similarly, for torque: netTorque = momentOfInertia(around center of mass) * angularAcceleration
-        angularAcceleration = 0;
+        angularAcceleration = 0.001;
 
         // Clear the list of forces so that they don't build up step after step.
         lastForces = forces;
@@ -145,7 +154,7 @@ public class ConcreteEntity implements Entity{
         //velocity = velocity.add(acceleration.mult(1/60));
         velocity = velocity.add(acceleration.mult(.016));
         //angularVelocity += angularAcceleration;
-        angularVelocity = 0.1;
+        //angularVelocity = 0.1;
     }
 
     /**
