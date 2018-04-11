@@ -245,14 +245,6 @@ public class Vector2D {
     }
 
     /**
-     *  Alias of heading(). Returns the angle of this vector.
-     * @return The angle of this vector.
-     */
-    public double angle() {
-        return this.heading();
-    }
-
-    /**
      *	Rotates this vector by some angle.
      *	@param angle	The angle to rotate this vector by.
      *	@return			This newly modified vector.
