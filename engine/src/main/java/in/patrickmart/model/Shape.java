@@ -8,6 +8,7 @@ public interface Shape {
     Shape getShape(int index);
     void removeShape(Shape shape);
     double getArea();
+    double getDiameter();
     AABB calculateBounds(double rotation);
     boolean containsPoint(Vector2D point);
     Vector2D intersectsShape(Shape other);

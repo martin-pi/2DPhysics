@@ -13,6 +13,8 @@ public class ConcreteEntity implements Entity{
     private double rotation;
     private Vector2D velocity;
     private double netTorque;  // Newton Meters
+    private double momentOfInertiaCenter;
+    private double momentOfInertiaEdge;
     private double angularVelocity;
     private Vector2D acceleration;
     private double angularAcceleration;
@@ -39,6 +41,8 @@ public class ConcreteEntity implements Entity{
         this.bounds = shape.calculateBounds(this.rotation);
 
         this.mass = material.getDensity() * shape.getArea();
+        this.momentOfInertiaCenter = (Math.pow(shape.getDiameter(), 2) * this.mass) / 12; // Ic = (1/12)mL^2
+        this.momentOfInertiaEdge = (Math.pow(shape.getDiameter(), 2) * this.mass) / 3; // Ie = (1/3)mL^2
 
         setPosition(position);
         this.rotation = 0;
@@ -62,6 +66,8 @@ public class ConcreteEntity implements Entity{
         this.bounds = shape.calculateBounds(this.rotation);
 
         this.mass = shape.getArea();
+        this.momentOfInertiaCenter = (Math.pow(shape.getDiameter(), 2) * this.mass) / 12; // Ic = (1/12)mL^2
+        this.momentOfInertiaEdge = (Math.pow(shape.getDiameter(), 2) * this.mass) / 3; // Ie = (1/3)mL^2
 
         setPosition(position);
         this.rotation = 0;
@@ -84,6 +90,8 @@ public class ConcreteEntity implements Entity{
         this.bounds = shape.calculateBounds(this.rotation);
 
         this.mass = shape.getArea();
+        this.momentOfInertiaCenter = (Math.pow(shape.getDiameter(), 2) * this.mass) / 12; // Ic = (1/12)mL^2
+        this.momentOfInertiaEdge = (Math.pow(shape.getDiameter(), 2) * this.mass) / 3; // Ie = (1/3)mL^2
 
         setPosition(position);
         this.rotation = 0;
@@ -114,24 +122,25 @@ public class ConcreteEntity implements Entity{
     public void calculateAcceleration() {
         // Start by finding netForce and netTorque.
         netForce = new Vector2D();
-        netTorque = 0;
+        netTorque = 0.0;
 
         // Calculate the net force and net rotation from forces.
         for (Force f : forces) {
             // Calculate the new Net Torque.
             Vector2D offset = f.getPosition().sub(this.getPosition());
-            double angleOfOffset = offset.angle();
+            double theta = offset.angleBetween(f.getForce());
+            // T = rFsin(theta)
+            netTorque += offset.mag() * f.getForce().mag() * (Math.sin(theta));
 
-            // T = rFsin(angleOfForce)
-            netTorque += 0;
             // Calculate the new Net Force.
             netForce.add(f.getForce());
         }
 
         // Newton's Second law: netForce = mass * acceleration -> acceleration = netForce / mass
         acceleration = new Vector2D(netForce.getX() / this.mass, netForce.getY() / this.mass);
-        // TODO Similarly, for torque: netTorque = momentOfInertia(around center of mass) * angularAcceleration
-        angularAcceleration = 0.001;
+
+        // Similarly, for torque: netTorque = momentOfInertia(around center of mass) * angularAcceleration
+        angularAcceleration = netTorque / momentOfInertiaCenter;
 
         // Clear the list of forces so that they don't build up step after step.
         lastForces = forces;
@@ -153,7 +162,7 @@ public class ConcreteEntity implements Entity{
         //every step should be about 1/60th of a second
         //velocity = velocity.add(acceleration.mult(1/60));
         velocity = velocity.add(getAcceleration().mult(.01666));
-        //angularVelocity += angularAcceleration;
+        angularVelocity += angularAcceleration;
         //angularVelocity = 0.1;
     }
 
@@ -210,8 +219,15 @@ public class ConcreteEntity implements Entity{
     }
 
     /**
+     * Accessor for rotation
+     * @return the angle that this entity is rotated by
+     */
+    public double getRotation() {
+        return rotation;
+    }
+
+    /**
      * Mutator for position
-     * @return position vector
      */
     public void setPosition(Vector2D position) {
         this.position = position;
@@ -264,6 +280,10 @@ public class ConcreteEntity implements Entity{
 
     public Vector2D getNetForce(){
         return this.netForce;
+    }
+
+    public double getNetTorque() {
+        return this.netTorque;
     }
 
     public ArrayList<Force> getForces(){
@@ -324,8 +344,16 @@ public class ConcreteEntity implements Entity{
         return velocity.copy();
     }
 
+    public double getAngularVelocity() {
+        return angularVelocity;
+    }
+
     public Vector2D getAcceleration() {
         return acceleration.copy();
+    }
+
+    public double getAngularAcceleration() {
+        return angularAcceleration;
     }
 
     public boolean isColliding(){
