@@ -354,7 +354,13 @@ public class ConcreteShape implements Shape {
         return this.area;
     }
 
-
+    public double getDiameter() {
+        double sum = 0;
+        for (Vector2D p : points) {
+            sum += p.mag();
+        }
+        return (sum / points.size()) * 2;
+    }
 
     public ArrayList<Shape> getSubShapes(){
         ArrayList<Shape> singletonSubShape = new ArrayList<>();
