@@ -147,7 +147,8 @@ public class Viewer implements Observer {
      */
     public void update(Scenario s) {
         GL.createCapabilities();
-        // Get the mouse position.
+
+        // Determine the new camera location.
         double[] x = new double[1];
         double[] y = new double[1];
         glfwGetCursorPos(window,x,y);
@@ -155,14 +156,12 @@ public class Viewer implements Observer {
         double mouse_y_prev = mouse_y;
         mouse_x = x[0] / cameraScale;
         mouse_y = y[0] / cameraScale;
-
         if (mouse_rb_down) {
             camera.add(new Vector2D((mouse_x - mouse_x_prev) / 640, (mouse_y_prev - mouse_y) / 400));
         }
 
         // Set the clear or "background" color.
-        //glClearColor(0.8f, 1.0f, 0.8f, 0.0f); // Green
-        glClearColor(0.95f, 0.95f, 0.95f, 0.0f);
+        glClearColor(0.92f, 0.92f, 0.92f, 0.0f);
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -195,7 +194,7 @@ public class Viewer implements Observer {
                 glBegin(GL_LINES);
                 glColor4d(0, 0, 0, 0);
                 glVertex2d((e.getPosition().getX() + camera.getX()) * cameraScale, (e.getPosition().getY() + camera.getY()) * cameraScale);
-                glVertex2d((e.getPosition().getX() + e.getNetForce().normalize().getX() * 10 + camera.getX()) * cameraScale, (e.getNetForce().normalize().getY() * 10 + e.getPosition().getY() + camera.getY()) * cameraScale);
+                glVertex2d((e.getPosition().getX() + e.getNetForce().normalize().getX() * 1.5 + camera.getX()) * cameraScale, (e.getNetForce().normalize().getY() * 1.5 + e.getPosition().getY() + camera.getY()) * cameraScale);
                 glEnd();
             }
             // Draw each individual force.
@@ -204,7 +203,7 @@ public class Viewer implements Observer {
                     glBegin(GL_LINES);
                     glColor4d(0.4, 0.4, 0.4, 0);
                     glVertex2d((f.getPosition().getX() + camera.getX()) * cameraScale, (f.getPosition().getY() + camera.getY()) * cameraScale);
-                    glVertex2d((f.getPosition().getX() + f.getForce().normalize().getX() + camera.getX()) * cameraScale, ( f.getPosition().getY() + f.getForce().normalize().getY() + camera.getY()) * cameraScale);
+                    glVertex2d(((f.getPosition().getX() - f.getForce().normalize().getX()) + camera.getX()) * cameraScale, ( (f.getPosition().getY() - f.getForce().normalize().getY()) + camera.getY()) * cameraScale);
                     glEnd();
                 }
             }
@@ -213,7 +212,7 @@ public class Viewer implements Observer {
                 glBegin(GL_LINES);
                 glColor4d(1, 0.1, 0.1, 0);
                 glVertex2d((e.getPosition().getX() + camera.getX()) * cameraScale, (e.getPosition().getY() + camera.getY()) * cameraScale);
-                glVertex2d((e.getPosition().getX() + e.getVelocity().normalize().getX() * 20 + camera.getX()) * cameraScale, ( e.getVelocity().normalize().getY() * 20 + e.getPosition().getY() + camera.getY()) * cameraScale);
+                glVertex2d((e.getPosition().getX() + e.getVelocity().normalize().getX() * 2 + camera.getX()) * cameraScale, ( e.getVelocity().normalize().getY() * 2 + e.getPosition().getY() + camera.getY()) * cameraScale);
                 glEnd();
             }
             // Draw the Entity's acceleration.
@@ -221,7 +220,7 @@ public class Viewer implements Observer {
                 glBegin(GL_LINES);
                 glColor4d(.6, 0, .9, 0);
                 glVertex2d((e.getPosition().getX() + camera.getX()) * cameraScale, (e.getPosition().getY() + camera.getY()) * cameraScale);
-                glVertex2d((e.getPosition().getX() + e.getAcceleration().normalize().getX() * 15 + camera.getX()) * cameraScale, ( e.getAcceleration().normalize().getY() * 15 + e.getPosition().getY() + camera.getY()) * cameraScale);
+                glVertex2d((e.getPosition().getX() + e.getAcceleration().normalize().getX() * 1.75 + camera.getX()) * cameraScale, ( e.getAcceleration().normalize().getY() * 1.75 + e.getPosition().getY() + camera.getY()) * cameraScale);
                 glEnd();
             }
             //draw the bounding box if turned on
@@ -235,6 +234,18 @@ public class Viewer implements Observer {
                 glVertex2d((e.getPosition().getX() - b.getHalfWidth() + camera.getX()) * cameraScale, (e.getPosition().getY() + b.getHalfHeight() + camera.getY()) * cameraScale);
                 glEnd();
             }
+        }
+
+        // Draw overlays such as the mouse location.
+        if (showAll) {
+            glBegin(GL_LINE_LOOP);
+            for (int i = 0; i < 20; i++) {
+                double rotation = i * (Math.PI / 10);
+                Vector2D point = new Vector2D(0.01, 0).rotate(rotation);
+                Vector2D position = getPointer();
+                glVertex2d(((position.getX() + camera.getX()) * cameraScale) + point.getX(), ((position.getY() + camera.getY()) * cameraScale) + point.getY());
+            }
+            glEnd();
         }
 
         glfwSwapBuffers(window); // Place the frame that we just rendered onto the window.
