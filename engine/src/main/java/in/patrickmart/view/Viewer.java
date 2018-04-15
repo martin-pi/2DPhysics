@@ -70,7 +70,7 @@ public class Viewer implements Observer {
         mouse_y = 0;
 
         camera = new Vector2D(0,0);
-        cameraScale = 1;
+        cameraScale = 0.125;
 
         showBoundingBox = false;
         showNetForce = false;
@@ -203,8 +203,8 @@ public class Viewer implements Observer {
                 for (Force f : e.getForces()) {
                     glBegin(GL_LINES);
                     glColor4d(0.4, 0.4, 0.4, 0);
-                    glVertex2d((e.getPosition().getX() + camera.getX()) * cameraScale, (e.getPosition().getY() + camera.getY()) * cameraScale);
-                    glVertex2d((e.getPosition().getX() + f.getForce().normalize().getX()*10 + camera.getX()) * cameraScale, ( f.getForce().normalize().getY() * 10 + e.getPosition().getY() + camera.getY()) * cameraScale);
+                    glVertex2d((f.getPosition().getX() + camera.getX()) * cameraScale, (f.getPosition().getY() + camera.getY()) * cameraScale);
+                    glVertex2d((f.getPosition().getX() + f.getForce().normalize().getX() + camera.getX()) * cameraScale, ( f.getPosition().getY() + f.getForce().normalize().getY() + camera.getY()) * cameraScale);
                     glEnd();
                 }
             }
@@ -229,10 +229,10 @@ public class Viewer implements Observer {
                 AABB b = e.getBounds();
                 glBegin(GL_LINE_LOOP);
                 glColor4d(0, 0, 1, .0003);
-                glVertex2d((e.getPosition().getX() + b.getHalfWidth()) * cameraScale, (e.getPosition().getY() + b.getHalfHeight()) * cameraScale);
-                glVertex2d((e.getPosition().getX() + b.getHalfWidth()) * cameraScale, (e.getPosition().getY() - b.getHalfHeight()) * cameraScale);
-                glVertex2d((e.getPosition().getX() - b.getHalfWidth()) * cameraScale, (e.getPosition().getY() - b.getHalfHeight()) * cameraScale);
-                glVertex2d((e.getPosition().getX() - b.getHalfWidth()) * cameraScale, (e.getPosition().getY() + b.getHalfHeight()) * cameraScale);
+                glVertex2d((e.getPosition().getX() + b.getHalfWidth() + camera.getX()) * cameraScale, (e.getPosition().getY() + b.getHalfHeight() + camera.getY()) * cameraScale);
+                glVertex2d((e.getPosition().getX() + b.getHalfWidth() + camera.getX()) * cameraScale, (e.getPosition().getY() - b.getHalfHeight() + camera.getY()) * cameraScale);
+                glVertex2d((e.getPosition().getX() - b.getHalfWidth() + camera.getX()) * cameraScale, (e.getPosition().getY() - b.getHalfHeight() + camera.getY()) * cameraScale);
+                glVertex2d((e.getPosition().getX() - b.getHalfWidth() + camera.getX()) * cameraScale, (e.getPosition().getY() + b.getHalfHeight() + camera.getY()) * cameraScale);
                 glEnd();
             }
         }

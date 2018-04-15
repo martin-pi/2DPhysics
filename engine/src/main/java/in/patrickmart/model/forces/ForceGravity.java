@@ -4,7 +4,8 @@ import in.patrickmart.model.Entity;
 import in.patrickmart.model.Vector2D;
 
 public class ForceGravity extends Force{
-    static final double G = .0000000000667;
+    //static final double G = .0000000000667;
+    static final double G = .0000000667;
 
     public ForceGravity(Entity source, Entity destination){
         super(source, destination);
