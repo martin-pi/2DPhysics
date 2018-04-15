@@ -160,6 +160,13 @@ public class Viewer implements Observer {
             camera.add(new Vector2D((mouse_x - mouse_x_prev) / 640, (mouse_y_prev - mouse_y) / 400));
         }
 
+        if (selected != null && mouse_lb_down) {
+            Vector2D forceEnd = getPointer();
+            Vector2D position = new Vector2D(mouse_lb_initialX, mouse_lb_initialY);
+            System.out.println("Initial Pos: " + mouse_lb_initialX + ", " + mouse_lb_initialY);
+            Vector2D force = new Vector2D(forceEnd.getX(), forceEnd.getY()).sub(position);
+            controller.createForce(selected, position, force);
+        }
         // Set the clear or "background" color.
         glClearColor(0.92f, 0.92f, 0.92f, 0.0f);
 
@@ -197,7 +204,7 @@ public class Viewer implements Observer {
                 glVertex2d((e.getPosition().getX() + e.getNetForce().normalize().getX() * 1.5 + camera.getX()) * cameraScale, (e.getNetForce().normalize().getY() * 1.5 + e.getPosition().getY() + camera.getY()) * cameraScale);
                 glEnd();
             }
-            // Draw each individual force.
+            // Draw each individual force acting upon this entity.
             if(showForces){
                 for (Force f : e.getForces()) {
                     glBegin(GL_LINES);
@@ -215,7 +222,7 @@ public class Viewer implements Observer {
                 glVertex2d((e.getPosition().getX() + e.getVelocity().normalize().getX() * 2 + camera.getX()) * cameraScale, ( e.getVelocity().normalize().getY() * 2 + e.getPosition().getY() + camera.getY()) * cameraScale);
                 glEnd();
             }
-            // Draw the Entity's acceleration.
+            // Draw this Entity's acceleration.
             if(showAcceleration) {
                 glBegin(GL_LINES);
                 glColor4d(.6, 0, .9, 0);
@@ -223,7 +230,7 @@ public class Viewer implements Observer {
                 glVertex2d((e.getPosition().getX() + e.getAcceleration().normalize().getX() * 1.75 + camera.getX()) * cameraScale, ( e.getAcceleration().normalize().getY() * 1.75 + e.getPosition().getY() + camera.getY()) * cameraScale);
                 glEnd();
             }
-            //draw the bounding box if turned on
+            // Draw the bounding box if bounding box debugging is enabled.
             if(showBoundingBox) {
                 AABB b = e.getBounds();
                 glBegin(GL_LINE_LOOP);
@@ -281,7 +288,7 @@ public class Viewer implements Observer {
                     closeWindow();
                 }
                 if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
-                    controller.viewEvent(); //TODO expand this "Command pattern?"
+                    controller.viewEvent();
                 }
                 if (key == GLFW_KEY_G && action == GLFW_PRESS) {
                     controller.toggleFEA();
@@ -370,7 +377,7 @@ public class Viewer implements Observer {
                     Vector2D forceEnd = getPointer();
                     Vector2D position = new Vector2D(mouse_lb_initialX, mouse_lb_initialY);
                     Vector2D force = new Vector2D(forceEnd.getX(), forceEnd.getY()).sub(position);
-                    controller.createForce(selected, position, force);
+                    //controller.createForce(selected, position, force);
                 }
             }
 
@@ -385,7 +392,7 @@ public class Viewer implements Observer {
             }
 
             if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_RELEASE) {
-                mouse_rb_down = false;
+                mouse_lb_down = false;
             }
         });
 

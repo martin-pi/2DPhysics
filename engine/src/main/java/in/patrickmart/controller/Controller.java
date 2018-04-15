@@ -129,14 +129,13 @@ public class Controller {
         //model.getScenario().addForce(f);
     }
 
-    public void clickSelect(Vector2D position)
-    {
+    public void clickSelect(Vector2D position) {
         model.getScenario().pointCollisionCheck(position);
     }
 
     public Entity getLatestEntity() {
        ArrayList<Entity> entities = model.getScenario().getEntities();
-       int highest = 0;
+       int highest = -1;
        Entity latest = null;
        for (Entity e : entities) {
            if (e.getId() > highest) {
