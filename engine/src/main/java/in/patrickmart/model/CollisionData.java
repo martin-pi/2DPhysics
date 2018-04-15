@@ -31,8 +31,8 @@ public class CollisionData {
 		//apply the change in velocity equally to both in opposite directions
 		//first.setVelocity(first.getVelocity().add(mtv.copy().mult(-1).setMag((newM1 + newM2)/first.getMass())));
 		//second.setVelocity(second.getVelocity().add(mtv.copy().setMag((newM1 + newM2)/second.getMass())));
-		new ForceGeneric(second, first, mtv.copy().setMag(newM1 + newM2).mult(-.0166), second.getPosition());
-		new ForceGeneric(first, second, mtv.copy().setMag(newM2 + newM1).mult(.0166), first.getPosition());
+		new ForceGeneric(second, first, mtv.copy().setMag((newM1 + newM2)).mult(-1), second.getPosition());
+		new ForceGeneric(first, second, mtv.copy().setMag((newM2 + newM1)), first.getPosition());
 
 		//call each entitie's collision response
 		first.collisionResponse(second, mtv.copy().mult(-0.5));
