@@ -258,7 +258,7 @@ public class Vector2D {
      *	@return			This newly modified vector.
      */
     public Vector2D rotate(double angle) {
-        double rot = this.heading() - angle;
+        double rot = this.heading() + angle;
         double mag = this.mag();
         this.x = Math.cos(rot) * mag;
         this.y = Math.sin(rot) * mag;

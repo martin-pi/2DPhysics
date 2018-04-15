@@ -124,9 +124,19 @@ public class Controller {
     }
 
     public void createForce(Entity applyTo, Vector2D position, Vector2D force) {
-        System.out.println("Applied force (" + force.getX() + ", " + force.getY() + ")to entity #" + applyTo.getId() + ".");
+        System.out.println("Applied force (" + force.getX() + ", " + force.getY() + ") at (" + position.getX() + ", " + position.getY() + ") to entity #" + applyTo.getId() + ".");
         Force f = new ForceGeneric(null, applyTo, position, force);
         //model.getScenario().addForce(f);
+    }
+
+    public void testRotationalForces() {
+        ConcreteShape shape = new ConcreteShape(4, 1);
+        ConcreteEntity entity = new ConcreteEntity(new Vector2D(), shape);
+        model.addEntity(entity);
+        entity.setPosition(new Vector2D(1, 1));
+
+        // Apply a force to the entity to see if it rotates.
+        ForceGeneric forceTop = new ForceGeneric(null, entity, new Vector2D(-1, 0), new Vector2D(1, 2));
     }
 
     public void clickSelect(Vector2D position)
@@ -136,7 +146,7 @@ public class Controller {
 
     public Entity getLatestEntity() {
        ArrayList<Entity> entities = model.getScenario().getEntities();
-       int highest = 0;
+       int highest = -1;
        Entity latest = null;
        for (Entity e : entities) {
            if (e.getId() > highest) {

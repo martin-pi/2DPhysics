@@ -295,7 +295,7 @@ public class Vector2DTest
     {
         Vector2D v = new Vector2D(4,6);
         double angle = Vector2D.degreesToRadians(90);
-        double rot = v.heading() - angle;
+        double rot = v.heading() + angle;
         double mag = v.mag();
         Vector2D result = new Vector2D(Math.cos(rot) * mag,Math.sin(rot) * mag);
         assertEquals(result.toString(), v.rotate(angle).toString());

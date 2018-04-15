@@ -127,10 +127,12 @@ public class ConcreteEntity implements Entity{
         // Calculate the net force and net rotation from forces.
         for (Force f : forces) {
             // Calculate the new Net Torque.
-            Vector2D offset = f.getPosition().sub(this.getPosition());
-            double theta = offset.angleBetween(f.getForce());
+            double leverX = f.getPosition().getX() - getPosition().getX();
+            double leverY = f.getPosition().getY() - getPosition().getY();
+            Vector2D leverArm = new Vector2D(leverX, leverY);
+            double theta = leverArm.angleBetween(f.getForce());
             // T = rFsin(theta)
-            netTorque += offset.mag() * f.getForce().mag() * (Math.sin(theta));
+            netTorque += leverArm.mag() * f.getForce().mag() * (Math.sin(theta));
 
             // Calculate the new Net Force.
             netForce.add(f.getForce());
@@ -141,18 +143,13 @@ public class ConcreteEntity implements Entity{
 
         // Similarly, for torque: netTorque = momentOfInertia(around center of mass) * angularAcceleration
         angularAcceleration = netTorque / momentOfInertiaCenter;
-
+        if (netTorque != 0) {
+            System.out.println("Net Torque: " + netTorque);
+        }
         // Clear the list of forces so that they don't build up step after step.
         lastForces = forces;
         forces = new ArrayList<>();
     }
-
-    /*public void calculateNetForce() {
-        netForce = new Vector2D();
-        for (Force f: forces){
-            netForce.add(f.getForce());
-        }
-    }*/
 
     /**
      * Apply acceleration to this entity's linear and rotational velocity.
@@ -162,8 +159,7 @@ public class ConcreteEntity implements Entity{
         //every step should be about 1/60th of a second
         //velocity = velocity.add(acceleration.mult(1/60));
         velocity = velocity.add(getAcceleration().mult(.01666));
-        angularVelocity += angularAcceleration;
-        //angularVelocity = 0.1;
+        angularVelocity -= angularAcceleration * 0.01666;
     }
 
     /**
@@ -171,7 +167,7 @@ public class ConcreteEntity implements Entity{
      */
     public void calculatePosition() {
         setPosition(this.position.add(getVelocity().mult(.01666)));
-        setRotation(rotation + angularVelocity);
+        setRotation((rotation - (angularVelocity * 0.01666)) % (Math.PI * 2));
 
         if (angularVelocity != 0) { // If we have rotated, we need a new bounding box.
             bounds = shape.calculateBounds(this.rotation);

@@ -33,7 +33,7 @@ public class CollisionData {
 		first.setVelocity(first.getVelocity().add(p1.div(first.getMass())));
 		second.setVelocity(second.getVelocity().add(p2.div(second.getMass())));
 
-		//call each entitie's collision response
+		//call each entity's collision response
 		first.collisionResponse(second, mtv.copy().mult(-0.5));
 		second.collisionResponse(first, mtv.copy().mult(0.5));
 		
