@@ -164,7 +164,7 @@ public class Viewer implements Observer {
             Vector2D forceEnd = getPointer();
             Vector2D position = new Vector2D(mouse_lb_initialX, mouse_lb_initialY);
             //System.out.println("Initial Pos: " + mouse_lb_initialX + ", " + mouse_lb_initialY);
-            Vector2D force = new Vector2D(forceEnd.getX(), forceEnd.getY()).sub(position).mult(500);
+            Vector2D force = new Vector2D(forceEnd.getX(), forceEnd.getY()).sub(position).mult(200);
 
             //Vector2D position = selected.getPosition().add(new Vector2D(0, 10));
             //Vector2D force = selected.getPosition().add(new Vector2D(1000, 0));

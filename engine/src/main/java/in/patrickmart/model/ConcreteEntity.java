@@ -116,6 +116,7 @@ public class ConcreteEntity extends Entity {
     public void calculateAcceleration() {
         // Start by finding netForce and netTorque.
         netForce = new Vector2D();
+        netTorque = 0;
 
         // Calculate the net force and net rotation from forces.
         for (Force f : forces) {
@@ -134,7 +135,7 @@ public class ConcreteEntity extends Entity {
         acceleration = new Vector2D(netForce.getX() / this.mass, netForce.getY() / this.mass);
 
         // Newton's Second law for Rotation: netTorque = moment * angularAcceleration -> alpha = netTorque / moment
-        angularAcceleration = netTorque / momentOfInertiaCenter;
+        angularAcceleration = netTorque / (momentOfInertiaCenter * 1000); // TODO Stop artificially inflating moment.
 
         // Clear the list of forces so that they don't build up step after step.
         lastForces = forces;
@@ -148,7 +149,7 @@ public class ConcreteEntity extends Entity {
         //acceleration * time + velocity
         //every step should be about 1/60th of a second
         velocity = velocity.add(getAcceleration().mult(0.01666));
-        //angularVelocity += (angularAcceleration * 1); TODO: This was causing the collision issue
+        angularVelocity -= (angularAcceleration * 0.01666);
     }
 
     /**
@@ -156,11 +157,9 @@ public class ConcreteEntity extends Entity {
      */
     public void calculatePosition() {
         setPosition(this.position.add(getVelocity().mult(.01666)));
-        setRotation(rotation + (angularAcceleration * .00833)); //this works it seems
+        setRotation((rotation + angularVelocity * 0.01666) % (Math.PI * 2));
 
-        if (angularVelocity != 0) { // If we have rotated, we need a new bounding box.
-            bounds = shape.calculateBounds();
-        }
+        //TODO if (angularVelocity != 0) { // If we have rotated, we need a new bounding box.
     }
 	
 	/**
