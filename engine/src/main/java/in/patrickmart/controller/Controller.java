@@ -107,7 +107,7 @@ public class Controller {
 
     public void launchBall(double cameraScale){
         Entity e = new ConcreteEntity(new Vector2D(1 / cameraScale,-.5 / cameraScale), new ConcreteShape(8 ,.1/cameraScale));
-        e.setVelocity(new Vector2D(-.2 / cameraScale,.1 / cameraScale));
+        e.setVelocity(new Vector2D(-1 / cameraScale,1 / cameraScale));
         e.setMass(500 / cameraScale * 2);
         model.addEntity(e);
         System.out.println("Added launched Entity #" + e.getId() + " to the model.");
@@ -143,6 +143,12 @@ public class Controller {
            }
        }
        return latest;
+    }
+
+    public void createGround(double cameraScale){
+        Entity e = new StaticEntity(new Vector2D(0,(-1 / cameraScale) - (1 / cameraScale)), new ConcreteShape(4, 2 / cameraScale));
+        e.setRotation(Math.PI/4);
+        model.addEntity(e);
     }
 
     public void clearEntities(int id) {

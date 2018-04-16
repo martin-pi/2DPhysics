@@ -361,6 +361,9 @@ public class Viewer implements Observer {
                     showAcceleration = showAll;
                     showCollisions = showAll;
                 }
+                if (key == GLFW_KEY_G && action == GLFW_PRESS) {
+                    controller.createGround(cameraScale);
+                }
             }
             if (key == GLFW_KEY_LEFT_ALT && action == GLFW_PRESS) {
                 altKey = true;
