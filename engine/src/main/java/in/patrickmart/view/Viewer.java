@@ -329,7 +329,7 @@ public class Viewer implements Observer {
                 if (key == GLFW_KEY_S && action == GLFW_PRESS) {
                     selected = controller.getLatestEntity();
                 }
-                if (key == GLFW_KEY_C && action == GLFW_PRESS) {
+                if (key == GLFW_KEY_DELETE && action == GLFW_PRESS) {
                     if(selected == null) {
                         controller.clearEntities();
                     }
@@ -409,7 +409,8 @@ public class Viewer implements Observer {
                         selected = found;
                         System.out.println("\tFound Entity #" + selected.getId() + ".");
                     } else {
-                        System.out.println("Attempt failed.");
+                        System.out.println("Attempt failed, deselecting currently selected Entity.");
+                        selected = null;
                     }
                 } else if (mouse_lb_down && selected != null) {    // User has clicked and dragged the mouse.
                     System.out.println("Click&Drag: Applying a force to the selected Entity.");
