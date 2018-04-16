@@ -110,27 +110,27 @@ public class Controller {
         e.setVelocity(new Vector2D(-.2 / cameraScale,.1 / cameraScale));
         e.setMass(500 / cameraScale * 2);
         model.addEntity(e);
-        System.out.println("Added launch entity #" + e.getId() + " to the model.");
+        System.out.println("Added launched Entity #" + e.getId() + " to the model.");
     }
     public void createEntityClick(Vector2D position, double cameraScale){
-        System.out.println("Click at: " + position.getX() + ", " + position.getY());
+        System.out.println("Alt-Click at: " + position.getX() + ", " + position.getY());
         int sides = 12;
         Entity e = new ConcreteEntity(new Vector2D(position.getX(),position.getY()), new ConcreteShape(sides ,.1 / cameraScale));
         //e.setVelocity(new Vector2D((r.nextDouble() - .5) * .01,(r.nextDouble() - .5) * .01));
         //TODO: remove this. forcing mass to be large here.
         e.setMass(500 / cameraScale * 2);
         model.addEntity(e);
-        System.out.println("Added random entity #" + e.getId() + " to the model.");
+        System.out.println("Added random Entity #" + e.getId() + " to the model.");
     }
 
     public void createForce(Entity applyTo, Vector2D position, Vector2D force) {
-        System.out.println("Applied force (" + force.getX() + ", " + force.getY() + ")to entity #" + applyTo.getId() + ".");
-        Force f = new ForceGeneric(null, applyTo, position, force);
+        System.out.println("Applied force (" + force.getX() + ", " + force.getY() + ")to Entity #" + applyTo.getId() + ".");
+        Force f = new ForceGeneric(null, applyTo, force, position);
         //model.getScenario().addForce(f);
     }
 
-    public void clickSelect(Vector2D position) {
-        model.getScenario().pointCollisionCheck(position);
+    public Entity selectAtPosition(Vector2D position) {
+        return model.getScenario().selectAtPosition(position);
     }
 
     public Entity getLatestEntity() {

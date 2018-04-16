@@ -163,8 +163,11 @@ public class Viewer implements Observer {
         if (selected != null && mouse_lb_down) {
             Vector2D forceEnd = getPointer();
             Vector2D position = new Vector2D(mouse_lb_initialX, mouse_lb_initialY);
-            System.out.println("Initial Pos: " + mouse_lb_initialX + ", " + mouse_lb_initialY);
-            Vector2D force = new Vector2D(forceEnd.getX(), forceEnd.getY()).sub(position);
+            //System.out.println("Initial Pos: " + mouse_lb_initialX + ", " + mouse_lb_initialY);
+            Vector2D force = new Vector2D(forceEnd.getX(), forceEnd.getY()).sub(position).mult(500);
+
+            //Vector2D position = selected.getPosition().add(new Vector2D(0, 10));
+            //Vector2D force = selected.getPosition().add(new Vector2D(1000, 0));
             controller.createForce(selected, position, force);
         }
         // Set the clear or "background" color.
@@ -174,22 +177,27 @@ public class Viewer implements Observer {
 
         // Draw all entities in the model.
         for (Entity e : s.getEntities()) {
+            //Figure out what color this entity is.
+            if (e.isColliding() && showCollisions) {
+                glColor4d(collisionColor[0],collisionColor[1],collisionColor[2],collisionColor[3]);
+            } else {
+                glColor4d(e.getColor()[0],e.getColor()[1], e.getColor()[2], e.getColor()[3]);
+            }
+            if (selected != null && e.equals(selected)) {
+                glColor4d(0.2,0.8,0.2, 1);
+            }
+
             // Draw this entity.
-            glBegin(GL_TRIANGLES);
+            if (showAll) {
+                glBegin(GL_LINE_LOOP);
+            } else {
+                glBegin(GL_TRIANGLES);
+            }
             for (int i = 0; i < e.getShape().getPoints().size(); i++) {
                 // Draw triangles between the center of mass and the points making up the model.
                 Vector2D v = e.getShape().getPoints().get(i);
                 Vector2D w = e.getShape().getPoints().get((i + 1) % e.getShape().getPoints().size());
 
-                if (e.isColliding() && showCollisions) {
-                    glColor4d(collisionColor[0],collisionColor[1],collisionColor[2],collisionColor[3]);
-                } else {
-                    glColor4d(e.getColor()[0],e.getColor()[1], e.getColor()[2], e.getColor()[3]);
-                }
-
-                if (selected != null && e.equals(selected)) {
-                    glColor4d(0.2,0.8,0.2, 1);
-                }
                 glVertex2d((e.getPosition().getX() * cameraScale) + (camera.getX() * cameraScale), (e.getPosition().getY() * cameraScale) + (camera.getY() * cameraScale));
                 glVertex2d((v.getX() * cameraScale) + (e.getPosition().getX() * cameraScale) + (camera.getX() * cameraScale), (v.getY() * cameraScale) + (e.getPosition().getY() * cameraScale) + (camera.getY() * cameraScale));
                 glVertex2d((w.getX() * cameraScale) + (e.getPosition().getX() * cameraScale) + (camera.getX() * cameraScale), (w.getY() * cameraScale) + (e.getPosition().getY() * cameraScale) + (camera.getY() * cameraScale));
@@ -210,7 +218,7 @@ public class Viewer implements Observer {
                     glBegin(GL_LINES);
                     glColor4d(0.4, 0.4, 0.4, 0);
                     glVertex2d((f.getPosition().getX() + camera.getX()) * cameraScale, (f.getPosition().getY() + camera.getY()) * cameraScale);
-                    glVertex2d(((f.getPosition().getX() - f.getForce().normalize().getX()) + camera.getX()) * cameraScale, ( (f.getPosition().getY() - f.getForce().normalize().getY()) + camera.getY()) * cameraScale);
+                    glVertex2d(((f.getPosition().getX() - f.getForce().getX()) + camera.getX()) * cameraScale, ( (f.getPosition().getY() - f.getForce().getY()) + camera.getY()) * cameraScale);
                     glEnd();
                 }
             }
@@ -234,7 +242,7 @@ public class Viewer implements Observer {
             if(showBoundingBox) {
                 AABB b = e.getBounds();
                 glBegin(GL_LINE_LOOP);
-                glColor4d(0, 0, 1, .0003);
+                glColor4d(0.3, 0.3, 1, .0003);
                 glVertex2d((e.getPosition().getX() + b.getHalfWidth() + camera.getX()) * cameraScale, (e.getPosition().getY() + b.getHalfHeight() + camera.getY()) * cameraScale);
                 glVertex2d((e.getPosition().getX() + b.getHalfWidth() + camera.getX()) * cameraScale, (e.getPosition().getY() - b.getHalfHeight() + camera.getY()) * cameraScale);
                 glVertex2d((e.getPosition().getX() - b.getHalfWidth() + camera.getX()) * cameraScale, (e.getPosition().getY() - b.getHalfHeight() + camera.getY()) * cameraScale);
@@ -246,6 +254,7 @@ public class Viewer implements Observer {
         // Draw overlays such as the mouse location.
         if (showAll) {
             glBegin(GL_LINE_LOOP);
+            glColor4d(0.3, 0.3, 1, .0003);
             for (int i = 0; i < 20; i++) {
                 double rotation = i * (Math.PI / 10);
                 Vector2D point = new Vector2D(0.01, 0).rotate(rotation);
@@ -373,12 +382,23 @@ public class Viewer implements Observer {
             }
 
             if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE) {
-                if (mouse_lb_down && selected != null) {
-                    Vector2D forceEnd = getPointer();
-                    Vector2D position = new Vector2D(mouse_lb_initialX, mouse_lb_initialY);
-                    Vector2D force = new Vector2D(forceEnd.getX(), forceEnd.getY()).sub(position);
-                    //controller.createForce(selected, position, force);
+                Vector2D currentPos = getPointer();
+                Vector2D originalPos = new Vector2D(mouse_lb_initialX, mouse_lb_initialY);
+                if (currentPos.equals(originalPos)) {       // User has clicked and released the mouse.
+                    System.out.println("Left Click: Attempting to select an Entity.");
+                    Entity found = controller.selectAtPosition(currentPos);
+                    if (found != null) {
+                        selected = found;
+                        System.out.println("\tFound Entity #" + selected.getId() + ".");
+                    } else {
+                        System.out.println("Attempt failed.");
+                    }
+                } else if (mouse_lb_down && selected != null) {    // User has clicked and dragged the mouse.
+                    System.out.println("Click&Drag: Applying a force to the selected Entity.");
+                    Vector2D force = new Vector2D(currentPos.getX(), currentPos.getY()).sub(originalPos).mult(5000);
+                    //controller.createForce(selected, position, force); // Instead, apply the force every step.
                 }
+                mouse_lb_down = false;
             }
 
             if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS) {
@@ -392,7 +412,7 @@ public class Viewer implements Observer {
             }
 
             if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_RELEASE) {
-                mouse_lb_down = false;
+                mouse_rb_down = false;
             }
         });
 

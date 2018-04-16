@@ -99,15 +99,14 @@ public class Scenario {
         }
     }
 
-    public void pointCollisionCheck(Vector2D point){
-        selectedEntities.clear();
+    public Entity selectAtPosition(Vector2D point) {
+        Entity selected = null;
         for (Entity e: entities){
-            if(e.getShape().containsPoint(point)){
-                selectedEntities.add(e);
+            if(e.getBounds().containsPoint(point)) {
+                selected = e;
             }
         }
-        if(!selectedEntities.isEmpty()) System.out.println(selectedEntities);
-        else System.out.println("no entity there");
+        return selected;
     }
 
     /**
