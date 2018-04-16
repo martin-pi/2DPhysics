@@ -169,6 +169,8 @@ public class StaticEntity implements Entity {
      */
     public void collisionResponse(Entity other, Vector2D mtv) {
         isColliding = true;
+        // have the other entity move since this one shouldn't
+        other.setPosition(other.getPosition().add(mtv.mult(-1)));
     }
 
     /**
@@ -184,7 +186,7 @@ public class StaticEntity implements Entity {
      * @param velocity the new velocity Vector2D of this Entity.
      */
     public void setVelocity(Vector2D velocity){
-        this.velocity = velocity;
+        this.velocity = new Vector2D();
     }
 
     /**
