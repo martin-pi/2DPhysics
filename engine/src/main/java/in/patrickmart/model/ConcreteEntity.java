@@ -148,7 +148,7 @@ public class ConcreteEntity implements Entity {
         //acceleration * time + velocity
         //every step should be about 1/60th of a second
         velocity = velocity.add(getAcceleration().mult(0.01666));
-        //angularVelocity += (angularAcceleration * 1);
+        //angularVelocity += (angularAcceleration * 1); TODO: This was causing the collision issue
     }
 
     /**
@@ -156,7 +156,7 @@ public class ConcreteEntity implements Entity {
      */
     public void calculatePosition() {
         setPosition(this.position.add(getVelocity().mult(.01666)));
-        //setRotation(rotation + angularAcceleration);
+        setRotation(rotation + (angularAcceleration * .00833)); //this works it seems
 
         if (angularVelocity != 0) { // If we have rotated, we need a new bounding box.
             bounds = shape.calculateBounds();
