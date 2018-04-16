@@ -22,7 +22,7 @@ public class CollisionData {
 	
 	public boolean resolve(boolean gravity, boolean FEAgravity) {
 		//calculate momentum of each entity
-		//Current "Stable" implementation
+		/*Current "Stable" implementation
 		Vector2D m1 = first.getVelocity().mult(first.getMass());
 		Vector2D m2 = second.getVelocity().mult(second.getMass());
 		//project the force onto the vector between the two entities.
@@ -33,7 +33,8 @@ public class CollisionData {
 		second.setVelocity(second.getVelocity().add(mtv.copy().setMag((newM1 + newM2)/second.getMass())));
 		new ForceGeneric(second, first, mtv.copy().setMag((newM1 + newM2)* .0166), second.getPosition());
 		new ForceGeneric(first, second, mtv.copy().setMag((newM2 + newM1) * .0166), first.getPosition());
-		/* Other collision implementation
+		*/
+		// Other collision implementation
 		double v2 = second.getVelocity().dot(mtv.copy().normalize().mult(-1));
 		double v1 = first.getVelocity().dot(mtv.copy().normalize()) + v2;
 		double massCons1 = (first.getMass() - second.getMass()) / (first.getMass() + second.getMass());
@@ -44,7 +45,11 @@ public class CollisionData {
 		second.setVelocity(mtv.copy().normalize().getPerpendicular().setMag(second.getVelocity().dot(mtv.copy().normalize().getPerpendicular())));
 		first.setVelocity(first.getVelocity().add(newV1));
 		second.setVelocity(second.getVelocity().sub(newV2));
-		*/
+		double p1 = newV1.mag() * first.getMass();
+		double p2 = newV2.mag() * second.getMass();
+		new ForceGeneric(second, first, mtv.copy().setMag((p1 + p2) * .0166), second.getPosition());
+		new ForceGeneric(first, second, mtv.copy().setMag((p1 + p2) * .0166),first.getPosition());
+
 
 		//call each entitie's collision response
 		first.collisionResponse(second, mtv.copy().mult(-0.5));
