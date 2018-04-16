@@ -85,7 +85,7 @@ public abstract class Force {
      * @return This force as a positionless vector.
      */
     public Vector2D getForce() {
-        return force;
+        return force.copy();
     }
 
     /**
@@ -93,6 +93,6 @@ public abstract class Force {
      * @return This force's position in the scenario.
      */
     public Vector2D getPosition() {
-        return position;
+        return position.copy();
     }
 }

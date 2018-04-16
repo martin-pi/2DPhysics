@@ -36,7 +36,7 @@ public class ConcreteEntity implements Entity {
 		this.forces = new ArrayList<Force>();
         this.shape = shape;
         this.material = material;
-        this.bounds = shape.calculateBounds(this.rotation);
+        this.bounds = shape.calculateBounds();
 
         this.mass = material.getDensity() * shape.getArea();
         this.momentOfInertiaCenter = (Math.pow(shape.getDiameter(), 2) * this.mass) / 12; // Ic = (1/12)mL^2
@@ -56,7 +56,7 @@ public class ConcreteEntity implements Entity {
         this.forces = new ArrayList<Force>();
         this.shape = shape;
         this.material = null;
-        this.bounds = shape.calculateBounds(this.rotation);
+        this.bounds = shape.calculateBounds();
 
         this.mass = shape.getArea(); // With no material, we have no density.
         this.momentOfInertiaCenter = (Math.pow(shape.getDiameter(), 2) * this.mass) / 12; // Ic = (1/12)mL^2
@@ -79,7 +79,7 @@ public class ConcreteEntity implements Entity {
 
         this.forces = new ArrayList<Force>();
         this.shape = shape;
-        this.bounds = shape.calculateBounds(this.rotation);
+        this.bounds = shape.calculateBounds();
 
         this.mass = shape.getArea(); // With no material, we have no density.
         this.momentOfInertiaCenter = (Math.pow(shape.getDiameter(), 2) * this.mass) / 12; // Ic = (1/12)mL^2
@@ -121,10 +121,20 @@ public class ConcreteEntity implements Entity {
         for (Force f : forces) {
             // Calculate the new Net Force.
             netForce.add(f.getForce());
+
+            // Calculate the new Net Torque.
+            //Vector2D leverArm = f.getPosition().sub(getPosition()); // A vector from the center of mass to the location of the force.
+            //double theta = leverArm.angleBetween(f.getForce()); // theta is the angle between the lever arm and the force being applied.
+
+            // Torque = rFsin(theta);
+            //netTorque += leverArm.mag() * f.getForce().mag() * Math.sin(theta); // Positive torque is CCW.
         }
 
         // Newton's Second law: netForce = mass * acceleration -> acceleration = netForce / mass
         acceleration = new Vector2D(netForce.getX() / this.mass, netForce.getY() / this.mass);
+
+        // Newton's Second law for Rotation: netTorque = moment * angularAcceleration -> alpha = netTorque / moment
+        //angularAcceleration = netTorque / momentOfInertiaCenter;
 
         // Clear the list of forces so that they don't build up step after step.
         lastForces = forces;
@@ -137,7 +147,8 @@ public class ConcreteEntity implements Entity {
     public void calculateVelocity() {
         //acceleration * time + velocity
         //every step should be about 1/60th of a second
-        velocity = velocity.add(getAcceleration().mult(.01666));
+        velocity = velocity.add(getAcceleration().mult(0.01666));
+        //angularVelocity += (angularAcceleration * 1);
     }
 
     /**
@@ -145,9 +156,10 @@ public class ConcreteEntity implements Entity {
      */
     public void calculatePosition() {
         setPosition(this.position.add(getVelocity().mult(.01666)));
+        //setRotation(rotation + angularAcceleration);
 
         if (angularVelocity != 0) { // If we have rotated, we need a new bounding box.
-            bounds = shape.calculateBounds(this.rotation);
+            bounds = shape.calculateBounds();
         }
     }
 	

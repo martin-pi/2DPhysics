@@ -122,17 +122,16 @@ public class ConcreteShape implements Shape {
 	/**
 	 * Calculate the bounding box of this model at its current rotation.
 	 */
-	public AABB calculateBounds(double rotation) {
+	public AABB calculateBounds() {
 		double furthestX = 0;
 		double furthestY = 0;
 		
 		for (Vector2D p : points) {
-		    Vector2D q = p.copy().rotate(rotation);
-			if (Math.abs(q.getX()) > furthestX) {
-				furthestX = Math.abs(q.getX());
+			if (Math.abs(p.getX()) > furthestX) {
+				furthestX = Math.abs(p.getX());
 			}
-			if (Math.abs(q.getY()) > furthestY) {
-				furthestY = Math.abs(q.getY());
+			if (Math.abs(p.getY()) > furthestY) {
+				furthestY = Math.abs(p.getY());
 			}
 		}
 		
