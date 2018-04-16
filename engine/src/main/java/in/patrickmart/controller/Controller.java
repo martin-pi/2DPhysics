@@ -60,8 +60,7 @@ public class Controller {
     /**
      * Stops the main program loop.
      */
-    public void stop()
-    {
+    public void stop() {
         running = false;
         System.out.println("Stopping the Controller Loop.");
     }
@@ -69,15 +68,14 @@ public class Controller {
     /**
      * Steps the model.
      */
-    public void step()
-    {
+    public void step() {
         model.step();
     }
 
     /**
      * A view event that gets handled by the controller.
      */
-    public void viewEvent(){
+    public void viewEvent() {
         //TODO for now this is hardcoded to add an object at a random location. this should interpret commands from View
         Random r = new Random();
         double x = (r.nextDouble() * 2) - 1;
@@ -94,25 +92,26 @@ public class Controller {
     /**
      * toggles the force of gravity acting on all entities
      */
-    public void toggleFEA(){
+    public void toggleFEA() {
         model.getScenario().toggleFEAgravity();
     }
 
     /**
      * toggle gravity of objects
      */
-    public void toggleGravity(){
+    public void toggleGravity() {
         model.getScenario().toggleGravity();
     }
 
-    public void launchBall(double cameraScale){
+    public void launchBall(double cameraScale) {
         Entity e = new ConcreteEntity(new Vector2D(1 / cameraScale,-.5 / cameraScale), new ConcreteShape(8 ,.1/cameraScale));
         e.setVelocity(new Vector2D(-1 / cameraScale,1 / cameraScale));
         e.setMass(500 / cameraScale * 2);
         model.addEntity(e);
         System.out.println("Added launched Entity #" + e.getId() + " to the model.");
     }
-    public void createEntityClick(Vector2D position, double cameraScale){
+
+    public void createEntityClick(Vector2D position, double cameraScale) {
         System.out.println("Alt-Click at: " + position.getX() + ", " + position.getY());
         int sides = 12;
         Entity e = new ConcreteEntity(new Vector2D(position.getX(),position.getY()), new ConcreteShape(sides ,.1 / cameraScale));
@@ -126,7 +125,6 @@ public class Controller {
     public void createForce(Entity applyTo, Vector2D position, Vector2D force) {
         System.out.println("Applied force (" + force.getX() + ", " + force.getY() + ")to Entity #" + applyTo.getId() + ".");
         Force f = new ForceGeneric(null, applyTo, force, position);
-        //model.getScenario().addForce(f);
     }
 
     public Entity selectAtPosition(Vector2D position) {
@@ -145,14 +143,18 @@ public class Controller {
        return latest;
     }
 
-    public void createGround(double cameraScale){
+    public void createGround(double cameraScale) {
         Entity e = new StaticEntity(new Vector2D(0,(-1 / cameraScale) - (1 / cameraScale)), new ConcreteShape(4, 2 / cameraScale));
         e.setRotation(Math.PI/4);
         model.addEntity(e);
     }
 
-    public void clearEntities(int id) {
-        model.getScenario().clearEntities(id);
+    public void clearEntities() {
+        model.getScenario().clearEntities();
+    }
+
+    public void destroyEntity(Entity entity) {
+        model.removeEntity(entity);
     }
 
     /**

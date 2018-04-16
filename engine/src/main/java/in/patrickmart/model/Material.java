@@ -25,7 +25,7 @@ public enum Material {
     }
 
     public double getFrictionCoefficient() {
-        //TODO implement friction coefficient lookup.
+        //TODO implement friction coefficient lookup. This involves way more research than we can do within the time we have.
         return 0.1;
     }
 

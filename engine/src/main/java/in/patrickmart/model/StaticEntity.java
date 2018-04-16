@@ -5,7 +5,7 @@ import in.patrickmart.model.forces.*;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class StaticEntity implements Entity {
+public class StaticEntity extends Entity {
     protected int id;
     private static int nextId = 0;
 
@@ -356,24 +356,6 @@ public class StaticEntity implements Entity {
     public String toString()
     {
         return position.toString() + ", " + shape.toString() +", " + velocity.toString() + ", " + color.toString();
-    }
-
-    /**
-     * Creates a new unique ID for an entity. Prevents duplicate IDs.
-     * @return a unique Entity ID
-     */
-    private static int getNewId() {
-        int r = nextId;
-        nextId++;
-        return r;
-    }
-
-    /**
-     * Resets unique entity ID when clearing all entities or deleting one.
-     * @param id of entities.size()-1 or 0 for all
-     */
-    public void setNewId(int id){
-        nextId = id;
     }
 
     /**

@@ -5,9 +5,9 @@ import in.patrickmart.model.forces.*;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class ConcreteEntity implements Entity {
+public class ConcreteEntity extends Entity {
 	protected int id;
-	private static int nextId = 0;
+
 	
     private Vector2D position;
     private double rotation;
@@ -364,7 +364,7 @@ public class ConcreteEntity implements Entity {
     }
 
     /**
-     * Accessor for isColliding, allows non-entities to determine whether this Entity is currently colliding.
+     * Accessor for isColliding, allows non-Entities to determine whether this Entity is currently colliding.
      * @return true if this Entity is colliding
      */
     public boolean isColliding() {
@@ -372,9 +372,9 @@ public class ConcreteEntity implements Entity {
     }
 
     /**
-     * Overrides equals(). Determine whether this entity is the same as some other entity.
-     * @param e The entity to compare to this one
-     * @return Whether or not the entities are actually the same entity
+     * Overrides equals(). Determine whether this Entity is the same as some other entity.
+     * @param e The Entity to compare to this one
+     * @return true if the two Entities have the same ID.
      */
     public boolean equals(Entity e) {
         return this.id == e.getId();
@@ -382,29 +382,11 @@ public class ConcreteEntity implements Entity {
 
     /**
      * Overrides toString().
-     * @return String of the entity's components for debugging i guess
+     * @return The components of this Entity, converted into Strings.
      */
     public String toString()
     {
-        return position.toString() + ", " + shape.toString() +", " + velocity.toString() + ", " + color.toString();
-    }
-
-    /**
-     * Creates a new unique ID for an entity. Prevents duplicate IDs.
-     * @return a unique Entity ID
-     */
-    private static int getNewId() {
-        int r = nextId;
-        nextId++;
-        return r;
-    }
-
-    /**
-     * Resets unique entity ID when clearing all entities or deleting one.
-     * @param id of entities.size()-1 or 0 for all
-     */
-    public void setNewId(int id){
-        nextId = id;
+        return "Entity ID [" + id + "]\n\tPos: " + position.toString() + "\n\tRotation: " + rotation + "\n\tVel: " + velocity.toString() + "\n\tAngular Vel: " + angularVelocity;
     }
 
     /**

@@ -40,9 +40,7 @@ public class Scenario {
     }
 
     public void applyForces() {
-        for (Force f : forces) {
 
-        }
     }
 
     public void step() {
@@ -89,8 +87,7 @@ public class Scenario {
                                 duplicateFound = true;
                             }
                         }
-                        if (!duplicateFound) {
-                            // This is not a duplicate collsion.
+                        if (!duplicateFound) { // Check if this is a duplicate collision before adding.
                             collisions.add(c);
                         }
                     }
@@ -113,7 +110,6 @@ public class Scenario {
      * For each collision pair resulting from the collision check, make necessary adjustments.
      */
     private void collisionResponse() {
-        //TODO iterate through collisions and call resolve on the collisiondata objects to get collisionResponses.
         for (CollisionData c : collisions){
             c.resolve(gravity, FEAgravity);
         }
@@ -139,34 +135,8 @@ public class Scenario {
         gravity = !gravity;
     }
 
-    public void clearEntities(int id) {
-        if (!entities.isEmpty()) {
-            if(id == -1) {
-                entities.get(0).setNewId(0);
-                entities = new ArrayList<>();
-                System.out.println("Clearing All Entities");
-            }
-            else{
-
-                System.out.println("Removing entity #" + id);
-                if(id == entities.size()-1){
-                    entities.get(0).setNewId(id);
-                    entities.remove(id);
-                }
-                else{
-                    for(Entity e : entities){
-                        if(e.getId() > id){
-                            e.setId(e.getId()-1);
-                        }
-                    }
-                    entities.get(0).setNewId(entities.size()-1);
-                    entities.remove(id);
-                }
-            }
-        }
-        else {
-            System.out.println("No Entities Currently Exist");
-        }
+    public void clearEntities() {
+        entities = new ArrayList<>();
     }
 
 }

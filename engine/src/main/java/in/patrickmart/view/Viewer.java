@@ -331,10 +331,10 @@ public class Viewer implements Observer {
                 }
                 if (key == GLFW_KEY_C && action == GLFW_PRESS) {
                     if(selected == null) {
-                        controller.clearEntities(-1);
+                        controller.clearEntities();
                     }
                     else{
-                        controller.clearEntities(selected.getId());
+                        controller.destroyEntity(selected);
                     }
                     selected = null;
                 }

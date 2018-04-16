@@ -3,7 +3,11 @@ package in.patrickmart.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CompositeShape { //TODO implements Shape
+/**
+ * CompositeShape was initially meant to implement the composite pattern in order to allow for more complex shapes, but
+ * it is outside of our current focus.
+ */
+public class CompositeShape {
     private ArrayList<Shape> shapes;
     private Vector2D position;
     private double area;
@@ -27,7 +31,7 @@ public class CompositeShape { //TODO implements Shape
     }
 
     /**
-     *  Adjust all vectors in this model so that their origin is the model's center of gravity.
+     * Adjust all vectors in this model so that their origin is the model's center of gravity.
      */
     private void calculateCenterOfGravity() {
         // Calculate the offset vector from the origin to the centroid (centroid = (x1 + x2 + ... + xk) / k)
@@ -113,12 +117,10 @@ public class CompositeShape { //TODO implements Shape
      * @return true if this model and the other model are intersecting
      */
     public Vector2D intersectsShape(Shape other) {
-        //TODO: change this so that it returns collisionData
         return null;
     }
 
     public double[] project(Vector2D axis) {
-        //TODO: actually project the entire composite shape onto the axis
         double[] fixme = {0, 0};
         return fixme;
     }

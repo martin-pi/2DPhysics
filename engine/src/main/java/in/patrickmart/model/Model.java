@@ -39,16 +39,29 @@ public class Model extends Subject{
     }
 
     /**
-     * Remove a specific entity from the model. TODO remove entities by id
-     * @param e The entity to remove from the model
+     * Remove a specific Entity from the Model.
+     * @param e The Entity to remove
      */
     public void removeEntity(Entity e) {
         scenario.removeEntity(e);
     }
 
     /**
-     * accessor for the current frame/scenario.
-     * @return current scenario
+     * Remove an Entity from the Model by searching for its ID.
+     * @param id the ID of the Entity to remove
+     */
+    public void removeEntity(int id) {
+        ArrayList<Entity> entities = scenario.getEntities();
+        for (Entity e : entities) {
+            if (e.getId() == id) {
+                scenario.removeEntity(e);
+            }
+        }
+    }
+
+    /**
+     * Accessor for the current Scenario.
+     * @return The Scenario as it currently exists
      */
     public Scenario getScenario(){
         return scenario;
