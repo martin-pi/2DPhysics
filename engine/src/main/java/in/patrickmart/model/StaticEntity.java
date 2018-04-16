@@ -257,7 +257,7 @@ public class StaticEntity implements Entity {
      * @return This Rntity's net force.
      */
     public Vector2D getNetForce(){
-        return this.netForce;
+        return null;
     }
 
     /**
@@ -265,7 +265,7 @@ public class StaticEntity implements Entity {
      * @return This Entity's net torque.
      */
     public double getNetTorque() {
-        return this.netTorque;
+        return 0.0;
     }
 
     /**

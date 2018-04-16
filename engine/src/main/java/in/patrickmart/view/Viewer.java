@@ -206,20 +206,26 @@ public class Viewer implements Observer {
 
             // Draw the net force acting on this Entity.
             if(showNetForce) {
-                glBegin(GL_LINES);
-                glColor4d(0, 0, 0, 0);
-                glVertex2d((e.getPosition().getX() + camera.getX()) * cameraScale, (e.getPosition().getY() + camera.getY()) * cameraScale);
-                glVertex2d((e.getPosition().getX() + e.getNetForce().normalize().getX() * 1.5 + camera.getX()) * cameraScale, (e.getNetForce().normalize().getY() * 1.5 + e.getPosition().getY() + camera.getY()) * cameraScale);
-                glEnd();
+                if(e.getNetForce() != null) {
+                    glBegin(GL_LINES);
+                    glColor4d(0, 0, 0, 0);
+                    glVertex2d((e.getPosition().getX() + camera.getX()) * cameraScale, (e.getPosition().getY() + camera.getY()) * cameraScale);
+                    glVertex2d((e.getPosition().getX() + e.getNetForce().normalize().getX() * 1.5 + camera.getX()) * cameraScale, (e.getNetForce().normalize().getY() * 1.5 + e.getPosition().getY() + camera.getY()) * cameraScale);
+                    glEnd();
+                }
             }
             // Draw each individual force acting upon this entity.
             if(showForces){
-                for (Force f : e.getForces()) {
-                    glBegin(GL_LINES);
-                    glColor4d(0.4, 0.4, 0.4, 0);
-                    glVertex2d((f.getPosition().getX() + camera.getX()) * cameraScale, (f.getPosition().getY() + camera.getY()) * cameraScale);
-                    glVertex2d(((f.getPosition().getX() - f.getForce().getX()) + camera.getX()) * cameraScale, ( (f.getPosition().getY() - f.getForce().getY()) + camera.getY()) * cameraScale);
-                    glEnd();
+                if (e.getForces() != null) {
+                    {
+                        for (Force f : e.getForces()) {
+                            glBegin(GL_LINES);
+                            glColor4d(0.4, 0.4, 0.4, 0);
+                            glVertex2d((f.getPosition().getX() + camera.getX()) * cameraScale, (f.getPosition().getY() + camera.getY()) * cameraScale);
+                            glVertex2d(((f.getPosition().getX() - f.getForce().getX()) + camera.getX()) * cameraScale, ((f.getPosition().getY() - f.getForce().getY()) + camera.getY()) * cameraScale);
+                            glEnd();
+                        }
+                    }
                 }
             }
             // Draw this Entity's velocity.
