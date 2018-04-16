@@ -30,4 +30,6 @@ public interface Entity {
     void setMass(double mass);
     Vector2D getAcceleration();
     boolean isColliding();
+    void setNewId(int id);
+    void setId(int id);
 }

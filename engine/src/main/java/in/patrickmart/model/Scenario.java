@@ -139,4 +139,34 @@ public class Scenario {
         gravity = !gravity;
     }
 
+    public void clearEntities(int id) {
+        if (!entities.isEmpty()) {
+            if(id == -1) {
+                entities.get(0).setNewId(0);
+                entities = new ArrayList<>();
+                System.out.println("Clearing All Entities");
+            }
+            else{
+
+                System.out.println("Removing entity #" + id);
+                if(id == entities.size()-1){
+                    entities.get(0).setNewId(id);
+                    entities.remove(id);
+                }
+                else{
+                    for(Entity e : entities){
+                        if(e.getId() > id){
+                            e.setId(e.getId()-1);
+                        }
+                    }
+                    entities.get(0).setNewId(entities.size()-1);
+                    entities.remove(id);
+                }
+            }
+        }
+        else {
+            System.out.println("No Entities Currently Exist");
+        }
+    }
+
 }

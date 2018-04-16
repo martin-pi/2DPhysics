@@ -144,6 +144,11 @@ public class Controller {
        }
        return latest;
     }
+
+    public void clearEntities(int id) {
+        model.getScenario().clearEntities(id);
+    }
+
     /**
      * accessor for this controller's model
      * @return model

@@ -323,6 +323,15 @@ public class Viewer implements Observer {
                 if (key == GLFW_KEY_S && action == GLFW_PRESS) {
                     selected = controller.getLatestEntity();
                 }
+                if (key == GLFW_KEY_C && action == GLFW_PRESS) {
+                    if(selected == null) {
+                        controller.clearEntities(-1);
+                    }
+                    else{
+                        controller.clearEntities(selected.getId());
+                    }
+                    selected = null;
+                }
             }
             else{
                 if (key == GLFW_KEY_B && action == GLFW_PRESS) {

@@ -123,18 +123,18 @@ public class ConcreteEntity implements Entity {
             netForce.add(f.getForce());
 
             // Calculate the new Net Torque.
-            //Vector2D leverArm = f.getPosition().sub(getPosition()); // A vector from the center of mass to the location of the force.
-            //double theta = leverArm.angleBetween(f.getForce()); // theta is the angle between the lever arm and the force being applied.
+            Vector2D leverArm = f.getPosition().sub(getPosition()); // A vector from the center of mass to the location of the force.
+            double theta = leverArm.angleBetween(f.getForce()); // theta is the angle between the lever arm and the force being applied.
 
-            // Torque = rFsin(theta);
-            //netTorque += leverArm.mag() * f.getForce().mag() * Math.sin(theta); // Positive torque is CCW.
+            //Torque = rFsin(theta);
+            netTorque += leverArm.mag() * f.getForce().mag() * Math.sin(theta); // Positive torque is CCW.
         }
 
         // Newton's Second law: netForce = mass * acceleration -> acceleration = netForce / mass
         acceleration = new Vector2D(netForce.getX() / this.mass, netForce.getY() / this.mass);
 
         // Newton's Second law for Rotation: netTorque = moment * angularAcceleration -> alpha = netTorque / moment
-        //angularAcceleration = netTorque / momentOfInertiaCenter;
+        angularAcceleration = netTorque / momentOfInertiaCenter;
 
         // Clear the list of forces so that they don't build up step after step.
         lastForces = forces;
@@ -397,5 +397,21 @@ public class ConcreteEntity implements Entity {
         int r = nextId;
         nextId++;
         return r;
+    }
+
+    /**
+     * Resets unique entity ID when clearing all entities or deleting one.
+     * @param id of entities.size()-1 or 0 for all
+     */
+    public void setNewId(int id){
+        nextId = id;
+    }
+
+    /**
+     * Sets id for when we remove entities
+     * @param id
+     */
+    public void setId(int id){
+        this.id = id;
     }
 }
