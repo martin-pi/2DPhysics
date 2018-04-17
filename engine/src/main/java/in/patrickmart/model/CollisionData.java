@@ -51,11 +51,11 @@ public class CollisionData {
 		new ForceGeneric(first, second, mtv.copy().setMag((p1 + p2) * .0166),first.getPosition());
 
 
-		//call each entitie's collision response
+		//call each Entity's collision response
 		first.collisionResponse(second, mtv.copy().mult(-0.5));
 		second.collisionResponse(first, mtv.copy().mult(0.5));
 		
-		if(gravity){
+		if(gravity){ // TODO remove this? Why is this here?
 			//apply the same force in the opposite direction
 			new ForceNormal(first,second);
 			new ForceNormal(second,first);

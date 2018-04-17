@@ -99,7 +99,7 @@ public class Scenario {
     public Entity selectAtPosition(Vector2D point) {
         Entity selected = null;
         for (Entity e: entities){
-            if(e.getBounds().containsPoint(point)) {
+            if(!(e instanceof StaticEntity) && e.getBounds().containsPoint(point)) {
                 selected = e;
             }
         }
@@ -117,7 +117,7 @@ public class Scenario {
 
     /**
      * accessor for entities
-     * @return list of entities
+     * @return An ArrayList of all Entities in this Scenario
      */
     public ArrayList<Entity> getEntities() {
         return entities;

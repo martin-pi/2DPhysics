@@ -175,6 +175,19 @@ public class Viewer implements Observer {
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+        // Draw a grid to give the user a better sense of scale.
+        glColor4d(0.6,0.6,0.9, 1);
+        for (int i = 0; i < 11; i++) {
+            glBegin(GL_LINES);
+            glVertex2d(((i - 5) + camera.getX()) * cameraScale, ((-5) + camera.getY()) * cameraScale);
+            glVertex2d(((i - 5) + camera.getX()) * cameraScale, ((5) + camera.getY()) * cameraScale);
+            glEnd();
+            glBegin(GL_LINES);
+            glVertex2d(((-5) + camera.getX()) * cameraScale, ((i - 5) + camera.getY()) * cameraScale);
+            glVertex2d(((5) + camera.getX()) * cameraScale, ((i - 5) + camera.getY()) * cameraScale);
+            glEnd();
+        }
+
         // Draw all entities in the model.
         for (Entity e : s.getEntities()) {
             //Figure out what color this entity is.
@@ -311,6 +324,9 @@ public class Viewer implements Observer {
                 if (key == GLFW_KEY_B && action == GLFW_PRESS) {
                     controller.toggleGravity();
                 }
+                if (key == GLFW_KEY_V && action == GLFW_PRESS) {
+                    controller.createGround(cameraScale);
+                }
                 if (key == GLFW_KEY_L && action == GLFW_PRESS) {
                     controller.launchBall(cameraScale);
                 }
@@ -366,9 +382,6 @@ public class Viewer implements Observer {
                     showVelocity = showAll;
                     showAcceleration = showAll;
                     showCollisions = showAll;
-                }
-                if (key == GLFW_KEY_G && action == GLFW_PRESS) {
-                    controller.createGround(cameraScale);
                 }
             }
             if (key == GLFW_KEY_LEFT_ALT && action == GLFW_PRESS) {
