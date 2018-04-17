@@ -17,25 +17,56 @@ If you are running an environment with no GUI, you may want to run the project h
 ```
 $ mvn compile exec:java -Dexec.mainClass=in.patrickmart.App -Dexec.args="-e"
 ```
+## Running and Controlling a Simulation
+|Input              |Action                                                   |Conditions                  |
+|:------------------:|--------------------------------------------------------|----------------------------|
+|`Esc`               |Close the application.                                  |                            |
+|`Left Click`        |Select an entity. Selecting a blank space will deselect.|                            |
+|`Left Click` + Drag |Apply a force to the selected entity.                   |An entity must be selected. |
+|`Alt` + `Left Click`|Place an entity into the scenario.                      |                            |
+|`Delete`            |Remove the selected entity, or reset the scenario.      |                            |
+|`Right Click` + Drag|Move the camera around the scenario.                    |                            |
+|`Arrow Keys`        |Move the camera around in steps.                        |                            |
+|`Mouse Wheel Up`    |Zoom the camera in.                                     |                            |
+|`Mouse Wheel Down`  |Zoom the camera out.                                    |                            |
+|`L`                 |Launch an entity from the right side of the camera.     |                            |
+|`B`                 |Toggle NBody-Like gravity simulation between entities.  |                            |
+|`G`                 |Toggle Flat-Earth-Approximation gravity.                |                            |
+|`V`                 |Create a static "floor" at the bottom of the camera.    |                            |
+|`S`                 |Quickly select the most recently created entity.        |                            |
+
+There are also many debug visualizations available.
+
+|Input              |Action                                                           |
+|:------------------:|----------------------------------------------------------------|
+|`Alt` + `E`         |Toggles all debug visualizations on or off.                     |
+|`Alt` + `B`         |Toggles visualization of entity bounding boxes.                 |
+|`Alt` + `C`         |Toggles collision highlighting.|                                |
+|`Alt` + `F`         |Toggles the drawing of individual forces acting on every entity.|
+|`Alt` + `N`         |Toggles whether entities will draw the net force acting on them.|
+|`Alt` + `A`         |Toggles the visualization of entities' acceleration vectors.    |
+|`Alt` + `V`         |Toggles the visualization of entities' velocity vectors.        |
+
+
 ## Project Overview
 This project seeks to create a 2 dimensional physics simulation consisting of n-dimensional rigid body polygons. This simulation could be useful to game developers as a way of representing their game’s objects in two dimensional space. The physics model should be able to run headlessly, without any visual representation of the events within. Because this isn’t immediately useful to most people, the project will also include a program to view and create simulations to see how our engine works. This can be used by people interested in using our library or anyone interested in learning how different objects will interact with each other and various forces that they will be able to control. The users that wish to learn from this program will need to be able to view and control the various aspects of the background physics such as information about the object as well as the forces acting upon it at any time. These users will probably also want to be able to control the simulation by having rewind, pause, and fast forward features as well as a detached camera capable of zooming in and out to change the user’s focus. 
 #### A-Level Features
 - [x] The program should be able to perform basic vector math operations such as dot and cross products.
 - [x] The program should be able to represent shapes as collections of vectors.
-- [ ] The program should maintain an enum list of object materials such as concrete, iron, or ice.
-- [ ] The program should contain physics objects, which reference shapes and materials to give themselves a physical representation in their environment.
-- [ ] The program should have environments or scenarios, which hold collections of physics objects. These environments should be easily searchable in 2 dimensional space. This might be made easier with quadtrees.
+- [x] The program should maintain an enum list of object materials such as concrete, iron, or ice.
+- [x] The program should contain physics objects, which reference shapes and materials to give themselves a physical representation in their environment.
+- [x] The program should have environments or scenarios, which hold collections of physics objects. These environments should be easily searchable in 2 dimensional space. This might be made easier with quadtrees.
 - [ ] The program should be able to load and save environments to files, most likely json or csv files.
-- [ ] The program should be able to launch a window, which will draw the physics objects within a loaded environment.
+- [x] The program should be able to launch a window, which will draw the physics objects within a loaded environment.
 - [ ] The program should be able to play, pause, or take individual “physics steps” on a loaded environment. Ideally the user should be able to control these actions through the rendering window.
-- [ ] The program should be able to define forces, which will act on physics objects. These forces should be part of the environment.
-- [ ] Physics objects should be able to create forces that act upon themselves or other physics objects in their environment.
-- [ ] Physics objects should be able to detect when they are intersecting with other physics objects. This collision detection should be done via a scan of the environment that the physics object is in.
-- [ ] Physics objects should be able to respond to collisions by generating reactionary forces such as normal forces.
-- [ ] When defining a physics environment, a user should be able to set a physics object’s properties, such as rotation-locked, non-colliding, or static objects.
+- [x] The program should be able to define forces, which will act on physics objects. These forces should be part of the environment.
+- [x] Physics objects should be able to create forces that act upon themselves or other physics objects in their environment.
+- [x] Physics objects should be able to detect when they are intersecting with other physics objects. This collision detection should be done via a scan of the environment that the physics object is in.
+- [x] Physics objects should be able to respond to collisions by generating reactionary forces such as normal forces.
+- [x] When defining a physics environment, a user should be able to set a physics object’s properties, such as rotation-locked, non-colliding, or static objects.
 - [ ] Physics objects should be able to signal other objects within their environment independently of the physics calculations that are happening. The program should allow for physics objects to display custom behavior upon receiving these signals, most likely via decorator or template method pattern.
 - [ ] The user should be able to view an object’s properties and status from the viewing window.
-- [ ] The user should be able to control some small functions of objects via the viewing window, such as sending signals, or applying force.
+- [x] The user should be able to control some small functions of objects via the viewing window, such as sending signals, or applying force.
 #### B-Level Features
 - [ ] The program should multithread certain actions such as collision checking/response
 - [ ] Users should be able to create physics environments via a separate tool.
