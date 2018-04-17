@@ -7,14 +7,11 @@ import in.patrickmart.model.Scenario;
 
 import in.patrickmart.model.Vector2D;
 import in.patrickmart.model.forces.Force;
-import org.lwjgl.*;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
 
 import java.nio.*;
-import java.util.ArrayList;
-import java.util.Vector;
 
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
@@ -154,6 +151,7 @@ public class Viewer implements Observer {
         glfwGetCursorPos(window,x,y);
         double mouse_x_prev = mouse_x;
         double mouse_y_prev = mouse_y;
+        Force clickForce = null;
         mouse_x = x[0] / cameraScale;
         mouse_y = y[0] / cameraScale;
         if (mouse_rb_down) {
@@ -165,10 +163,11 @@ public class Viewer implements Observer {
             Vector2D position = new Vector2D(mouse_lb_initialX, mouse_lb_initialY);
             //System.out.println("Initial Pos: " + mouse_lb_initialX + ", " + mouse_lb_initialY);
             Vector2D force = new Vector2D(forceEnd.getX(), forceEnd.getY()).sub(position).mult(200);
+            System.out.println("Click&Drag: Applying a force to the selected Entity.");
 
             //Vector2D position = selected.getPosition().add(new Vector2D(0, 10));
             //Vector2D force = selected.getPosition().add(new Vector2D(1000, 0));
-            controller.createForce(selected, position, force);
+            clickForce = controller.createForce(selected, position, force);
         }
         // Set the clear or "background" color.
         glClearColor(0.92f, 0.92f, 0.92f, 0.0f);
@@ -209,8 +208,8 @@ public class Viewer implements Observer {
                 if(e.getNetForce() != null) {
                     glBegin(GL_LINES);
                     glColor4d(0, 0, 0, 0);
-                    glVertex2d((e.getPosition().getX() + camera.getX()) * cameraScale, (e.getPosition().getY() + camera.getY()) * cameraScale);
-                    glVertex2d((e.getPosition().getX() + e.getNetForce().normalize().getX() * 1.5 + camera.getX()) * cameraScale, (e.getNetForce().normalize().getY() * 1.5 + e.getPosition().getY() + camera.getY()) * cameraScale);
+                    glVertex3d((e.getPosition().getX() + camera.getX()) * cameraScale, (e.getPosition().getY() + camera.getY()) * cameraScale,1);
+                    glVertex3d((e.getPosition().getX() + (e.getNetForce().normalize().getX() * e.getShape().getDiameter()/2) * 1.5 + camera.getX()) * cameraScale, ((e.getNetForce().normalize().getY()*e.getShape().getDiameter()/2) * 1.5 + e.getPosition().getY() + camera.getY()) * cameraScale,1);
                     glEnd();
                 }
             }
@@ -219,21 +218,27 @@ public class Viewer implements Observer {
                 if (e.getForces() != null) {
                     {
                         for (Force f : e.getForces()) {
-                            glBegin(GL_LINES);
-                            glColor4d(0.4, 0.4, 0.4, 0);
-                            glVertex2d((f.getPosition().getX() + camera.getX()) * cameraScale, (f.getPosition().getY() + camera.getY()) * cameraScale);
-                            glVertex2d(((f.getPosition().getX() - f.getForce().getX()) + camera.getX()) * cameraScale, ((f.getPosition().getY() - f.getForce().getY()) + camera.getY()) * cameraScale);
-                            glEnd();
+                            if(clickForce == null || !f.getPosition().equals(clickForce.getPosition())) {
+                                glBegin(GL_LINES);
+                                glDepthFunc(GL_NEVER);
+                                glColor4d(0.4, 0.4, 0.4, 0);
+                                glVertex2d((e.getPosition().getX() + camera.getX()) * cameraScale, (e.getPosition().getY() + camera.getY()) * cameraScale);
+                                glVertex2d((e.getPosition().getX() + (f.getForce().normalize().getX()* e.getShape().getDiameter()/2) + camera.getX()) * cameraScale, (e.getPosition().getY() + (f.getForce().normalize().getY()*e.getShape().getDiameter()/2) + camera.getY()) * cameraScale);
+                                glEnd();
+                            }
                         }
                     }
                 }
+            }
+            if(mouse_lb_down){
+
             }
             // Draw this Entity's velocity.
             if(showVelocity) {
                 glBegin(GL_LINES);
                 glColor4d(1, 0.1, 0.1, 0);
                 glVertex2d((e.getPosition().getX() + camera.getX()) * cameraScale, (e.getPosition().getY() + camera.getY()) * cameraScale);
-                glVertex2d((e.getPosition().getX() + e.getVelocity().normalize().getX() * 2 + camera.getX()) * cameraScale, ( e.getVelocity().normalize().getY() * 2 + e.getPosition().getY() + camera.getY()) * cameraScale);
+                glVertex2d((e.getPosition().getX() + (e.getVelocity().normalize().getX()*e.getShape().getDiameter()) + camera.getX()) * cameraScale, ( (e.getVelocity().normalize().getY()*e.getShape().getDiameter()) + e.getPosition().getY() + camera.getY()) * cameraScale);
                 glEnd();
             }
             // Draw this Entity's acceleration.
@@ -241,7 +246,7 @@ public class Viewer implements Observer {
                 glBegin(GL_LINES);
                 glColor4d(.6, 0, .9, 0);
                 glVertex2d((e.getPosition().getX() + camera.getX()) * cameraScale, (e.getPosition().getY() + camera.getY()) * cameraScale);
-                glVertex2d((e.getPosition().getX() + e.getAcceleration().normalize().getX() * 1.75 + camera.getX()) * cameraScale, ( e.getAcceleration().normalize().getY() * 1.75 + e.getPosition().getY() + camera.getY()) * cameraScale);
+                glVertex2d((e.getPosition().getX() + (e.getAcceleration().normalize().getX()*e.getShape().getDiameter()/2) * 1.75 + camera.getX()) * cameraScale, ( (e.getAcceleration().normalize().getY() * e.getShape().getDiameter()/2) * 1.75 + e.getPosition().getY() + camera.getY()) * cameraScale);
                 glEnd();
             }
             // Draw the bounding box if bounding box debugging is enabled.
@@ -253,6 +258,14 @@ public class Viewer implements Observer {
                 glVertex2d((e.getPosition().getX() + b.getHalfWidth() + camera.getX()) * cameraScale, (e.getPosition().getY() - b.getHalfHeight() + camera.getY()) * cameraScale);
                 glVertex2d((e.getPosition().getX() - b.getHalfWidth() + camera.getX()) * cameraScale, (e.getPosition().getY() - b.getHalfHeight() + camera.getY()) * cameraScale);
                 glVertex2d((e.getPosition().getX() - b.getHalfWidth() + camera.getX()) * cameraScale, (e.getPosition().getY() + b.getHalfHeight() + camera.getY()) * cameraScale);
+                glEnd();
+            }
+            if(clickForce != null) {
+                glBegin(GL_LINES);
+                glDepthFunc(GL_NEVER);
+                glColor4d(0.4, 0.4, 0.4, 0);
+                glVertex2d((clickForce.getPosition().getX() + camera.getX()) * cameraScale, (clickForce.getPosition().getY() + camera.getY()) * cameraScale);
+                glVertex2d((clickForce.getPosition().getX() + clickForce.getForce().getX() / 200 + camera.getX()) * cameraScale, (clickForce.getPosition().getY() + clickForce.getForce().getY() / 200 + camera.getY()) * cameraScale);
                 glEnd();
             }
         }
@@ -412,10 +425,6 @@ public class Viewer implements Observer {
                         System.out.println("Attempt failed, deselecting currently selected Entity.");
                         selected = null;
                     }
-                } else if (mouse_lb_down && selected != null) {    // User has clicked and dragged the mouse.
-                    System.out.println("Click&Drag: Applying a force to the selected Entity.");
-                    Vector2D force = new Vector2D(currentPos.getX(), currentPos.getY()).sub(originalPos).mult(5000);
-                    //controller.createForce(selected, position, force); // Instead, apply the force every step.
                 }
                 mouse_lb_down = false;
             }
