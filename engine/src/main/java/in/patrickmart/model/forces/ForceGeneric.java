@@ -26,7 +26,7 @@ public class ForceGeneric extends Force {
         super();
         this.source = null;
         this.destination = destination;
-        this.position = null;
+        this.position = new Vector2D();
         this.force = force;
         applyTo(destination);
     }
