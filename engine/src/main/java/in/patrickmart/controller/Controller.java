@@ -90,56 +90,69 @@ public class Controller {
     }
 
     /**
-     * toggles the force of gravity acting on all entities
+     * Toggles the application of a Flat-Earth-Approximation gravity to all dynamic Entities.
      */
     public void toggleFEA() {
         model.getScenario().toggleFEAgravity();
     }
 
     /**
-     * toggle gravity of objects
+     * Toggle application of gravitational force between all Entities.
      */
     public void toggleGravity() {
         model.getScenario().toggleGravity();
     }
 
-    public void launchBall(double cameraScale) {
-        Entity e = new ConcreteEntity(new Vector2D(1 / cameraScale,-.5 / cameraScale), new ConcreteShape(8 ,.1/cameraScale));
-        e.setVelocity(new Vector2D(-1 / cameraScale,1 / cameraScale));
+    public void launchBall(Vector2D cameraPosition, double cameraScale) {
+        Entity e = new ConcreteEntity(new Vector2D(-cameraPosition.getX() + (1 / cameraScale),-cameraPosition.getY()), new ConcreteShape(8 ,.1/cameraScale));
+        e.setVelocity(new Vector2D(-1 / cameraScale,0));
         e.setMass(500 / cameraScale * 2);
         model.addEntity(e);
-        System.out.println("Added launched Entity #" + e.getId() + " to the model.");
+        System.out.println("Added launched Entity #" + e.getId() + " to the scenario.");
     }
 
     public void createEntityClick(Vector2D position, double cameraScale) {
-        System.out.println("Alt-Click at: " + position.getX() + ", " + position.getY());
         int sides = 12;
         Entity e = new ConcreteEntity(new Vector2D(position.getX(),position.getY()), new ConcreteShape(sides ,.1 / cameraScale));
-        //e.setVelocity(new Vector2D((r.nextDouble() - .5) * .01,(r.nextDouble() - .5) * .01));
-        //TODO: remove this. forcing mass to be large here.
         e.setMass(500 / cameraScale * 2);
         model.addEntity(e);
-        System.out.println("Added random Entity #" + e.getId() + " to the model.");
+        System.out.println("Added random Entity #" + e.getId() + " to the scenario.");
     }
 
     public Force createForce(Entity applyTo, Vector2D position, Vector2D force) {
-        System.out.println("Applied force (" + force.getX() + ", " + force.getY() + ")to Entity #" + applyTo.getId() + ".");
+        //TODO A verbose output flag should allow messages like the one below to be logged.
+        //System.out.printf("Applied force (%.3f, %.3f) to Entity #%d%n", force.getX(), force.getY(), applyTo.getId());
         return new ForceGeneric(null, applyTo, force, position);
     }
 
     public Entity selectAtPosition(Vector2D position) {
-        return model.getScenario().selectAtPosition(position);
+        System.out.println("Attempting to select an Entity.");
+        Entity found = model.getScenario().selectAtPosition(position);
+
+        if (found == null) {
+            System.out.println("\tNo Entity Found.");
+        } else {
+            System.out.println("\tFound Entity #" + found.getId());
+        }
+        return found;
     }
 
     public Entity getLatestEntity() {
-       ArrayList<Entity> entities = model.getScenario().getEntities();
-       int highest = -1;
-       Entity latest = null;
-       for (Entity e : entities) {
-           if (e.getId() > highest) {
-               latest = e;
-           }
-       }
+        System.out.println("Selecting the most recently created Entity.");
+        ArrayList<Entity> entities = model.getScenario().getEntities();
+        int highest = -1;
+        Entity latest = null;
+        for (Entity e : entities) {
+            if (e.getId() > highest) {
+                latest = e;
+            }
+        }
+
+        if (latest == null) {
+            System.out.println("\tNo Entity Found.");
+        } else {
+            System.out.println("\tFound Entity #" + latest.getId());
+        }
        return latest;
     }
 
@@ -147,18 +160,21 @@ public class Controller {
         Entity e = new StaticEntity(new Vector2D(0,(-1 / cameraScale) - (1 / cameraScale)), new ConcreteShape(4, 2 / cameraScale));
         e.setRotation(Math.PI/4);
         model.addEntity(e);
+        System.out.println("Added static Entity #" + e.getId() + " to the scenario.");
     }
 
     public void clearEntities() {
         model.getScenario().clearEntities();
+        System.out.println("Deleted all Entities from the scenario.");
     }
 
     public void destroyEntity(Entity entity) {
         model.removeEntity(entity);
+        System.out.println("Deleted Entity #" + entity.getId() + " from the scenario.");
     }
 
     /**
-     * accessor for this controller's model
+     * Accessor for this controller's model
      * @return model
      */
     public Model getModel(){

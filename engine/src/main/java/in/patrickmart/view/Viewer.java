@@ -163,7 +163,6 @@ public class Viewer implements Observer {
             Vector2D position = new Vector2D(mouse_lb_initialX, mouse_lb_initialY);
             //System.out.println("Initial Pos: " + mouse_lb_initialX + ", " + mouse_lb_initialY);
             Vector2D force = new Vector2D(forceEnd.getX(), forceEnd.getY()).sub(position).mult(200);
-            System.out.println("Click&Drag: Applying a force to the selected Entity.");
 
             //Vector2D position = selected.getPosition().add(new Vector2D(0, 10));
             //Vector2D force = selected.getPosition().add(new Vector2D(1000, 0));
@@ -341,7 +340,7 @@ public class Viewer implements Observer {
                     controller.createGround(cameraScale);
                 }
                 if (key == GLFW_KEY_L && action == GLFW_PRESS) {
-                    controller.launchBall(cameraScale);
+                    controller.launchBall(camera, cameraScale);
                 }
                 if (key == GLFW_KEY_LEFT && action == GLFW_PRESS) {
                     camera.add(new Vector2D(1/cameraScale, 0));
@@ -429,15 +428,7 @@ public class Viewer implements Observer {
                 Vector2D currentPos = getPointer();
                 Vector2D originalPos = new Vector2D(mouse_lb_initialX, mouse_lb_initialY);
                 if (currentPos.equals(originalPos)) {       // User has clicked and released the mouse.
-                    System.out.println("Left Click: Attempting to select an Entity.");
-                    Entity found = controller.selectAtPosition(currentPos);
-                    if (found != null) {
-                        selected = found;
-                        System.out.println("\tFound Entity #" + selected.getId() + ".");
-                    } else {
-                        System.out.println("Attempt failed, deselecting currently selected Entity.");
-                        selected = null;
-                    }
+                    selected = controller.selectAtPosition(currentPos);
                 }
                 mouse_lb_down = false;
             }
