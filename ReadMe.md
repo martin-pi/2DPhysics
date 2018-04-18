@@ -80,6 +80,9 @@ This project seeks to create a 2 dimensional physics simulation consisting of n-
 - [ ] Environments should be able to simulate air or fluid currents
 - [ ] Physics objects should be able to attach to one another via constraints and cables.
 
+## Current Program Layout
+![UML diagram of current project layout](http://patrickmart.in/media/capstone/ecs2.png)
+
 ## Similar Existing Projects
 There are a lot of C, C++ and javascript physics engines but most of the java engines are simply ports of other libraries. One such example is JBox2D, a port of a C++ engine called Box2D. Other similar projects such as Java 2D Physics have no plan for expanding upon their engine and are limited in capabilities. 
 
