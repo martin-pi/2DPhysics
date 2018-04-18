@@ -122,9 +122,9 @@ public class Controller {
         System.out.println("Added random Entity #" + e.getId() + " to the model.");
     }
 
-    public void createForce(Entity applyTo, Vector2D position, Vector2D force) {
+    public Force createForce(Entity applyTo, Vector2D position, Vector2D force) {
         System.out.println("Applied force (" + force.getX() + ", " + force.getY() + ")to Entity #" + applyTo.getId() + ".");
-        Force f = new ForceGeneric(null, applyTo, force, position);
+        return new ForceGeneric(null, applyTo, force, position);
     }
 
     public Entity selectAtPosition(Vector2D position) {
