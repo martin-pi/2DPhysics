@@ -196,7 +196,7 @@ public class Viewer implements Observer {
                 glColor4d(e.getColor()[0],e.getColor()[1], e.getColor()[2], e.getColor()[3]);
             }
             if (selected != null && e.equals(selected)) {
-                glColor4d(0.2,0.8,0.2, 1);
+                glColor4d(0.4,0.8,0.4, 1);
             }
 
             // Draw this entity.
