@@ -12,7 +12,7 @@ public class ForceFEA extends Force {
      * force comes from directly above each object
      */
     public Vector2D calculatePosition(){
-        return destination.getPosition().copy().add(new Vector2D(0,1));
+        return destination.getPosition();
     }
 
     /**
