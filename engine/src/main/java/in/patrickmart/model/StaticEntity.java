@@ -12,16 +12,11 @@ public class StaticEntity extends Entity {
     private Vector2D position;
     private double rotation;
     private Vector2D velocity;
-    private double netTorque;  // in Newton Meters
-    private double momentOfInertiaCenter; // moment if rotating around the center of mass.
-    private double momentOfInertiaEdge; // moment if rotating around a point on its edge.
     private double angularVelocity;
     private Vector2D acceleration;
     private double angularAcceleration;
 
     private ArrayList<Force> forces;
-    private ArrayList<Force> lastForces;
-    private Vector2D netForce;
     private ConcreteShape shape;
     private Material material;
     private AABB bounds;
@@ -39,8 +34,6 @@ public class StaticEntity extends Entity {
         this.bounds = shape.calculateBounds();
 
         this.mass = material.getDensity() * shape.getArea();
-        this.momentOfInertiaCenter = (Math.pow(shape.getDiameter(), 2) * this.mass) / 12; // Ic = (1/12)mL^2
-        this.momentOfInertiaEdge = (Math.pow(shape.getDiameter(), 2) * this.mass) / 3; // Ie = (1/3)mL^2
 
         setPosition(position);
         this.rotation = 0;
@@ -59,8 +52,6 @@ public class StaticEntity extends Entity {
         this.bounds = shape.calculateBounds();
 
         this.mass = shape.getArea(); // With no material, we have no density.
-        this.momentOfInertiaCenter = (Math.pow(shape.getDiameter(), 2) * this.mass) / 12; // Ic = (1/12)mL^2
-        this.momentOfInertiaEdge = (Math.pow(shape.getDiameter(), 2) * this.mass) / 3; // Ie = (1/3)mL^2
 
         setPosition(position);
         this.rotation = 0;
@@ -82,8 +73,6 @@ public class StaticEntity extends Entity {
         this.bounds = shape.calculateBounds();
 
         this.mass = shape.getArea(); // With no material, we have no density.
-        this.momentOfInertiaCenter = (Math.pow(shape.getDiameter(), 2) * this.mass) / 12; // Ic = (1/12)mL^2
-        this.momentOfInertiaEdge = (Math.pow(shape.getDiameter(), 2) * this.mass) / 3; // Ie = (1/3)mL^2
 
         setPosition(position);
         this.rotation = 0;
@@ -273,7 +262,7 @@ public class StaticEntity extends Entity {
      * @return an ArrayList of Forces.
      */
     public ArrayList<Force> getForces(){
-        return this.lastForces; // By the time forces are current, they have been moved to lastForces.
+        return null; // By the time forces are current, they have been moved to lastForces.
     }
 
     /**

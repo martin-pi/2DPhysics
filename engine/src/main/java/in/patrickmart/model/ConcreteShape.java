@@ -189,61 +189,6 @@ public class ConcreteShape implements Shape {
             }
         }
         return minVector;
-	    /*// Build a list of normal vectors from both shapes. Each normal is one of our axes
-        ArrayList<Vector2D> theseAxes = getNormals();
-        ArrayList<Vector2D> otherAxes = other.getNormals();
-
-        double minOverlap = Double.MAX_VALUE; //Biggest possible double.
-        Vector2D minVector = null;
-        // For each axis, find the min and max dot product of that axis with each point in this shape and the other
-        for (Vector2D axis : theseAxes) {
-            double[] projection = project(axis);
-            double min = projection[0];
-            double max = projection[1];
-
-            double[] otherProjection = other.project(axis);
-            double oMin = otherProjection[0];
-            double oMax = otherProjection[1];
-
-            // Determine if there is any overlap between the min/max of this and the other shape. if not, return false
-            // seems to say there is no collision only when the objects have space between them on the x axis.
-            if (!(min <= oMax && oMin <= max)) {
-                return null;
-            } else {
-                // If there is any overlap, find out how much. Keep track of the minimum so we can return it in the mtv.
-                //overlap = maximum(0, minimum(oMax, max) - maximum(oMin, min))
-                double overlap = Math.max(0, Math.min(max, oMax) - Math.max(min, oMin));
-                if (overlap < minOverlap) {
-                    minOverlap = overlap;
-                    minVector = axis.copy().mult(1).setMag(overlap); // The minimum translation vector.
-                }
-            }
-        }
-
-        for (Vector2D axis : otherAxes) {
-            double[] projection = project(axis);
-            double min = projection[0];
-            double max = projection[1];
-
-            double[] otherProjection = other.project(axis);
-            double oMin = otherProjection[0];
-            double oMax = otherProjection[1];
-
-            // Determine if there is any overlap between the min/max of this and the other shape. if not, return false
-            // seems to say there is no collision only when the objects have space between them on the x axis.
-            if (!(min <= oMax && oMin <= max)) {
-                return null;
-            } else {
-                // If there is any overlap, find out how much. Keep track of the minimum so we can return it in the mtv.
-                //overlap = maximum(0, minimum(oMax, max) - maximum(oMin, min))
-                double overlap = Math.max(0, Math.min(max, oMax) - Math.max(min, oMin));
-                if (overlap < minOverlap) {
-                    minOverlap = overlap;
-                    minVector = axis.copy().mult(-1).setMag(overlap); // The minimum translation vector. Reversed due to this axis belonging to the other shape.
-                }
-            }
-        }
-	    return minVector;*/
     }
 
     /**
@@ -296,9 +241,18 @@ public class ConcreteShape implements Shape {
         return normals;
     }
 
+    /**
+     * setter for position
+     * @param position
+     */
     public void setPosition(Vector2D position) {
         this.position = position;
     }
+
+    /**
+     * getter for position.
+     * @return shape position
+     */
     public Vector2D getPosition() {
         if (position != null) {
             return position;
@@ -306,6 +260,10 @@ public class ConcreteShape implements Shape {
         return new Vector2D();
     }
 
+    /**
+     * setter for rotation
+     * @param rotation
+     */
     public void setRotation(double rotation) {
         // Find the difference between the new rotation and the previous.
         double difference = rotation - this.rotation;
@@ -314,6 +272,10 @@ public class ConcreteShape implements Shape {
         rotate(difference);
     }
 
+    /**
+     * apply rotation.
+     * @param rotation
+     */
     public void rotate(double rotation) {
         // Update the stored rotation.
         this.rotation += rotation;
@@ -323,16 +285,34 @@ public class ConcreteShape implements Shape {
             point.rotate(rotation);
         }
     }
+    /**
+     * getter for rotation
+     * @return rotation
+     */
     public double getRotation() {
         return rotation;
     }
+
+    /**
+     * getter for points of a shape
+     * @return list of points
+     */
     public List<Vector2D> getPoints() {
         return this.points;
     }
+
+    /**
+     * getter for area.
+     * @return area
+     */
     public double getArea() {
         return this.area;
     }
 
+    /**
+     * getter for diameter.
+     * @return diameter
+     */
     public double getDiameter() {
         double sum = 0;
         for (Vector2D p : points) {
@@ -341,14 +321,34 @@ public class ConcreteShape implements Shape {
         return (sum / points.size()) * 2;
     }
 
+    /**
+     * getter for subShapes
+     * @return singletonSubShape
+     */
     public ArrayList<Shape> getSubShapes(){
         ArrayList<Shape> singletonSubShape = new ArrayList<>();
         singletonSubShape.add(this);
         return singletonSubShape;
     }
+
+    /**
+     * will create a complex shape when implemented
+     * @param shape
+     */
     public void addShape(Shape shape) { }
+
+    /**
+     * getter for shape object.
+     * @param index
+     * @return shape object
+     */
     public Shape getShape(int index) {
         return this;
     }
+
+    /**
+     * for composite shapes only.
+     * @param shape
+     */
     public void removeShape(Shape shape) { }
 }

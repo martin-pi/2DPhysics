@@ -161,11 +161,7 @@ public class Viewer implements Observer {
         if (selected != null && mouse_lb_down) {
             Vector2D forceEnd = getPointer();
             Vector2D position = new Vector2D(mouse_lb_initialX, mouse_lb_initialY);
-            //System.out.println("Initial Pos: " + mouse_lb_initialX + ", " + mouse_lb_initialY);
             Vector2D force = new Vector2D(forceEnd.getX(), forceEnd.getY()).sub(position).mult(200);
-
-            //Vector2D position = selected.getPosition().add(new Vector2D(0, 10));
-            //Vector2D force = selected.getPosition().add(new Vector2D(1000, 0));
             clickForce = controller.createForce(selected, position, force);
         }
         // Set the clear or "background" color.
@@ -461,6 +457,10 @@ public class Viewer implements Observer {
         );
     }
 
+    /**
+     * helper method to convert window pointer to actual position
+     * @return the actual click position relative to the model.
+     */
     private Vector2D getPointer() {
         double[] x = new double[1];
         double[] y = new double[1];

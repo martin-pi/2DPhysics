@@ -103,6 +103,11 @@ public class Controller {
         model.getScenario().toggleGravity();
     }
 
+    /**
+     * launches a ball from the right hand corner of the screen.
+     * @param cameraPosition
+     * @param cameraScale
+     */
     public void launchBall(Vector2D cameraPosition, double cameraScale) {
         Entity e = new ConcreteEntity(new Vector2D(-cameraPosition.getX() + (1 / cameraScale),-cameraPosition.getY()), new ConcreteShape(8 ,.1/cameraScale));
         e.setVelocity(new Vector2D(-1 / cameraScale,0));
@@ -111,6 +116,11 @@ public class Controller {
         System.out.println("Added launched Entity #" + e.getId() + " to the scenario.");
     }
 
+    /**
+     * creates an entity at the location of the click
+     * @param position
+     * @param cameraScale
+     */
     public void createEntityClick(Vector2D position, double cameraScale) {
         int sides = 12;
         Entity e = new ConcreteEntity(new Vector2D(position.getX(),position.getY()), new ConcreteShape(sides ,.1 / cameraScale));
@@ -119,12 +129,24 @@ public class Controller {
         System.out.println("Added random Entity #" + e.getId() + " to the scenario.");
     }
 
+    /**
+     * crates a force when clicking and dragging.
+     * @param applyTo
+     * @param position
+     * @param force
+     * @return the created force
+     */
     public Force createForce(Entity applyTo, Vector2D position, Vector2D force) {
         //TODO A verbose output flag should allow messages like the one below to be logged.
         //System.out.printf("Applied force (%.3f, %.3f) to Entity #%d%n", force.getX(), force.getY(), applyTo.getId());
         return new ForceGeneric(null, applyTo, force, position);
     }
 
+    /**
+     * attempts to select and entity at the pointer's position
+     * @param position
+     * @return found entity or null
+     */
     public Entity selectAtPosition(Vector2D position) {
         System.out.println("Attempting to select an Entity.");
         Entity found = model.getScenario().selectAtPosition(position);
@@ -137,6 +159,10 @@ public class Controller {
         return found;
     }
 
+    /**
+     * gets last entity created
+     * @return latest entity
+     */
     public Entity getLatestEntity() {
         System.out.println("Selecting the most recently created Entity.");
         ArrayList<Entity> entities = model.getScenario().getEntities();
@@ -156,6 +182,10 @@ public class Controller {
        return latest;
     }
 
+    /**
+     * creates a static object to represent the ground at the bottom of the screen
+     * @param cameraScale
+     */
     public void createGround(double cameraScale) {
         Entity e = new StaticEntity(new Vector2D(0,(-1 / cameraScale) - (1 / cameraScale)), new ConcreteShape(4, 2 / cameraScale));
         e.setRotation(Math.PI/4);
@@ -163,11 +193,18 @@ public class Controller {
         System.out.println("Added static Entity #" + e.getId() + " to the scenario.");
     }
 
+    /**
+     * clears all entities from the model.
+     */
     public void clearEntities() {
         model.getScenario().clearEntities();
         System.out.println("Deleted all Entities from the scenario.");
     }
 
+    /**
+     * deletes the selected entity
+     * @param entity
+     */
     public void destroyEntity(Entity entity) {
         model.removeEntity(entity);
         System.out.println("Deleted Entity #" + entity.getId() + " from the scenario.");

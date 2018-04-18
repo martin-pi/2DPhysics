@@ -21,30 +21,22 @@ public class CollisionData {
 	}
 	
 	public boolean resolve(boolean gravity, boolean FEAgravity) {
-		//calculate momentum of each entity
-		/*Current "Stable" implementation
-		Vector2D m1 = first.getVelocity().mult(first.getMass());
-		Vector2D m2 = second.getVelocity().mult(second.getMass());
-		//project the force onto the vector between the two entities.
-		double newM1 = m1.dot(second.getPosition().sub(first.getPosition()).normalize());
-		double newM2 = m2.dot(first.getPosition().sub(second.getPosition()).normalize());
-		//apply the change in velocity equally to both in opposite directions
-		first.setVelocity(first.getVelocity().add(mtv.copy().setMag(-(newM1 + newM2)/first.getMass())));
-		second.setVelocity(second.getVelocity().add(mtv.copy().setMag((newM1 + newM2)/second.getMass())));
-		new ForceGeneric(second, first, mtv.copy().setMag((newM1 + newM2)* .0166), second.getPosition());
-		new ForceGeneric(first, second, mtv.copy().setMag((newM2 + newM1) * .0166), first.getPosition());
-		*/
-		// Other collision implementation
+		//get velocities along the mtv
 		double v2 = second.getVelocity().dot(mtv.copy().normalize().mult(-1));
-		double v1 = first.getVelocity().dot(mtv.copy().normalize()) + v2;
+		double v1 = first.getVelocity().dot(mtv.copy().normalize()) + v2;	//add v2 to combine reference frames
+		//calculate massConstants
 		double massCons1 = (first.getMass() - second.getMass()) / (first.getMass() + second.getMass());
 		double massCons2 = (2 * first.getMass()) / (second.getMass() + first.getMass());
+		//multiply v1 by massconstants to get each entity's velocity
 		Vector2D newV1 = mtv.copy().setMag((v1 * massCons1) - v2);
 		Vector2D newV2 = mtv.copy().setMag((v1 * massCons2) - v2);
+		//conserve the velocity perpendicular to the mtv
 		first.setVelocity(mtv.copy().normalize().getPerpendicular().setMag(first.getVelocity().dot(mtv.copy().normalize().getPerpendicular())));
 		second.setVelocity(mtv.copy().normalize().getPerpendicular().setMag(second.getVelocity().dot(mtv.copy().normalize().getPerpendicular())));
+		//add the new velocity along the mtv
 		first.setVelocity(first.getVelocity().add(newV1));
 		second.setVelocity(second.getVelocity().sub(newV2));
+		//calculate and apply the impulse for each entity
 		double p1 = newV1.mag() * first.getMass();
 		double p2 = newV2.mag() * second.getMass();
 		new ForceGeneric(second, first, mtv.copy().setMag((p1 + p2) * .0166), second.getPosition());
@@ -55,8 +47,8 @@ public class CollisionData {
 		first.collisionResponse(second, mtv.copy().mult(-0.5));
 		second.collisionResponse(first, mtv.copy().mult(0.5));
 		
-		if(gravity){ // TODO remove this? Why is this here?
-			//apply the same force in the opposite direction
+		if(gravity){ //
+			//apply the normal force while colliding
 			new ForceNormal(first,second);
 			new ForceNormal(second,first);
 		}

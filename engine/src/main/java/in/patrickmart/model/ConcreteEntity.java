@@ -158,8 +158,6 @@ public class ConcreteEntity extends Entity {
     public void calculatePosition() {
         setPosition(this.position.add(getVelocity().mult(.01666)));
         setRotation((rotation + angularVelocity * 0.01666) % (Math.PI * 2));
-
-        //TODO if (angularVelocity != 0) { // If we have rotated, we need a new bounding box.
     }
 	
 	/**

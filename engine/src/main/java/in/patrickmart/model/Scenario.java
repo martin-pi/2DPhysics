@@ -3,7 +3,6 @@ package in.patrickmart.model;
 import in.patrickmart.model.forces.Force;
 import in.patrickmart.model.forces.ForceFEA;
 import in.patrickmart.model.forces.ForceGravity;
-import in.patrickmart.model.forces.ForceNormal;
 
 import java.util.ArrayList;
 
@@ -123,18 +122,31 @@ public class Scenario {
         return entities;
     }
 
+    /**
+     * getter for forces
+     * @return list of forces
+     */
     public ArrayList<Force> getForces(){
         return forces;
     }
 
+    /**
+     * toggles FEAgravity boolean.
+     */
     public void toggleFEAgravity(){
         FEAgravity = !FEAgravity;
     }
 
+    /**
+     * toggles gravity boolean.
+     */
     public void toggleGravity() {
         gravity = !gravity;
     }
 
+    /**
+     * clears all entities
+     */
     public void clearEntities() {
         entities = new ArrayList<>();
     }
