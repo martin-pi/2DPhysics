@@ -159,7 +159,9 @@ public class StaticEntity extends Entity {
     public void collisionResponse(Entity other, Vector2D mtv) {
         isColliding = true;
         // have the other entity move since this one shouldn't
-        other.setPosition(other.getPosition().add(mtv.mult(-1)));
+        if(!(other instanceof StaticEntity)) {
+            other.setPosition(other.getPosition().add(mtv.mult(-1)));
+        }
     }
 
     /**

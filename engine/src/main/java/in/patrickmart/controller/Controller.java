@@ -187,7 +187,14 @@ public class Controller {
      * @param cameraScale
      */
     public void createGround(double cameraScale) {
-        Entity e = new StaticEntity(new Vector2D(0,(-1 / cameraScale) - (1 / cameraScale)), new ConcreteShape(4, 2 / cameraScale));
+        Entity e = new StaticEntity(new Vector2D(0,(-1 / cameraScale) - (2 / cameraScale)), new ConcreteShape(4, 3 / cameraScale));
+        e.setRotation(Math.PI/4);
+        model.addEntity(e);
+        e = new StaticEntity(new Vector2D((1 / cameraScale) - (3.5 / cameraScale),(1 / cameraScale) - (1 / cameraScale)), new ConcreteShape(4, 2 / cameraScale));
+        e.setRotation(Math.PI/4);
+        model.addEntity(e);
+
+        e = new StaticEntity(new Vector2D((1 / cameraScale) + (1.5 / cameraScale),0), new ConcreteShape(4, 2 / cameraScale));
         e.setRotation(Math.PI/4);
         model.addEntity(e);
         System.out.println("Added static Entity #" + e.getId() + " to the scenario.");
