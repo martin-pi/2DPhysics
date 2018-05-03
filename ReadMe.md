@@ -49,8 +49,8 @@ There are also many debug visualizations available.
 |`Alt` + `A`         |Toggles the visualization of entities' acceleration vectors.    |
 |`Alt` + `V`         |Toggles the visualization of entities' velocity vectors.        |
 
-
 ## Developing For This Project
+The project is divided into View, Model and Controller packages. All of the components for simulation are within the Model package. The following UML Diagram is accurate to our current application's layout, and contains a map of some of our planned features.
 ![UML diagram of current project layout](http://patrickmart.in/media/capstone/ecs2.png)
 
 In order to set up a programming environment to modify or expand this project, you must first install the basic dependencies that can be used to compile, test, and run the program. Once that is done, the program can be edited and compiled from source.
@@ -61,4 +61,5 @@ In order to set up a programming environment to modify or expand this project, y
 
 ## Resources
 [Project Proposal](https://github.com/Pharaoh439/capstone/blob/master/ProjectProposal.md)
+
 [Technical Report](https://github.com/Pharaoh439/capstone/blob/master/TechnicalReport.md)
