@@ -11,16 +11,16 @@ We were not able to implement a wide range of features as far as the physics goe
 ## Introduction and Project Overview
 Problem This project seeks to create a two-dimensional physics simulation consisting of n-dimensional rigid body polygons that are able to be represented at a smaller and larger scale than JBox2D. Most other java based physics simulations are simply ports of engines written in other languages. JBox2D for instance is just a java port of the popular Box2D physics game engine written in C++. Most other physics implementations define themselves as engines, meant to be used and not expanded. This sentiment, combined with the limitations that these projects have, left us wanting something more open. These engines are also not the easiest thing to use and can seem daunting to new users, so we decided to focus on usability and simplicity rather than focusing on implementing every individual aspect of the physics mechanics. We wanted to focus on creating a framework that would allow those aspects to be added in the future along with anything else users wished. While initially slowing our development, this allowed us to implement concepts more easily as the project progressed, and will allow for more expansion in the future.
 
-### Background information 
-Entity
-Static Entity
-Shape
-Vector
-Collision Response
-Forces
-MVC Pattern
-Entity-component system
-Scenario
+### Background information
+* Vector - a line in a graphical space pointing to a position starting from the origin. 
+* Shape - Visual representation of objects.
+* Entity - model representation of a physics object to which all forces are applied to. Comprised of shapes.
+* Static Entity - an entity but doesn't move. 
+* Collision Response - The behavior and contact forces generated after two entities collide
+* Forces - something that causes a change in motion in an object. 
+* MVC Pattern - a framework that divides the responsibilities of an application into three parts. The model represents the application core like a database. The view displays the data held in the model and updates itself whenever the model changes and sends user input to the controller for processing. The controller enacts changes in the model based on the user input received.
+* Entity-component system - system for representing a large entity comprised of multiple  sub-entities. 
+* Scenario - representation of an environment that contains the entities. 
 
 ### Objectives
 As a base goal we wanted to create a physics engine that solved the issue of usability as described above, but was still able to perform basic physics simulations. This meant we needed to efficiently represent our physics objects in a straightforward way so that anyone can draw the objects with whatever graphics library they choose. We wanted to make sure that we implemented various forces and the ability for users to easily create and apply various custom forces. Collisions detection and response was another major goal we wanted to implement since you can’t really make a game without having some interaction between objects. 
