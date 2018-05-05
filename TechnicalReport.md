@@ -131,11 +131,18 @@ We originally set out with the goal to create a better physics engine that could
 For future work, we plan on improving the efficiency of our simulation by utilizing GPU acceleration in our Vector2D class and finishing our implementation of quadtrees and b-trees. The quadtrees will be used to sort our entities by proximity so we don’t have to check every entity against every other entity each and every step which is causing us to slow down when creating hundreds of entities. B-trees will help us search for entities by ID so we don’t have to search through our entire entity list when users request a specific entity after deletions have been made. Besides efficiency, we also wish to focus on implement more advanced features and improving the ones we currently have. Collision response needs to be fixed so that it can properly apply collision forces for non pseudo spherical objects. We also want to add the ability to create complex shape entities utilizing the entity-component system we have in place. Various other features such as friction, drag, and cables/pulleys are also future features that can be implemented with the framework we have in place. Friction and drag can be implemented by using/expanding the materials enum we created. We also wanted to implement entities that utilize the decorator pattern to dynamically create entities that are static, move along tracks, or any other specific behavior required by the user. 
 
 ## References
-[1] [JBox2D](http://www.jbox2d.org/)
-[2] [Maven Standard Directory Layout](https://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html)
-[3] [GLFW](http://www.glfw.org/)
-[4] [OpenGL](https://www.opengl.org/)
-[5] [LWJGL](https://www.lwjgl.org/)
-[6] [JUnit](https://junit.org/junit5/)
-[7] [IntelliJ](https://www.jetbrains.com/idea/documentation/)
-[8] [Draw.io](https://www.draw.io/)
+[1] [JBox2D](http://www.jbox2d.org/): A prominent alternative Physics Engine implemented in Java.
+
+[2] [Maven Standard Directory Layout](https://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html): Our project structure is based off of these helpful guidelines.
+
+[3] [GLFW](http://www.glfw.org/): A java wrapper for openGL, which we use to manage our rendering window.
+
+[4] [OpenGL](https://www.opengl.org/): A powerful renderer, which we use to render our simulations.
+
+[5] [LWJGL](https://www.lwjgl.org/): A collection of useful libraries for games and simulation applications
+
+[6] [JUnit](https://junit.org/junit5/): An easy to use testing library.
+
+[7] [IntelliJ](https://www.jetbrains.com/idea/documentation/): A complex IDE which we used to manage everything from compilation and testing, to github commits.
+
+[8] [Draw.io](https://www.draw.io/): A web application which enables users to collaboratively draw and diagram.
