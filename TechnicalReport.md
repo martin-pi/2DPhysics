@@ -30,15 +30,16 @@ We have not yet been able to implement as wide a range of physics features as we
 This project seeks to create a two-dimensional physics simulation consisting of n-dimensional rigid body polygons that are able to be represented at a smaller and larger scale than JBox2D. Most other java based physics simulations are simply ports of engines written in other languages. JBox2D for instance is just a java port of the popular Box2D physics game engine written in C++. Most other physics implementations define themselves as engines, meant to be used and not expanded. This sentiment, combined with the limitations that these projects have, left us wanting something more open. These engines are also not the easiest thing to use and can seem daunting to new users, so we decided to focus on usability and simplicity rather than focusing on implementing every individual aspect of the physics mechanics. We wanted to focus on creating a framework that would allow those aspects to be added in the future along with anything else users wished. While initially slowing our development, this allowed us to implement concepts more easily as the project progressed, and will allow for more expansion in the future.
 
 ### Background information 
-**Vector**: 
-**Shape**:
-**Entity-Component System**:
-**Entity**:
-**Scenario**:
-**Forces**:
-**Collision Detection**:
-**Collision Response**:
-**MVC Pattern**:
+* **Vector**: a line in a graphical space pointing to a position starting from the origin that has a magnitude (the length) and direction.
+* **Forces**: something that acts upon an object causing it to change its velocity. 
+* **Shape**: a visual representation of our physics objects made up of vectors pointing from its center to each corner of the shape. 
+* **Entity**: a physics object which is acted upon by forces and represented by a shape. 
+* **Entity-Component System**: System in which an entity is formed from multiple sub-entities.
+* **Scenario**: our representation of an environment in which the entities live. 
+* **Collision Detection**: The detection of overlapping shapes in the scenario.
+* **Collision Response**: The resulting reactions and forces created after a collision involving two entities. 
+* **MVC Pattern**: a framework that divides the responsibilities of an application into three parts. The model represents the application core like a database. The view displays the data held in the model and updates itself whenever the model changes and sends user input to the controller for processing. The controller enacts changes in the model based on the user input received.
+
 
 
 ### Objectives
@@ -47,10 +48,10 @@ Our goal of making a simulation that can be easily expanded upon drove us toward
 
 ### Users
 Our potential user base consists mostly of early physics students and amateur game developers. These are people who might benefit from a small, yet easily expandable simulation.
-There are plenty of other physics engines that are implemented in other languages, but most of the java implementations are surprisingly limited. Their code bases are also rather large and unapproachable to those who might want to use, modify, or expand them. 
+There are plenty of other physics engines that are implemented in other languages, but most of the java implementations are surprisingly limited. Their code bases are also rather large and unapproachable to those who might want to use, modify, or expand them. We also intend for this to be a teaching tool to those searching for a basic physics simulation that can help them understand and visualize the impact different forces have on objects in a controlled space. 
 
 ### Features
-The project exists as an MVC application, with all of the physics calculations contained within the model. The model is the main concern of the project, but in an effort to ensure approachability, we have also included an exemplary viewer and controller for running simulations.The program currently has the capacity to perform vector mathematics calculations, and it builds on that capacity to implement physics concepts. Entities with physical properties and representations can be simulated and even interact with one another, or not in the case of static entities. We also implemented the ability for users to create their own generic forces. 
+The project exists as an MVC application, with all of the physics calculations contained within the model. The model is the main concern of the project, but in an effort to ensure approachability, we have also included an exemplary viewer and controller for running simulations.The program currently has the capacity to perform vector mathematics calculations, and it builds on that capacity to implement physics concepts. Entities with physical properties and representations can be simulated and even interact with one another, or not in the case of static entities. We also implemented the ability for users to create their own generic forces to represent artificial forces that might be used in physics problems. Our provided view/controller has various debug tools that help explain how we draw our shapes and how we represent our forces, velocities, and accelerations in the model. It also comes loaded with controls that can be used to demo the implemented features such as a gravity toggle and a create 'floor' option to contain entities within the current screen. 
 
 ## Project Development
 ### Design
